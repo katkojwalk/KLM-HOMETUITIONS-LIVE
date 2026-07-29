@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -12,11 +13,13 @@ const Header = () => {
   const navigate = useNavigate();
 
   // Auto-scrolling images for header
-  const headerImages = [
-    'https://images.unsplash.com/photo-1523240798132-9c4c3c2c0c8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-    'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2022&q=80',
-    'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80',
-    'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'
+  
+    const headerImages = [
+    'https://images.unsplash.com/photo-1523240798132-9c4c3c2c0c8c?auto=format&fit=crop&w=2070&q=80',
+    'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=2022&q=80',
+    'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=2071&q=80',
+    'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=2070&q=80'
+  
   ];
 
   useEffect(() => {
@@ -47,7 +50,7 @@ const Header = () => {
       isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
     }`}>
       {/* Auto-scrolling image carousel */}
-      <div className="relative h-32 md:h-40 overflow-hidden">
+      <div className="relative h-screen overflow-hidden">
         <div className="flex image-carousel" style={{ width: `${headerImages.length * 100}%` }}>
           {headerImages.map((image, index) => (
             <div
@@ -57,6 +60,8 @@ const Header = () => {
                 backgroundImage: `url(${image})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
+                height:'600px',
+
                 width: `${100 / headerImages.length}%`
               }}
             />
