@@ -44,11 +44,11 @@ const userSchema = new mongoose.Schema({
   // Student specific fields
   grade: {
     type: String,
-    required: function() { return this.role === 'student'; }
+    required: function() { return this.role === 'student' && this.authProvider === 'local'; }
   },
   subjects: [{
     type: String,
-    required: function() { return this.role === 'student'; }
+    required: function() { return this.role === 'student' && this.authProvider === 'local'; }
   }],
   // Tutor specific fields
   qualification: {
