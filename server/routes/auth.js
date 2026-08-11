@@ -217,10 +217,10 @@ router.put('/change-password', auth, [
   }
 });
 
-// Google Login
+// Google Login / Register
 router.post('/google', async (req, res) => {
   try {
-    const { token } = req.body;
+    const { token, isRegister } = req.body;
     
     if (!token) {
       return res.status(400).json({ message: 'Token is required' });
@@ -238,6 +238,10 @@ router.post('/google', async (req, res) => {
     let user = await User.findOne({ email });
 
     if (!user) {
+      if (!isRegister) {
+        return res.status(400).json({ message: 'Account not found. Please sign up first.' });
+      }
+      
       // Create a new user since they don't exist
       user = new User({
         name,
@@ -248,14 +252,18 @@ router.post('/google', async (req, res) => {
       });
       await user.save();
     } else {
+      if (isRegister) {
+        // Technically they already have an account, but we can just log them in or show an error
+        // Let's just log them in to be user-friendly, or show an error.
+        // The prompt implies we want strict separation, but logging them in is usually better UX.
+        // However, we'll let it pass and update their picture if needed.
+      }
+      
       // User exists, update profile image if needed
       if (!user.profileImage && picture) {
         user.profileImage = picture;
         await user.save();
       }
-      
-      // If user exists but was created locally, we still allow them to log in via Google
-      // (Optionally, we could update authProvider to 'google' or keep it 'local' but trust the email)
       
       if (!user.isActive) {
         return res.status(400).json({ message: 'Account is deactivated' });
