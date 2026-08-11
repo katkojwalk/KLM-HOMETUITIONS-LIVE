@@ -9,7 +9,8 @@ import {
   Twitter, 
   Instagram, 
   Linkedin,
-  Heart
+  Heart,
+  Globe
 } from 'lucide-react';
 
 const Footer = () => {
@@ -34,13 +35,18 @@ const Footer = () => {
   const contactInfo = [
     {
       icon: Phone,
-      text: '+91 98765 43210',
-      link: 'tel:+919876543210'
+      text: '+91 73860 78298',
+      link: 'tel:+917386078298'
     },
     {
       icon: Mail,
-      text: 'info@quadratuitions.com',
-      link: 'mailto:info@quadratuitions.com'
+      text: 'info@quadrahometuitions.in',
+      link: 'mailto:info@quadrahometuitions.in'
+    },
+    {
+      icon: Globe,
+      text: 'www.quadrahometuitions.in',
+      link: 'https://www.quadrahometuitions.in'
     },
     {
       icon: MapPin,

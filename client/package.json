@@ -3,20 +3,22 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@react-oauth/google": "^0.13.5",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.4.0",
+    "clsx": "^1.2.1",
+    "framer-motion": "^10.12.16",
+    "jwt-decode": "^4.0.0",
+    "lucide-react": "^0.263.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.8.1",
-    "react-scripts": "5.0.1",
-    "axios": "^1.4.0",
     "react-hook-form": "^7.44.3",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.10.1",
-    "framer-motion": "^10.12.16",
-    "lucide-react": "^0.263.1",
-    "clsx": "^1.2.1",
+    "react-router-dom": "^6.8.1",
+    "react-scripts": "5.0.1",
     "tailwind-merge": "^1.13.2"
   },
   "scripts": {
@@ -44,9 +46,9 @@
     ]
   },
   "devDependencies": {
-    "tailwindcss": "^3.3.2",
     "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.24"
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.2"
   },
   "proxy": "http://localhost:5000"
-} 
+}

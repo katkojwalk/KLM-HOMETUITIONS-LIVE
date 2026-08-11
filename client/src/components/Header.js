@@ -50,8 +50,8 @@ const Header = () => {
       isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
     }`}>
       {/* Auto-scrolling image carousel */}
-      <div className="relative h-screen overflow-hidden">
-        <div className="flex image-carousel" style={{ width: `${headerImages.length * 100}%` }}>
+      <div className="relative h-[200px] overflow-hidden">
+        <div className="flex image-carousel" style={{ width: `${headerImages.length * 100}%`, height: '100%' }}>
           {headerImages.map((image, index) => (
             <div
               key={index}
@@ -60,7 +60,7 @@ const Header = () => {
                 backgroundImage: `url(${image})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                height:'600px',
+                height:'100%',
 
                 width: `${100 / headerImages.length}%`
               }}

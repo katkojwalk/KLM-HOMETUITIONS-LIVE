@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Clock, Send, MessageSquare, User, BookOpen } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Send, MessageSquare, User, BookOpen, Globe } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const Contact = () => {
@@ -31,14 +31,20 @@ const Contact = () => {
     {
       icon: Phone,
       title: 'Phone',
-      details: '+91 98765 43210',
-      link: 'tel:+919876543210'
+      details: '+91 73860 78298',
+      link: 'tel:+917386078298'
     },
     {
       icon: Mail,
       title: 'Email',
-      details: 'info@quadratuitions.com',
-      link: 'mailto:info@quadratuitions.com'
+      details: 'info@quadrahometuitions.in',
+      link: 'mailto:info@quadrahometuitions.in'
+    },
+    {
+      icon: Globe,
+      title: 'Website',
+      details: 'www.quadrahometuitions.in',
+      link: 'https://www.quadrahometuitions.in'
     },
     {
       icon: MapPin,

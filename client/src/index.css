@@ -119,7 +119,7 @@
 /* Image carousel auto-scroll */
 .image-carousel {
   animation: scroll 20s linear infinite;
-  height: 400px;
+  height: 100%;
 }
 
 @keyframes scroll {

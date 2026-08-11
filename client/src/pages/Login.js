@@ -4,11 +4,12 @@ import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { Eye, EyeOff, Mail, Lock, BookOpen } from 'lucide-react';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
   const {
@@ -141,6 +142,20 @@ const Login = () => {
                 <span className="px-2 bg-white text-gray-500">Or</span>
               </div>
             </div>
+          </div>
+
+          <div className="flex justify-center mb-6">
+            <GoogleLogin
+              onSuccess={async (credentialResponse) => {
+                const result = await loginWithGoogle(credentialResponse.credential);
+                if (result.success) {
+                  navigate('/dashboard');
+                }
+              }}
+              onError={() => {
+                console.error('Google Login Failed');
+              }}
+            />
           </div>
 
           {/* Register Link */}

@@ -15,13 +15,14 @@ import {
   MapPin,
   CheckCircle
 } from 'lucide-react';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [selectedRole, setSelectedRole] = useState('student');
   const [isLoading, setIsLoading] = useState(false);
-  const { register: registerUser } = useAuth();
+  const { register: registerUser, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
   const {
@@ -497,8 +498,34 @@ const Register = () => {
             </button>
           </form>
 
+          {/* Divider */}
+          <div className="my-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">Or sign up with</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-center mb-6">
+            <GoogleLogin
+              onSuccess={async (credentialResponse) => {
+                const result = await loginWithGoogle(credentialResponse.credential);
+                if (result.success) {
+                  navigate('/dashboard');
+                }
+              }}
+              onError={() => {
+                console.error('Google Sign-up Failed');
+              }}
+            />
+          </div>
+
           {/* Login Link */}
-          <div className="mt-6 text-center">
+          <div className="text-center">
             <p className="text-gray-600">
               Already have an account?{' '}
               <Link

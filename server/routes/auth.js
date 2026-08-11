@@ -3,6 +3,9 @@ const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/User');
 const auth = require('../middleware/auth');
+const { OAuth2Client } = require('google-auth-library');
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const router = express.Router();
 
@@ -211,6 +214,68 @@ router.put('/change-password', auth, [
   } catch (error) {
     console.error('Change password error:', error);
     res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Google Login
+router.post('/google', async (req, res) => {
+  try {
+    const { token } = req.body;
+    
+    if (!token) {
+      return res.status(400).json({ message: 'Token is required' });
+    }
+
+    // Verify the Google token
+    const ticket = await googleClient.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    const { email, name, picture } = payload;
+
+    // Check if user exists
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // Create a new user since they don't exist
+      user = new User({
+        name,
+        email,
+        authProvider: 'google',
+        role: 'student', // Default role for Google signups
+        profileImage: picture,
+      });
+      await user.save();
+    } else {
+      // User exists, update profile image if needed
+      if (!user.profileImage && picture) {
+        user.profileImage = picture;
+        await user.save();
+      }
+      
+      // If user exists but was created locally, we still allow them to log in via Google
+      // (Optionally, we could update authProvider to 'google' or keep it 'local' but trust the email)
+      
+      if (!user.isActive) {
+        return res.status(400).json({ message: 'Account is deactivated' });
+      }
+    }
+
+    user.lastLogin = new Date();
+    await user.save();
+
+    const jwtToken = generateToken(user._id);
+
+    res.json({
+      message: 'Login successful',
+      user,
+      token: jwtToken
+    });
+
+  } catch (error) {
+    console.error('Google login error:', error);
+    res.status(500).json({ message: 'Google authentication failed' });
   }
 });
 

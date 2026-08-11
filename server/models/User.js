@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Password is required'],
+    required: [function() { return this.authProvider === 'local'; }, 'Password is required'],
     minlength: [6, 'Password must be at least 6 characters']
   },
   role: {
@@ -27,8 +27,13 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    required: [true, 'Phone number is required'],
+    required: [function() { return this.authProvider === 'local'; }, 'Phone number is required'],
     match: [/^[0-9]{10}$/, 'Please enter a valid 10-digit phone number']
+  },
+  authProvider: {
+    type: String,
+    enum: ['local', 'google'],
+    default: 'local'
   },
   address: {
     street: String,

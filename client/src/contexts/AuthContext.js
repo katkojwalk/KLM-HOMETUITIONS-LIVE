@@ -63,6 +63,24 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const loginWithGoogle = async (googleToken) => {
+    try {
+      const response = await axios.post('/api/auth/google', { token: googleToken });
+      const { user, token } = response.data;
+      
+      localStorage.setItem('token', token);
+      setToken(token);
+      setUser(user);
+      
+      toast.success('Google Login successful!');
+      return { success: true };
+    } catch (error) {
+      const message = error.response?.data?.message || 'Google Login failed';
+      toast.error(message);
+      return { success: false, error: message };
+    }
+  };
+
   const register = async (userData) => {
     try {
       const response = await axios.post('/api/auth/register', userData);
@@ -134,6 +152,7 @@ export const AuthProvider = ({ children }) => {
     isStudent: user?.role === 'student',
     isTutor: user?.role === 'tutor',
     login,
+    loginWithGoogle,
     register,
     logout,
     updateProfile,
