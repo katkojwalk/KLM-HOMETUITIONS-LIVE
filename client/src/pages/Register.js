@@ -513,7 +513,7 @@ const Register = () => {
           <div className="flex justify-center mb-6">
             <GoogleLogin
               onSuccess={async (credentialResponse) => {
-                const result = await loginWithGoogle(credentialResponse.credential, true);
+                const result = await loginWithGoogle(credentialResponse.credential);
                 if (result.success) {
                   navigate('/dashboard');
                 }

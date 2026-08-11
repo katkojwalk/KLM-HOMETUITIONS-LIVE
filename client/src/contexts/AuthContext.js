@@ -63,9 +63,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const loginWithGoogle = async (googleToken, isRegister = false) => {
+  const loginWithGoogle = async (googleToken) => {
     try {
-      const response = await axios.post('/api/auth/google', { token: googleToken, isRegister });
+      const response = await axios.post('/api/auth/google', { token: googleToken });
       const { user, token } = response.data;
       
       localStorage.setItem('token', token);
