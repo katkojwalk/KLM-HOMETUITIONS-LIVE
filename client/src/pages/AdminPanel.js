@@ -135,6 +135,7 @@ const AdminPanel = () => {
     {
       title: 'Tutors',
       value: stats.totalTutors || 0,
+      icon: Users,
       color: 'text-purple-600',
       bgColor: 'bg-purple-100'
     },
