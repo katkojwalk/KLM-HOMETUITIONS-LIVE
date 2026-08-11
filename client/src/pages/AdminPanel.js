@@ -43,7 +43,7 @@ const AdminPanel = () => {
       });
 
       const response = await axios.get(`/api/admin/users?${params}`);
-      setUsers(response.data.users);
+      setUsers(Array.isArray(response.data?.users) ? response.data.users : []);
     } catch (error) {
       console.error('Error fetching users:', error);
       toast.error('Failed to fetch users');
@@ -55,9 +55,10 @@ const AdminPanel = () => {
   const fetchStats = async () => {
     try {
       const response = await axios.get('/api/admin/dashboard');
-      setStats(response.data.statistics);
+      setStats(response.data?.statistics || {});
     } catch (error) {
       console.error('Error fetching stats:', error);
+      setStats({});
     }
   };
 
