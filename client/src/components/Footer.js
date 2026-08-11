@@ -40,8 +40,8 @@ const Footer = () => {
     },
     {
       icon: Mail,
-      text: 'info@quadrahometuitions.in',
-      link: 'mailto:info@quadrahometuitions.in'
+      text: 'katkojwalk.7@gmail.com',
+      link: 'mailto:katkojwalk.7@gmail.com'
     },
     {
       icon: Globe,

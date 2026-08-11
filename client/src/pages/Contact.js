@@ -36,9 +36,9 @@ const Contact = () => {
     },
     {
       icon: Mail,
-      title: 'Email',
-      details: 'info@quadrahometuitions.in',
-      link: 'mailto:info@quadrahometuitions.in'
+      title: 'Email Us',
+      details: 'katkojwalk.7@gmail.com',
+      link: 'mailto:katkojwalk.7@gmail.com'
     },
     {
       icon: Globe,
