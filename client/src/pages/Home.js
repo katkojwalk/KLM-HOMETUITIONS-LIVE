@@ -153,9 +153,11 @@ const Home = () => {
                 {t('home.directorTitle')}
               </h3>
               <div className="text-center mb-6">
-                <div className="w-24 h-24 bg-gradient-to-br from-primary-600 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <GraduationCap className="h-12 w-12 text-white" />
-                </div>
+                <img 
+                  src="/images/director.jpg" 
+                  alt="K. Vinay Krishna" 
+                  className="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white shadow-lg"
+                />
                 <h4 className="text-xl font-semibold text-gray-800">
                   K. VINAY KRISHNA M.SC
                 </h4>
