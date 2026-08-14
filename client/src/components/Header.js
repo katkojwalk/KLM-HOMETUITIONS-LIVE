@@ -59,31 +59,32 @@ const Header = () => {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
     }`}>
-      {/* Auto-scrolling image carousel */}
-      <div className="relative h-[200px] overflow-hidden">
-        <div className="flex image-carousel" style={{ width: `${headerImages.length * 100}%`, height: '100%' }}>
-          {headerImages.map((image, index) => (
-            <div
-              key={index}
-              className="w-full h-full"
-              style={{
-                backgroundImage: `url(${image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                height:'100%',
-
-                width: `${100 / headerImages.length}%`
-              }}
-            />
-          ))}
+      {/* Auto-scrolling image carousel - Only show on Home page */}
+      {location.pathname === '/' && (
+        <div className="relative h-[200px] overflow-hidden">
+          <div className="flex image-carousel" style={{ width: `${headerImages.length * 100}%`, height: '100%' }}>
+            {headerImages.map((image, index) => (
+              <div
+                key={index}
+                className="w-full h-full"
+                style={{
+                  backgroundImage: `url(${image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  height:'100%',
+                  width: `${100 / headerImages.length}%`
+                }}
+              />
+            ))}
+          </div>
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <h1 className="text-3xl md:text-4xl font-bold text-white text-shadow-lg">
+              QUADRA HOME TUITIONS
+            </h1>
+          </div>
         </div>
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-white text-shadow-lg">
-            QUADRA HOME TUITIONS
-          </h1>
-        </div>
-      </div>
+      )}
 
       {/* Navigation */}
       <nav className={`px-4 py-3 ${isScrolled ? 'bg-white/95' : 'bg-white/80 backdrop-blur-sm'}`}>
