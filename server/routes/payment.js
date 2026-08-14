@@ -10,10 +10,13 @@ const User = require('../models/User');
 // If env vars are missing, we gracefully handle it so the server doesn't crash
 let razorpay;
 try {
-  if (process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET) {
+  const key_id = process.env.RAZORPAY_KEY_ID || 'rzp_test_TPYIf6DZvOeAfu';
+  const key_secret = process.env.RAZORPAY_KEY_SECRET || 'lqMm1tsjmyLttmFXFY26BBiS';
+  
+  if (key_id && key_secret) {
     razorpay = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID,
-      key_secret: process.env.RAZORPAY_KEY_SECRET,
+      key_id: key_id,
+      key_secret: key_secret,
     });
   }
 } catch (error) {
@@ -65,9 +68,10 @@ router.post('/verify', auth, async (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
+    const secret = process.env.RAZORPAY_KEY_SECRET || 'lqMm1tsjmyLttmFXFY26BBiS';
     const sign = razorpay_order_id + "|" + razorpay_payment_id;
     const expectedSign = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .createHmac("sha256", secret)
       .update(sign.toString())
       .digest("hex");
 

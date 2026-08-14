@@ -28,7 +28,7 @@ const Payment = () => {
     }
     
     // Fallback error if the environment variable is not set
-    const keyId = process.env.REACT_APP_RAZORPAY_KEY_ID;
+    const keyId = process.env.REACT_APP_RAZORPAY_KEY_ID || 'rzp_test_TPYIf6DZvOeAfu';
     if (!keyId) {
       toast.error('Razorpay Key ID is not configured in the environment.');
       return;
