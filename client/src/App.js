@@ -12,7 +12,6 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import AdminPanel from './pages/AdminPanel';
 import ProtectedRoute from './components/ProtectedRoute';
-import ContactWidget from './components/ContactWidget';
 import './index.css';
 
 function App() {
@@ -47,7 +46,6 @@ function App() {
             </Routes>
           </main>
           <Footer />
-          <ContactWidget />
           <Toaster 
             position="top-right"
             toastOptions={{

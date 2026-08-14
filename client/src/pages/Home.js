@@ -14,8 +14,11 @@ import {
   GraduationCap,
   Target,
   Heart,
-  Zap
+  Zap,
+  Trophy,
+  Quote
 } from 'lucide-react';
+import ContactWidget from '../components/ContactWidget';
 
 const Home = () => {
   const { t } = useTranslation();
@@ -275,6 +278,8 @@ const Home = () => {
           </motion.div>
         </div>
       </section>
+      
+      <ContactWidget />
     </div>
   );
 };
