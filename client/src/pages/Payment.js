@@ -8,7 +8,7 @@ import { useAuth } from '../contexts/AuthContext';
 const Payment = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { checkAuth } = useAuth(); // Refresh user data after payment
+  const { checkAuth, user } = useAuth(); // Refresh user data after payment
 
   useEffect(() => {
     // Load Razorpay script dynamically
@@ -98,6 +98,20 @@ const Payment = () => {
     }
   };
 
+  const handleBypass = async () => {
+    try {
+      setLoading(true);
+      await axios.post('/api/payment/bypass');
+      toast.success('Developer Bypass Successful!');
+      await checkAuth();
+      navigate('/dashboard');
+    } catch (err) {
+      toast.error('Bypass failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -163,6 +177,16 @@ const Payment = () => {
             <Lock className="h-3 w-3 mr-1" />
             Secured by Razorpay
           </div>
+          
+          {user?.email === 'katkojwalk.7@gmail.com' && (
+            <button
+              onClick={handleBypass}
+              disabled={loading}
+              className="w-full mt-4 bg-gray-800 text-white py-3 rounded-lg flex items-center justify-center text-sm font-semibold hover:bg-gray-900 transition-all"
+            >
+              Developer Bypass (Admin Only)
+            </button>
+          )}
         </div>
       </div>
     </div>
