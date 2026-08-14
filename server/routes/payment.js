@@ -36,7 +36,7 @@ router.post('/create-order', auth, async (req, res) => {
     const options = {
       amount: amount * 100, // Amount is in smallest currency unit (paise)
       currency: 'INR',
-      receipt: `receipt_${req.user.id}_${Date.now()}`
+      receipt: `receipt_${req.user.userId}_${Date.now()}`
     };
 
     const order = await razorpay.orders.create(options);
@@ -47,7 +47,7 @@ router.post('/create-order', auth, async (req, res) => {
 
     // Save initial payment record
     const payment = new Payment({
-      userId: req.user.id,
+      userId: req.user.userId,
       razorpayOrderId: order.id,
       amount: amount,
       status: 'created'
@@ -87,7 +87,7 @@ router.post('/verify', auth, async (req, res) => {
       }
 
       // Update User
-      await User.findByIdAndUpdate(req.user.id, { hasPaidRegistrationFee: true });
+      await User.findByIdAndUpdate(req.user.userId, { hasPaidRegistrationFee: true });
 
       return res.status(200).json({ message: "Payment verified successfully" });
     } else {
