@@ -155,11 +155,16 @@ const Home = () => {
               <div className="text-center mb-6">
                 <img 
                   src="/images/director.jpg" 
-                  alt="K. Vinay Krishna" 
+                  alt="Katkojwal Krishna" 
                   className="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white shadow-lg"
                 />
+                <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-xl shadow-xl hidden md:block">
+                  <p className="font-bold text-gray-800 text-lg">
+                  KATKOJWAL KRISHNA M.SC
+                  </p>
+                </div>
                 <h4 className="text-xl font-semibold text-gray-800">
-                  K. VINAY KRISHNA M.SC
+                  KATKOJWAL KRISHNA M.SC
                 </h4>
                 <p className="text-primary-600 font-medium">{t('home.directorRole')}</p>
               </div>

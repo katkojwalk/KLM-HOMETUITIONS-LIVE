@@ -152,11 +152,10 @@ const Footer = () => {
             <div className="text-gray-400 text-sm mb-4 md:mb-0">
               © {currentYear} QUADRA HOME TUITIONS. All rights reserved.
             </div>
-            <div className="flex items-center space-x-2 text-gray-400 text-sm">
-              <span>Made with</span>
-              <Heart className="h-4 w-4 text-red-500" />
-              <span>by K. VINAY KRISHNA M.SC</span>
-            </div>
+            <p className="text-gray-400 text-sm flex items-center justify-center md:justify-end gap-1">
+              Made with <Heart className="h-4 w-4 text-red-500 fill-current" /> 
+              <span>by KATKOJWAL KRISHNA M.SC</span>
+            </p>
           </div>
         </div>
       </div>
