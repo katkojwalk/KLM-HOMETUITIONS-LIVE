@@ -102,7 +102,7 @@ const Dashboard = () => {
           transition={{ duration: 0.6 }}
           className="mb-8"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-2 gradient-text">
+          <h1 className="text-3xl md:text-4xl font-medium mb-2 gradient-text">
             Welcome back, {user.name}!
           </h1>
           <p className="text-gray-600">
@@ -123,7 +123,7 @@ const Dashboard = () => {
                 <div className="w-24 h-24 bg-gradient-to-br from-primary-600 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
                   <User className="h-12 w-12 text-white" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-800 mb-2">
+                <h2 className="text-2xl font-medium text-gray-800 mb-2">
                   {user.name}
                 </h2>
                 <div className="flex items-center justify-center space-x-2">
@@ -187,7 +187,7 @@ const Dashboard = () => {
                 className="card p-6 mb-8"
               >
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-semibold text-gray-800">
+                  <h3 className="text-xl font-medium text-gray-800">
                     Edit Profile
                   </h3>
                   <button
@@ -361,7 +361,7 @@ const Dashboard = () => {
                   >
                     <div className="flex items-center space-x-3 mb-4">
                       <BookOpen className="h-6 w-6 text-blue-600" />
-                      <h3 className="text-xl font-semibold text-gray-800">Academic Info</h3>
+                      <h3 className="text-xl font-medium text-gray-800">Academic Info</h3>
                     </div>
                     <div className="space-y-3">
                       <div>
@@ -383,7 +383,7 @@ const Dashboard = () => {
                   >
                     <div className="flex items-center space-x-3 mb-4">
                       <Award className="h-6 w-6 text-green-600" />
-                      <h3 className="text-xl font-semibold text-gray-800">Progress</h3>
+                      <h3 className="text-xl font-medium text-gray-800">Progress</h3>
                     </div>
                     <div className="space-y-3">
                       <div>
@@ -409,7 +409,7 @@ const Dashboard = () => {
                   >
                     <div className="flex items-center space-x-3 mb-4">
                       <GraduationCap className="h-6 w-6 text-purple-600" />
-                      <h3 className="text-xl font-semibold text-gray-800">Teaching Info</h3>
+                      <h3 className="text-xl font-medium text-gray-800">Teaching Info</h3>
                     </div>
                     <div className="space-y-3">
                       <div>
@@ -439,7 +439,7 @@ const Dashboard = () => {
                   >
                     <div className="flex items-center space-x-3 mb-4">
                       <Clock className="h-6 w-6 text-orange-600" />
-                      <h3 className="text-xl font-semibold text-gray-800">Teaching Stats</h3>
+                      <h3 className="text-xl font-medium text-gray-800">Teaching Stats</h3>
                     </div>
                     <div className="space-y-3">
                       <div>

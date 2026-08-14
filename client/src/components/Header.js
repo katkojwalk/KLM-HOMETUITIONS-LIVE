@@ -2,14 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Menu, X, User, LogOut, Settings, Home, Info, Phone, BookOpen, Shield, Globe } from 'lucide-react';
+import { Menu, X, User, LogOut, Settings, Home, Info, Phone, BookOpen, Shield, Globe, Moon, Sun } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+  const { isDarkMode, toggleTheme } = useTheme();
   const { t, i18n } = useTranslation();
   const languages = [
     { code: 'en', name: 'English' },
@@ -57,11 +59,11 @@ const Header = () => {
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
+      isScrolled ? 'bg-white/95 dark:bg-brand-navy/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
     }`}>
       {/* Auto-scrolling image carousel - Only show on Home page */}
       {location.pathname === '/' && (
-        <div className="relative h-[200px] overflow-hidden">
+        <div className="relative h-[300px] overflow-hidden">
           <div className="flex image-carousel" style={{ width: `${headerImages.length * 100}%`, height: '100%' }}>
             {headerImages.map((image, index) => (
               <div
@@ -79,7 +81,7 @@ const Header = () => {
           </div>
           <div className="absolute inset-0 bg-black/40" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-white text-shadow-lg">
+            <h1 className="text-3xl md:text-4xl font-medium text-white text-shadow-lg">
               QUADRA HOME TUITIONS
             </h1>
           </div>
@@ -87,12 +89,11 @@ const Header = () => {
       )}
 
       {/* Navigation */}
-      <nav className={`px-4 py-3 ${isScrolled ? 'bg-white/95' : 'bg-white/80 backdrop-blur-sm'}`}>
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <nav className={`px-4 py-3 ${isScrolled ? 'bg-white/95 dark:bg-brand-navy/95' : 'bg-white/80 dark:bg-brand-navy/80 backdrop-blur-sm'}`}>
+        <div className="max-w-4xl mx-auto flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <BookOpen className="h-8 w-8 text-primary-600" />
-            <span className="text-xl font-bold gradient-text">{t('header.brand')}</span>
+            <img src="/images/logo.jpg" alt="Quadra Home Tuitions Logo" className="h-10 w-10 object-contain" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -112,6 +113,15 @@ const Header = () => {
                 </Link>
               );
             })}
+
+            {/* Theme Toggle Desktop */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300"
+              title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {isDarkMode ? <Sun className="h-5 w-5 text-brand-gold" /> : <Moon className="h-5 w-5" />}
+            </button>
 
             {/* Language Selector Desktop */}
             <div className="relative">
@@ -234,8 +244,19 @@ const Header = () => {
                   );
                 })}
 
+                {/* Theme Toggle Mobile */}
+                <div className="pt-2 border-t border-gray-100 dark:border-gray-700">
+                  <button
+                    onClick={toggleTheme}
+                    className="flex items-center space-x-2 px-3 py-2 w-full text-left rounded-lg transition-all duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+                  >
+                    {isDarkMode ? <Sun className="h-4 w-4 text-brand-gold" /> : <Moon className="h-4 w-4" />}
+                    <span>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
+                  </button>
+                </div>
+
                 {/* Language Selector Mobile */}
-                <div className="pt-2 pb-2 border-t border-b border-gray-100">
+                <div className="pt-2 pb-2 border-t border-b border-gray-100 dark:border-gray-700">
                   <div className="px-3 py-2 text-sm text-gray-500 font-medium flex items-center space-x-2">
                     <Globe className="h-4 w-4" />
                     <span>{t('header.language')}</span>
@@ -312,3 +333,4 @@ const Header = () => {
 };
 
 export default Header; 
+

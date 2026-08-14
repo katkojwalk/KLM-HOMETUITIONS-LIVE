@@ -71,7 +71,7 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-2 mb-6">
               <BookOpen className="h-8 w-8 text-primary-400" />
-              <span className="text-2xl font-bold">Quadra Tuitions</span>
+              <span className="text-xl font-medium font-serif uppercase tracking-wider">Quadra Home Tuitions</span>
             </div>
             <p className="text-gray-300 mb-6 leading-relaxed">
               Empowering students with quality education and personalized learning experiences. 
@@ -96,7 +96,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
+            <h3 className="text-lg font-serif font-normal uppercase tracking-wider mb-6">Quick Links</h3>
             <ul className="space-y-3">
               {quickLinks.map((link, index) => (
                 <li key={index}>
@@ -113,7 +113,7 @@ const Footer = () => {
 
           {/* Services */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Our Services</h3>
+            <h3 className="text-lg font-serif font-normal uppercase tracking-wider mb-6">Our Services</h3>
             <ul className="space-y-3">
               {services.map((service, index) => (
                 <li key={index} className="text-gray-300">
@@ -125,7 +125,7 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Contact Info</h3>
+            <h3 className="text-lg font-serif font-normal uppercase tracking-wider mb-6">Contact Info</h3>
             <div className="space-y-4">
               {contactInfo.map((contact, index) => {
                 const Icon = contact.icon;

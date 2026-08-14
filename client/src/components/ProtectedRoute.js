@@ -32,7 +32,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center max-w-md mx-auto p-8">
           <Shield className="h-16 w-16 text-red-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          <h2 className="text-2xl font-medium text-gray-800 mb-4">
             Access Denied
           </h2>
           <p className="text-gray-600 mb-6">

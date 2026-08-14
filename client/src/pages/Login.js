@@ -49,7 +49,7 @@ const Login = () => {
             <div className="flex items-center justify-center mb-4">
               <BookOpen className="h-12 w-12 text-primary-600" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">
+            <h1 className="text-3xl font-medium text-gray-800 mb-2">
               Welcome Back
             </h1>
             <p className="text-gray-600">

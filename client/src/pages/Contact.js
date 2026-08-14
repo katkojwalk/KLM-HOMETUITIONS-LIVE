@@ -69,7 +69,7 @@ const Contact = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-bold mb-6"
+            className="text-4xl md:text-6xl font-medium mb-6"
           >
             Get in Touch
           </motion.h1>
@@ -94,7 +94,7 @@ const Contact = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text">
+            <h2 className="text-3xl md:text-4xl font-medium mb-6 gradient-text">
               Contact Information
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -117,7 +117,7 @@ const Contact = () => {
                   <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Icon className="h-8 w-8 text-primary-600" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-3 text-gray-800">
+                  <h3 className="text-xl font-medium mb-3 text-gray-800">
                     {info.title}
                   </h3>
                   <a
@@ -139,7 +139,7 @@ const Contact = () => {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl font-bold mb-6 text-gray-800 text-center">
+              <h3 className="text-2xl font-medium mb-6 text-gray-800 text-center">
                 Send us a Message
               </h3>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

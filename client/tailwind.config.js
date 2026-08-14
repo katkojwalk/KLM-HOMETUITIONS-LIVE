@@ -3,9 +3,14 @@ module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
+        brand: {
+          navy: '#0A1128',
+          gold: '#D4AF37',
+        },
         primary: {
           50: '#eff6ff',
           100: '#dbeafe',
@@ -33,6 +38,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        serif: ['"Playfair Display"', 'Georgia', 'serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

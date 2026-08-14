@@ -160,7 +160,7 @@ const AdminPanel = () => {
         >
           <div className="flex items-center space-x-3 mb-4">
             <Shield className="h-8 w-8 text-red-600" />
-            <h1 className="text-3xl md:text-4xl font-bold gradient-text">
+            <h1 className="text-3xl md:text-4xl font-medium gradient-text">
               Admin Panel
             </h1>
           </div>
@@ -183,7 +183,7 @@ const AdminPanel = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-gray-600 mb-1">{stat.title}</p>
-                    <p className="text-3xl font-bold text-gray-800">{stat.value}</p>
+                    <p className="text-3xl font-medium text-gray-800">{stat.value}</p>
                   </div>
                   <div className={`w-12 h-12 rounded-full flex items-center justify-center ${stat.bgColor}`}>
                     <Icon className={`h-6 w-6 ${stat.color}`} />
@@ -332,7 +332,7 @@ const AdminPanel = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                        <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
                           user.role === 'admin' ? 'bg-red-100 text-red-800' :
                           user.role === 'tutor' ? 'bg-purple-100 text-purple-800' :
                           'bg-blue-100 text-blue-800'
@@ -341,7 +341,7 @@ const AdminPanel = () => {
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                        <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
                           user.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                         }`}>
                           {user.isActive ? 'Active' : 'Inactive'}

@@ -70,7 +70,7 @@ const About = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-bold mb-6"
+            className="text-4xl md:text-6xl font-medium mb-6"
           >
             About QUADRA HOME TUITIONS
           </motion.h1>
@@ -95,7 +95,7 @@ const About = () => {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text">
+              <h2 className="text-3xl md:text-4xl font-medium mb-6 gradient-text">
                 Our Story
               </h2>
               <p className="text-lg text-gray-600 mb-6 leading-relaxed">
@@ -136,7 +136,7 @@ const About = () => {
               className="relative"
             >
               <div className="bg-gradient-to-br from-primary-100 to-purple-100 p-8 rounded-2xl">
-                <h3 className="text-2xl font-bold mb-4 text-gray-800">
+                <h3 className="text-2xl font-medium mb-4 text-gray-800">
                   Our Mission
                 </h3>
                 <p className="text-gray-600 leading-relaxed mb-6">
@@ -144,7 +144,7 @@ const About = () => {
                   innovative teaching methods, and personalized learning plans that 
                   help students excel academically and build confidence in their abilities.
                 </p>
-                <h4 className="text-xl font-semibold mb-4 text-gray-800">
+                <h4 className="text-xl font-medium mb-4 text-gray-800">
                   Our Vision
                 </h4>
                 <p className="text-gray-600 leading-relaxed">
@@ -167,7 +167,7 @@ const About = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text">
+            <h2 className="text-3xl md:text-4xl font-medium mb-6 gradient-text">
               Our Core Values
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -190,7 +190,7 @@ const About = () => {
                   <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Icon className="h-8 w-8 text-primary-600" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-3 text-gray-800">
+                  <h3 className="text-xl font-medium mb-3 text-gray-800">
                     {value.title}
                   </h3>
                   <p className="text-gray-600">
@@ -213,7 +213,7 @@ const About = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text">
+            <h2 className="text-3xl md:text-4xl font-medium mb-6 gradient-text">
               Meet Our Leadership
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -240,10 +240,10 @@ const About = () => {
                     />
                   </div>
                   <div className="text-center md:text-left flex-1">
-                    <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                    <h3 className="text-2xl font-medium text-gray-800 mb-2">
                       {member.name}
                     </h3>
-                    <p className="text-primary-600 font-semibold mb-4">
+                    <p className="text-primary-600 font-medium mb-4">
                       {member.role}
                     </p>
                     <p className="text-gray-600 leading-relaxed">
@@ -267,7 +267,7 @@ const About = () => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+            <h2 className="text-3xl md:text-4xl font-medium mb-6 text-white">
               Our Achievements
             </h2>
           </motion.div>
@@ -282,7 +282,7 @@ const About = () => {
                 viewport={{ once: true }}
                 className="text-center text-white"
               >
-                <div className="text-3xl md:text-4xl font-bold mb-2">
+                <div className="text-3xl md:text-4xl font-medium mb-2">
                   {achievement.number}
                 </div>
                 <div className="text-sm opacity-90">
@@ -304,7 +304,7 @@ const About = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text">
+            <h2 className="text-3xl md:text-4xl font-medium mb-6 gradient-text">
               Why Choose QUADRA HOME TUITIONS?
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -323,7 +323,7 @@ const About = () => {
               <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mb-4">
                 <Users className="h-8 w-8 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-800">
+              <h3 className="text-xl font-medium mb-3 text-gray-800">
                 Expert Tutors
               </h3>
               <p className="text-gray-600">
@@ -341,7 +341,7 @@ const About = () => {
               <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mb-4">
                 <Target className="h-8 w-8 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-800">
+              <h3 className="text-xl font-medium mb-3 text-gray-800">
                 Personalized Approach
               </h3>
               <p className="text-gray-600">
@@ -359,7 +359,7 @@ const About = () => {
               <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mb-4">
                 <TrendingUp className="h-8 w-8 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-800">
+              <h3 className="text-xl font-medium mb-3 text-gray-800">
                 Proven Results
               </h3>
               <p className="text-gray-600">
@@ -377,7 +377,7 @@ const About = () => {
               <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mb-4">
                 <Clock className="h-8 w-8 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-800">
+              <h3 className="text-xl font-medium mb-3 text-gray-800">
                 Flexible Scheduling
               </h3>
               <p className="text-gray-600">
@@ -395,7 +395,7 @@ const About = () => {
               <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mb-4">
                 <Award className="h-8 w-8 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-800">
+              <h3 className="text-xl font-medium mb-3 text-gray-800">
                 Quality Assurance
               </h3>
               <p className="text-gray-600">
@@ -413,7 +413,7 @@ const About = () => {
               <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mb-4">
                 <Zap className="h-8 w-8 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-800">
+              <h3 className="text-xl font-medium mb-3 text-gray-800">
                 Modern Methods
               </h3>
               <p className="text-gray-600">

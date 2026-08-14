@@ -13,16 +13,18 @@ import Dashboard from './pages/Dashboard';
 import AdminPanel from './pages/AdminPanel';
 import Payment from './pages/Payment';
 import ProtectedRoute from './components/ProtectedRoute';
+import { ThemeProvider } from './contexts/ThemeContext';
 import './index.css';
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
-          <Header />
-          <main className="flex-grow">
-            <Routes>
+    <ThemeProvider>
+      <AuthProvider>
+        <Router>
+          <div className="min-h-screen bg-slate-50 dark:bg-brand-navy text-gray-900 dark:text-gray-100 transition-colors duration-300 flex flex-col">
+            <Header />
+            <main className="flex-grow">
+              <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
@@ -81,7 +83,8 @@ function App() {
           />
         </div>
       </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

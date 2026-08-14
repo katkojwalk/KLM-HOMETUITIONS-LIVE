@@ -119,15 +119,25 @@ const Payment = () => {
           <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
             <ShieldCheck className="h-8 w-8 text-white" />
           </div>
-          <h2 className="text-2xl font-bold mb-1">Complete Registration</h2>
+          <h2 className="text-2xl font-medium mb-1">Complete Registration</h2>
           <p className="text-primary-100 text-sm">One-time registration fee</p>
+        </div>
+        
+        {/* UPI QR Code Section */}
+        <div className="p-6 bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 flex flex-col items-center justify-center">
+          <p className="text-sm text-gray-500 dark:text-gray-400 font-medium mb-4">Scan to pay with any UPI app</p>
+          <div className="bg-white p-3 rounded-2xl shadow-sm mb-4 inline-block">
+            <img src="/images/qrcode.png" alt="UPI QR Code" className="w-48 h-48 object-contain" />
+          </div>
+          <p className="text-gray-800 dark:text-gray-200 font-medium text-lg">Krishna Katkojwal</p>
+          <p className="text-gray-600 dark:text-gray-400 text-sm font-medium mt-1">UPI ID: katkojwalk.7-5@oksbi</p>
         </div>
         
         <div className="p-8">
           <div className="flex justify-between items-center mb-6 pb-6 border-b border-gray-100">
             <div>
               <p className="text-gray-500 text-sm font-medium">Registration Fee</p>
-              <h3 className="text-3xl font-bold text-gray-800">₹500</h3>
+              <h3 className="text-3xl font-medium text-gray-800">₹500</h3>
             </div>
             <div className="text-primary-600 bg-primary-50 p-3 rounded-lg">
               <CreditCard className="h-6 w-6" />
@@ -158,7 +168,7 @@ const Payment = () => {
           <button
             onClick={handlePayment}
             disabled={loading}
-            className="w-full btn-primary py-4 flex items-center justify-center text-lg font-semibold shadow-lg hover:shadow-xl transition-all"
+            className="w-full btn-primary py-4 flex items-center justify-center text-lg font-medium shadow-lg hover:shadow-xl transition-all"
           >
             {loading ? (
               <span className="flex items-center">
@@ -181,7 +191,7 @@ const Payment = () => {
           <button
             onClick={handleBypass}
             disabled={loading}
-            className="w-full mt-4 bg-gray-800 text-white py-3 rounded-lg flex items-center justify-center text-sm font-semibold hover:bg-gray-900 transition-all border border-gray-600"
+            className="w-full mt-4 bg-gray-800 text-white py-3 rounded-lg flex items-center justify-center text-sm font-medium hover:bg-gray-900 transition-all border border-gray-600"
           >
             Dummy Payment (Test Mode)
           </button>
@@ -192,3 +202,4 @@ const Payment = () => {
 };
 
 export default Payment;
+

@@ -63,18 +63,11 @@ const Home = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-bold mb-6 text-shadow-lg"
+            className="text-4xl md:text-6xl font-normal font-serif uppercase tracking-wider mb-6 text-shadow-lg"
           >
             {t('home.heroTitle')}
           </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl mb-8 text-shadow"
-          >
-            {t('home.heroSubtitle')}
-          </motion.p>
+
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -101,7 +94,7 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text">
+            <h2 className="text-3xl md:text-4xl font-normal font-serif uppercase tracking-wider mb-6 gradient-text">
               {t('home.aboutTitle')}
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -116,7 +109,7 @@ const Home = () => {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">
+              <h3 className="text-2xl font-normal font-serif tracking-wider uppercase mb-4 text-gray-800">
                 {t('home.missionTitle')}
               </h3>
               <p className="text-gray-600 mb-6 leading-relaxed">
@@ -149,7 +142,7 @@ const Home = () => {
               viewport={{ once: true }}
               className="bg-gradient-to-br from-primary-50 to-purple-50 p-8 rounded-2xl"
             >
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">
+              <h3 className="text-2xl font-normal font-serif tracking-wider uppercase mb-4 text-gray-800">
                 {t('home.directorTitle')}
               </h3>
               <div className="text-center mb-6">
@@ -159,11 +152,11 @@ const Home = () => {
                   className="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white shadow-lg"
                 />
                 <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-xl shadow-xl hidden md:block">
-                  <p className="font-bold text-gray-800 text-lg">
+                  <p className="font-medium tracking-wide text-gray-800 text-lg">
                   KATKOJWAL KRISHNA M.SC
                   </p>
                 </div>
-                <h4 className="text-xl font-semibold text-gray-800">
+                <h4 className="text-xl font-medium tracking-wide text-gray-800">
                   KATKOJWAL KRISHNA M.SC
                 </h4>
                 <p className="text-primary-600 font-medium">{t('home.directorRole')}</p>
@@ -186,7 +179,7 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text">
+            <h2 className="text-3xl md:text-4xl font-normal font-serif uppercase tracking-wider mb-6 gradient-text">
               {t('home.whyTitle')}
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -209,7 +202,7 @@ const Home = () => {
                   <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Icon className="h-8 w-8 text-primary-600" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-3 text-gray-800">
+                  <h3 className="text-xl font-medium tracking-wide mb-3 text-gray-800">
                     {feature.title}
                   </h3>
                   <p className="text-gray-600">
@@ -232,7 +225,7 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+            <h2 className="text-3xl md:text-4xl font-normal font-serif uppercase tracking-wider mb-6 text-white">
               {t('home.successTitle')}
             </h2>
           </motion.div>
@@ -247,10 +240,10 @@ const Home = () => {
                 viewport={{ once: true }}
                 className="text-center text-white"
               >
-                <div className="text-4xl md:text-5xl font-bold mb-2">
+                <div className="text-4xl md:text-5xl font-serif font-normal tracking-wide mb-2">
                   {stat.number}
                 </div>
-                <div className="text-lg opacity-90">
+                <div className="text-lg uppercase tracking-wider opacity-90">
                   {stat.label}
                 </div>
               </motion.div>
@@ -268,7 +261,7 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+            <h2 className="text-3xl md:text-4xl font-normal font-serif uppercase tracking-wider mb-6 text-white">
               {t('home.ctaTitle')}
             </h2>
             <p className="text-xl mb-8 text-white/90">

@@ -102,7 +102,7 @@ const Register = () => {
             <div className="flex items-center justify-center mb-4">
               <BookOpen className="h-12 w-12 text-primary-600" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">
+            <h1 className="text-3xl font-medium text-gray-800 mb-2">
               Join QUADRA HOME TUITIONS
             </h1>
             <p className="text-gray-600">
@@ -134,7 +134,7 @@ const Register = () => {
                         selectedRole === role.id ? 'text-primary-600' : 'text-gray-400'
                       }`} />
                       <div>
-                        <h3 className="font-semibold text-gray-800">{role.title}</h3>
+                        <h3 className="font-medium text-gray-800">{role.title}</h3>
                         <p className="text-sm text-gray-600">{role.description}</p>
                       </div>
                       {selectedRole === role.id && (
