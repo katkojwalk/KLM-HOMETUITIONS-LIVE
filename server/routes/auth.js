@@ -137,6 +137,13 @@ router.get('/me', auth, async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
+    // Auto-elevate owner to admin and mark as paid
+    if (user.email === 'katkojwalk.7@gmail.com' && (user.role !== 'admin' || !user.hasPaidRegistrationFee)) {
+      user.role = 'admin';
+      user.hasPaidRegistrationFee = true;
+      await user.save();
+    }
+
     res.json({ user });
   } catch (error) {
     console.error('Get profile error:', error);
