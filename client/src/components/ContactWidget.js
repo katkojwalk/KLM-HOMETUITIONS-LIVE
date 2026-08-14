@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 
 const ContactWidget = () => {
   // Replace these with your actual contact numbers
-  const phoneNumber = '+919999999999'; 
-  const whatsappNumber = '919999999999'; 
+  const phoneNumber = '+917386078298'; 
+  const whatsappNumber = '917386078298'; 
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col space-y-4">
