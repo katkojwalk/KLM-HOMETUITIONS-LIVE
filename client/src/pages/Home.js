@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { 
   BookOpen, 
   Users, 
@@ -17,34 +18,36 @@ import {
 } from 'lucide-react';
 
 const Home = () => {
+  const { t } = useTranslation();
+  
   const features = [
     {
       icon: BookOpen,
-      title: 'Expert Tutors',
-      description: 'Qualified and experienced tutors for all subjects'
+      title: t('home.feat1Title'),
+      description: t('home.feat1Desc')
     },
     {
       icon: Users,
-      title: 'Personalized Learning',
-      description: 'One-on-one attention tailored to your needs'
+      title: t('home.feat2Title'),
+      description: t('home.feat2Desc')
     },
     {
       icon: Award,
-      title: 'Proven Results',
-      description: 'Track record of academic excellence and improvement'
+      title: t('home.feat3Title'),
+      description: t('home.feat3Desc')
     },
     {
       icon: Clock,
-      title: 'Flexible Schedule',
-      description: 'Convenient timing to fit your busy lifestyle'
+      title: t('home.feat4Title'),
+      description: t('home.feat4Desc')
     }
   ];
 
   const stats = [
-    { number: '500+', label: 'Students Enrolled' },
-    { number: '50+', label: 'Expert Tutors' },
-    { number: '95%', label: 'Success Rate' },
-    { number: '10+', label: 'Years Experience' }
+    { number: '500+', label: t('home.stat1Label') },
+    { number: '50+', label: t('home.stat2Label') },
+    { number: '95%', label: t('home.stat3Label') },
+    { number: '10+', label: t('home.stat4Label') }
   ];
 
   return (
@@ -59,7 +62,7 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             className="text-4xl md:text-6xl font-bold mb-6 text-shadow-lg"
           >
-            Welcome to QUADRA HOME TUITIONS
+            {t('home.heroTitle')}
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 30 }}
@@ -67,7 +70,7 @@ const Home = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xl md:text-2xl mb-8 text-shadow"
           >
-            Empowering students with quality education and personalized learning experiences
+            {t('home.heroSubtitle')}
           </motion.p>
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -76,10 +79,10 @@ const Home = () => {
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Link to="/register" className="btn-primary text-lg px-8 py-3">
-              Get Started Today
+              {t('home.getStartedBtn')}
             </Link>
             <Link to="/about" className="btn-outline text-lg px-8 py-3 border-white text-white hover:bg-white hover:text-primary-600">
-              Learn More
+              {t('home.learnMoreBtn')}
             </Link>
           </motion.div>
         </div>
@@ -96,13 +99,10 @@ const Home = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text">
-              About QUADRA HOME TUITIONS
+              {t('home.aboutTitle')}
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              QUADRA HOME TUITIONS is a premier educational institution dedicated to providing 
-              high-quality home tutoring services. We believe in the power of personalized 
-              education and strive to create an environment where every student can thrive 
-              and achieve their academic goals.
+              {t('home.aboutDesc')}
             </p>
           </motion.div>
 
@@ -114,29 +114,27 @@ const Home = () => {
               viewport={{ once: true }}
             >
               <h3 className="text-2xl font-bold mb-4 text-gray-800">
-                Our Mission
+                {t('home.missionTitle')}
               </h3>
               <p className="text-gray-600 mb-6 leading-relaxed">
-                To provide exceptional educational support through qualified tutors, 
-                innovative teaching methods, and personalized learning plans that 
-                help students excel academically and build confidence in their abilities.
+                {t('home.missionDesc')}
               </p>
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <Target className="h-5 w-5 text-primary-600" />
-                  <span className="text-gray-700">Personalized learning plans</span>
+                  <span className="text-gray-700">{t('home.missionPoint1')}</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <GraduationCap className="h-5 w-5 text-primary-600" />
-                  <span className="text-gray-700">Qualified and experienced tutors</span>
+                  <span className="text-gray-700">{t('home.missionPoint2')}</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Heart className="h-5 w-5 text-primary-600" />
-                  <span className="text-gray-700">Student-centered approach</span>
+                  <span className="text-gray-700">{t('home.missionPoint3')}</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Zap className="h-5 w-5 text-primary-600" />
-                  <span className="text-gray-700">Proven track record of success</span>
+                  <span className="text-gray-700">{t('home.missionPoint4')}</span>
                 </div>
               </div>
             </motion.div>
@@ -149,7 +147,7 @@ const Home = () => {
               className="bg-gradient-to-br from-primary-50 to-purple-50 p-8 rounded-2xl"
             >
               <h3 className="text-2xl font-bold mb-4 text-gray-800">
-                Director's Message
+                {t('home.directorTitle')}
               </h3>
               <div className="text-center mb-6">
                 <div className="w-24 h-24 bg-gradient-to-br from-primary-600 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
@@ -158,13 +156,10 @@ const Home = () => {
                 <h4 className="text-xl font-semibold text-gray-800">
                   K. VINAY KRISHNA M.SC
                 </h4>
-                <p className="text-primary-600 font-medium">Director & Founder</p>
+                <p className="text-primary-600 font-medium">{t('home.directorRole')}</p>
               </div>
               <p className="text-gray-600 leading-relaxed">
-                "Education is the foundation of success, and at QUADRA HOME TUITIONS, 
-                we are committed to providing the highest quality education to every student. 
-                Our team of dedicated tutors works tirelessly to ensure that each student 
-                receives personalized attention and achieves their full potential."
+                {t('home.directorDesc')}
               </p>
             </motion.div>
           </div>
@@ -182,10 +177,10 @@ const Home = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text">
-              Why Choose QUADRA HOME TUITIONS?
+              {t('home.whyTitle')}
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              We provide comprehensive educational support with a focus on individual growth and success
+              {t('home.whySubtitle')}
             </p>
           </motion.div>
 
@@ -228,7 +223,7 @@ const Home = () => {
             className="text-center mb-12"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
-              Our Success Story
+              {t('home.successTitle')}
             </h2>
           </motion.div>
 
@@ -264,17 +259,17 @@ const Home = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
-              Ready to Start Your Learning Journey?
+              {t('home.ctaTitle')}
             </h2>
             <p className="text-xl mb-8 text-white/90">
-              Join hundreds of successful students who have achieved their academic goals with us
+              {t('home.ctaSubtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/register" className="btn-primary text-lg px-8 py-3 bg-white text-primary-600 hover:bg-gray-100">
-                Register Now
+                {t('home.registerBtn')}
               </Link>
               <Link to="/contact" className="btn-outline text-lg px-8 py-3 border-white text-white hover:bg-white hover:text-primary-600">
-                Contact Us
+                {t('home.contactBtn')}
               </Link>
             </div>
           </motion.div>

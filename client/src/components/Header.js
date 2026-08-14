@@ -2,12 +2,22 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Menu, X, User, LogOut, Settings, Home, Info, Phone, BookOpen, Shield } from 'lucide-react';
+import { Menu, X, User, LogOut, Settings, Home, Info, Phone, BookOpen, Shield, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+  const { t, i18n } = useTranslation();
+  const languages = [
+    { code: 'en', name: 'English' },
+    { code: 'te', name: 'Telugu' },
+    { code: 'hi', name: 'Hindi' },
+    { code: 'fr', name: 'French' },
+    { code: 'de', name: 'German' },
+  ];
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -38,9 +48,9 @@ const Header = () => {
   };
 
   const navItems = [
-    { name: 'Home', path: '/', icon: Home },
-    { name: 'About', path: '/about', icon: Info },
-    { name: 'Contact', path: '/contact', icon: Phone },
+    { name: t('header.home'), path: '/', icon: Home },
+    { name: t('header.about'), path: '/about', icon: Info },
+    { name: t('header.contact'), path: '/contact', icon: Phone },
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -81,7 +91,7 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <BookOpen className="h-8 w-8 text-primary-600" />
-            <span className="text-xl font-bold gradient-text">Quadra Tuitions</span>
+            <span className="text-xl font-bold gradient-text">{t('header.brand')}</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -102,6 +112,47 @@ const Header = () => {
               );
             })}
 
+            {/* Language Selector Desktop */}
+            <div className="relative">
+              <button 
+                onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                className="flex items-center space-x-1 p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-700"
+                title={t('header.language')}
+              >
+                <Globe className="h-5 w-5" />
+                <span className="hidden lg:inline">
+                  {languages.find(l => l.code === (i18n.language || 'en').split('-')[0])?.name || 'English'}
+                </span>
+              </button>
+              
+              <AnimatePresence>
+                {isLangMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-100"
+                  >
+                    {languages.map((lang) => {
+                      const isActive = (i18n.language || 'en').split('-')[0] === lang.code;
+                      return (
+                        <button
+                          key={lang.code}
+                          onClick={() => {
+                            i18n.changeLanguage(lang.code);
+                            setIsLangMenuOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-2 hover:bg-primary-50 transition-colors ${isActive ? 'text-primary-600 font-medium bg-primary-50/50' : 'text-gray-700'}`}
+                        >
+                          {lang.name}
+                        </button>
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             {isAuthenticated ? (
               <div className="flex items-center space-x-4">
                 {isAdmin && (
@@ -110,7 +161,7 @@ const Header = () => {
                     className="flex items-center space-x-1 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-red-50 hover:text-red-600 text-gray-700"
                   >
                     <Shield className="h-4 w-4" />
-                    <span>Admin</span>
+                    <span>{t('header.admin')}</span>
                   </Link>
                 )}
                 <Link
@@ -118,14 +169,14 @@ const Header = () => {
                   className="flex items-center space-x-1 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 text-gray-700"
                 >
                   <User className="h-4 w-4" />
-                  <span>Dashboard</span>
+                  <span>{t('header.dashboard')}</span>
                 </Link>
                 <button
                   onClick={handleLogout}
                   className="flex items-center space-x-1 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-red-50 hover:text-red-600 text-gray-700"
                 >
                   <LogOut className="h-4 w-4" />
-                  <span>Logout</span>
+                  <span>{t('header.logout')}</span>
                 </button>
               </div>
             ) : (
@@ -134,13 +185,13 @@ const Header = () => {
                   to="/login"
                   className="btn-outline"
                 >
-                  Login
+                  {t('header.login')}
                 </Link>
                 <Link
                   to="/register"
                   className="btn-primary"
                 >
-                  Register
+                  {t('header.register')}
                 </Link>
               </div>
             )}
@@ -182,6 +233,28 @@ const Header = () => {
                   );
                 })}
 
+                {/* Language Selector Mobile */}
+                <div className="pt-2 pb-2 border-t border-b border-gray-100">
+                  <div className="px-3 py-2 text-sm text-gray-500 font-medium flex items-center space-x-2">
+                    <Globe className="h-4 w-4" />
+                    <span>{t('header.language')}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2 px-3 pb-2">
+                    {languages.map((lang) => {
+                      const isActive = (i18n.language || 'en').split('-')[0] === lang.code;
+                      return (
+                        <button
+                          key={lang.code}
+                          onClick={() => i18n.changeLanguage(lang.code)}
+                          className={`px-3 py-1 text-sm rounded-full transition-colors ${isActive ? 'bg-primary-100 text-primary-700 font-medium' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                        >
+                          {lang.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
                 {isAuthenticated ? (
                   <div className="space-y-2 pt-2 border-t">
                     {isAdmin && (
@@ -191,7 +264,7 @@ const Header = () => {
                         className="flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 text-gray-700 hover:bg-red-50 hover:text-red-600"
                       >
                         <Shield className="h-4 w-4" />
-                        <span>Admin Panel</span>
+                        <span>{t('header.adminPanel')}</span>
                       </Link>
                     )}
                     <Link
@@ -200,14 +273,14 @@ const Header = () => {
                       className="flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 text-gray-700 hover:bg-primary-50 hover:text-primary-600"
                     >
                       <User className="h-4 w-4" />
-                      <span>Dashboard</span>
+                      <span>{t('header.dashboard')}</span>
                     </Link>
                     <button
                       onClick={handleLogout}
                       className="flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 text-gray-700 hover:bg-red-50 hover:text-red-600 w-full text-left"
                     >
                       <LogOut className="h-4 w-4" />
-                      <span>Logout</span>
+                      <span>{t('header.logout')}</span>
                     </button>
                   </div>
                 ) : (
@@ -217,14 +290,14 @@ const Header = () => {
                       onClick={() => setIsMenuOpen(false)}
                       className="btn-outline w-full text-center"
                     >
-                      Login
+                      {t('header.login')}
                     </Link>
                     <Link
                       to="/register"
                       onClick={() => setIsMenuOpen(false)}
                       className="btn-primary w-full text-center"
                     >
-                      Register
+                      {t('header.register')}
                     </Link>
                   </div>
                 )}

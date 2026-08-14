@@ -19,9 +19,14 @@ app.set('trust proxy', 1);
 app.use(helmet());
 app.use(cors({
   origin: function(origin, callback) {
+    const defaultOrigins = [
+      'http://localhost:3000',
+      'https://quadrahometuitions.in',
+      'https://www.quadrahometuitions.in'
+    ];
     const allowedOrigins = process.env.CLIENT_URL 
       ? process.env.CLIENT_URL.split(',').map(url => url.trim())
-      : ['http://localhost:3000'];
+      : defaultOrigins;
     
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin || allowedOrigins.includes(origin)) {
