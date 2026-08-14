@@ -106,12 +106,9 @@ router.post('/verify', auth, async (req, res) => {
 router.post('/bypass', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
-    if (user.email === 'katkojwalk.7@gmail.com') {
-      user.hasPaidRegistrationFee = true;
-      await user.save();
-      return res.json({ success: true });
-    }
-    return res.status(403).json({ message: 'Not authorized' });
+    user.hasPaidRegistrationFee = true;
+    await user.save();
+    return res.json({ success: true });
   } catch (error) {
     console.error('Bypass error:', error);
     res.status(500).json({ message: 'Server Error' });

@@ -178,15 +178,13 @@ const Payment = () => {
             Secured by Razorpay
           </div>
           
-          {user?.email === 'katkojwalk.7@gmail.com' && (
-            <button
-              onClick={handleBypass}
-              disabled={loading}
-              className="w-full mt-4 bg-gray-800 text-white py-3 rounded-lg flex items-center justify-center text-sm font-semibold hover:bg-gray-900 transition-all"
-            >
-              Developer Bypass (Admin Only)
-            </button>
-          )}
+          <button
+            onClick={handleBypass}
+            disabled={loading}
+            className="w-full mt-4 bg-gray-800 text-white py-3 rounded-lg flex items-center justify-center text-sm font-semibold hover:bg-gray-900 transition-all border border-gray-600"
+          >
+            Dummy Payment (Test Mode)
+          </button>
         </div>
       </div>
     </div>
