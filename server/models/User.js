@@ -82,6 +82,10 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  hasPaidRegistrationFee: {
+    type: Boolean,
+    default: false
+  },
   lastLogin: {
     type: Date,
     default: Date.now

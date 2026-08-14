@@ -26,22 +26,22 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
+  const checkAuth = async () => {
+    if (token) {
+      try {
+        const response = await axios.get('/api/auth/me');
+        setUser(response.data.user);
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        localStorage.removeItem('token');
+        setToken(null);
+      }
+    }
+    setLoading(false);
+  };
+
   // Check if user is authenticated on app load
   useEffect(() => {
-    const checkAuth = async () => {
-      if (token) {
-        try {
-          const response = await axios.get('/api/auth/me');
-          setUser(response.data.user);
-        } catch (error) {
-          console.error('Auth check failed:', error);
-          localStorage.removeItem('token');
-          setToken(null);
-        }
-      }
-      setLoading(false);
-    };
-
     checkAuth();
   }, [token]);
 
@@ -158,6 +158,7 @@ export const AuthProvider = ({ children }) => {
     updateProfile,
     changePassword,
     uploadProfileImage,
+    checkAuth,
   };
 
   return (

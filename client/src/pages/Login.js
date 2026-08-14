@@ -23,6 +23,9 @@ const Login = () => {
     try {
       const result = await login(data.email, data.password);
       if (result.success) {
+        // user object is not returned by login directly in AuthContext without checking state,
+        // but we can let ProtectedRoute handle the redirect to /payment automatically
+        // since we just added the logic there.
         navigate('/dashboard');
       }
     } catch (error) {

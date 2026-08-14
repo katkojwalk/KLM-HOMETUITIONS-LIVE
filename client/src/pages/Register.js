@@ -64,7 +64,7 @@ const Register = () => {
 
       const result = await registerUser(userData);
       if (result.success) {
-        navigate('/dashboard');
+        navigate('/payment');
       }
     } catch (error) {
       console.error('Registration error:', error);
@@ -515,7 +515,7 @@ const Register = () => {
               onSuccess={async (credentialResponse) => {
                 const result = await loginWithGoogle(credentialResponse.credential);
                 if (result.success) {
-                  navigate('/dashboard');
+                  navigate('/payment');
                 }
               }}
               onError={() => {

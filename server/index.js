@@ -63,6 +63,7 @@ mongoose.connect(process.env.MONGO_URI || process.env.MONGODB_URI, {
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/payment', require('./routes/payment'));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
