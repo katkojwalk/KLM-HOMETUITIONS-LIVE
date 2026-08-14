@@ -24,9 +24,11 @@ app.use(cors({
       'https://quadrahometuitions.in',
       'https://www.quadrahometuitions.in'
     ];
-    const allowedOrigins = process.env.CLIENT_URL 
-      ? process.env.CLIENT_URL.split(',').map(url => url.trim())
-      : defaultOrigins;
+    let allowedOrigins = [...defaultOrigins];
+    if (process.env.CLIENT_URL) {
+      const envOrigins = process.env.CLIENT_URL.split(',').map(url => url.trim());
+      allowedOrigins = [...allowedOrigins, ...envOrigins];
+    }
     
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin || allowedOrigins.includes(origin)) {
