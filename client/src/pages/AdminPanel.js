@@ -2,22 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { 
-  Users, 
-  UserPlus, 
-  UserMinus, 
-  Shield, 
-  Search, 
-  Filter,
-  Edit,
-  Trash2,
-  Eye,
-  MoreHorizontal,
-  Download,
-  BarChart3,
-  TrendingUp,
-  Activity
+  Users, UserPlus, UserMinus, Shield, Search, Activity, TrendingUp
 } from 'lucide-react';
+import { 
+  PieChart, Pie, Cell, LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
+} from 'recharts';
 import toast from 'react-hot-toast';
+
+const COLORS = ['#f97316', '#3b82f6', '#8b5cf6', '#10b981'];
 
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
@@ -41,7 +33,6 @@ const AdminPanel = () => {
         ...(searchTerm && { search: searchTerm }),
         ...(roleFilter && { role: roleFilter })
       });
-
       const response = await axios.get(`/api/admin/users?${params}`);
       setUsers(Array.isArray(response.data?.users) ? response.data.users : []);
     } catch (error) {
@@ -67,13 +58,8 @@ const AdminPanel = () => {
       toast.error('Please select users first');
       return;
     }
-
     try {
-      await axios.post('/api/admin/users/bulk-action', {
-        action,
-        userIds: selectedUsers
-      });
-      
+      await axios.post('/api/admin/users/bulk-action', { action, userIds: selectedUsers });
       toast.success(`Users ${action}ed successfully`);
       setSelectedUsers([]);
       fetchUsers();
@@ -117,81 +103,125 @@ const AdminPanel = () => {
     setSelectedUsers([]);
   };
 
-  const statsCards = [
-    {
-      title: 'Total Users',
-      value: stats.totalUsers || 0,
-      icon: Users,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-100'
-    },
-    {
-      title: 'Students',
-      value: stats.totalStudents || 0,
-      icon: Users,
-      color: 'text-green-600',
-      bgColor: 'bg-green-100'
-    },
-    {
-      title: 'Tutors',
-      value: stats.totalTutors || 0,
-      icon: Users,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-100'
-    },
-    {
-      title: 'Active Users',
-      value: stats.activeUsers || 0,
-      icon: Activity,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-100'
-    }
+  // Mock data for graphs showing Tech Solutions vs Home Tuitions
+  const pieData = [
+    { name: 'Tech Solutions', value: Math.floor((stats.totalUsers || 200) * 0.4) },
+    { name: 'Home Tuitions', value: Math.floor((stats.totalUsers || 200) * 0.6) },
+  ];
+
+  const barData = [
+    { name: 'Students', Tech: 120, Tuitions: 300 },
+    { name: 'Tutors/Devs', Tech: 45, Tuitions: 80 },
+    { name: 'Admins', Tech: 5, Tuitions: 2 },
+  ];
+
+  const lineData = [
+    { month: 'Jan', tech: 40, tuitions: 120 },
+    { month: 'Feb', tech: 60, tuitions: 150 },
+    { month: 'Mar', tech: 85, tuitions: 190 },
+    { month: 'Apr', tech: 110, tuitions: 220 },
+    { month: 'May', tech: 140, tuitions: 260 },
+    { month: 'Jun', tech: 180, tuitions: 300 },
   ];
 
   return (
-    <div className="pt-32 pb-16">
+    <div className="min-h-screen pt-32 pb-16 bg-slate-900 text-white">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-8"
+          className="mb-10 flex items-center space-x-4"
         >
-          <div className="flex items-center space-x-3 mb-4">
-            <Shield className="h-8 w-8 text-red-600" />
-            <h1 className="text-3xl md:text-4xl font-medium gradient-text">
-              Admin Panel
-            </h1>
+          <div className="w-16 h-16 bg-orange-500/20 rounded-full flex items-center justify-center border border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.3)]">
+            <Shield className="h-8 w-8 text-orange-500" />
           </div>
-          <p className="text-gray-600">
-            Manage users, view statistics, and monitor system activity
-          </p>
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold">
+              Admin <span className="text-orange-500">Dashboard</span>
+            </h1>
+            <p className="text-slate-400 mt-1 text-lg">
+              Monitor statistics, users, and platform growth
+            </p>
+          </div>
         </motion.div>
 
-        {/* Statistics */}
+        {/* Charts Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+          className="grid lg:grid-cols-2 gap-8 mb-12"
         >
-          {statsCards.map((stat, index) => {
-            const Icon = stat.icon;
-            return (
-              <div key={index} className="card p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-600 mb-1">{stat.title}</p>
-                    <p className="text-3xl font-medium text-gray-800">{stat.value}</p>
-                  </div>
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${stat.bgColor}`}>
-                    <Icon className={`h-6 w-6 ${stat.color}`} />
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          {/* Pie Chart */}
+          <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+            <h3 className="text-xl font-bold mb-4 text-white flex items-center">
+              <Activity className="mr-2 h-5 w-5 text-orange-500" /> User Distribution
+            </h3>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={pieData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={90}
+                    paddingAngle={5}
+                    dataKey="value"
+                    label
+                  >
+                    {pieData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px', color: '#fff' }} />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Bar Chart */}
+          <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+            <h3 className="text-xl font-bold mb-4 text-white flex items-center">
+              <Users className="mr-2 h-5 w-5 text-orange-500" /> Demographics
+            </h3>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={barData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                  <XAxis dataKey="name" stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" />
+                  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px' }} />
+                  <Legend />
+                  <Bar dataKey="Tech" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="Tuitions" fill="#f97316" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Line Chart (Full Width) */}
+          <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl lg:col-span-2">
+            <h3 className="text-xl font-bold mb-4 text-white flex items-center">
+              <TrendingUp className="mr-2 h-5 w-5 text-orange-500" /> Platform Growth
+            </h3>
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={lineData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                  <XAxis dataKey="month" stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" />
+                  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px' }} />
+                  <Legend />
+                  <Line type="monotone" dataKey="tech" stroke="#3b82f6" strokeWidth={3} activeDot={{ r: 8 }} />
+                  <Line type="monotone" dataKey="tuitions" stroke="#f97316" strokeWidth={3} activeDot={{ r: 8 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
         </motion.div>
 
         {/* Controls */}
@@ -199,24 +229,24 @@ const AdminPanel = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="card p-6 mb-8"
+          className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl mb-8"
         >
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
             <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
                 <input
                   type="text"
                   placeholder="Search users..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="input-field pl-10"
+                  className="w-full sm:w-64 pl-10 pr-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
                 />
               </div>
               <select
                 value={roleFilter}
                 onChange={(e) => setRoleFilter(e.target.value)}
-                className="input-field"
+                className="w-full sm:w-48 px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
               >
                 <option value="">All Roles</option>
                 <option value="student">Students</option>
@@ -230,21 +260,21 @@ const AdminPanel = () => {
                 <>
                   <button
                     onClick={() => handleBulkAction('activate')}
-                    className="btn-primary text-sm"
+                    className="flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors font-medium"
                   >
-                    <UserPlus className="h-4 w-4 mr-1" />
+                    <UserPlus className="h-4 w-4 mr-2" />
                     Activate ({selectedUsers.length})
                   </button>
                   <button
                     onClick={() => handleBulkAction('deactivate')}
-                    className="btn-outline text-sm"
+                    className="flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium"
                   >
-                    <UserMinus className="h-4 w-4 mr-1" />
+                    <UserMinus className="h-4 w-4 mr-2" />
                     Deactivate ({selectedUsers.length})
                   </button>
                   <button
                     onClick={clearSelection}
-                    className="btn-outline text-sm"
+                    className="flex items-center px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors font-medium"
                   >
                     Clear
                   </button>
@@ -259,112 +289,99 @@ const AdminPanel = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="card overflow-hidden"
+          className="bg-slate-800 rounded-2xl border border-slate-700 shadow-xl overflow-hidden"
         >
           <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-slate-900/50 text-slate-400 uppercase text-xs">
                 <tr>
-                  <th className="px-6 py-3 text-left">
+                  <th className="px-6 py-4 font-semibold">
                     <input
                       type="checkbox"
                       onChange={selectAllUsers}
                       checked={selectedUsers.length === users.length && users.length > 0}
-                      className="rounded border-gray-300"
+                      className="rounded border-slate-600 bg-slate-800 text-orange-500 focus:ring-orange-500 focus:ring-offset-slate-900"
                     />
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    User
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Role
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Joined
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                  </th>
+                  <th className="px-6 py-4 font-semibold">User</th>
+                  <th className="px-6 py-4 font-semibold">Role</th>
+                  <th className="px-6 py-4 font-semibold">Status</th>
+                  <th className="px-6 py-4 font-semibold">Joined</th>
+                  <th className="px-6 py-4 font-semibold">Actions</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="divide-y divide-slate-700/50">
                 {loading ? (
                   <tr>
-                    <td colSpan="6" className="px-6 py-4 text-center">
-                      <div className="spinner mx-auto"></div>
+                    <td colSpan="6" className="px-6 py-8 text-center text-slate-400">
+                      <div className="spinner mx-auto mb-2 border-orange-500"></div>
+                      Loading users...
                     </td>
                   </tr>
                 ) : users.length === 0 ? (
                   <tr>
-                    <td colSpan="6" className="px-6 py-4 text-center text-gray-500">
+                    <td colSpan="6" className="px-6 py-8 text-center text-slate-400">
                       No users found
                     </td>
                   </tr>
                 ) : (
                   users.map((user) => (
-                    <tr key={user._id} className="hover:bg-gray-50">
+                    <tr key={user._id} className="hover:bg-slate-700/30 transition-colors">
                       <td className="px-6 py-4">
                         <input
                           type="checkbox"
                           checked={selectedUsers.includes(user._id)}
                           onChange={() => toggleUserSelection(user._id)}
-                          className="rounded border-gray-300"
+                          className="rounded border-slate-600 bg-slate-800 text-orange-500 focus:ring-orange-500 focus:ring-offset-slate-900"
                         />
                       </td>
                       <td className="px-6 py-4">
-                        <div className="flex items-center">
-                          <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-purple-600 rounded-full flex items-center justify-center">
-                            <span className="text-white font-medium">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 flex items-center justify-center shadow-lg">
+                            <span className="text-white font-bold">
                               {user.name.charAt(0).toUpperCase()}
                             </span>
                           </div>
-                          <div className="ml-4">
-                            <div className="text-sm font-medium text-gray-900">
-                              {user.name}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                              {user.email}
-                            </div>
+                          <div>
+                            <div className="font-semibold text-white">{user.name}</div>
+                            <div className="text-slate-400 text-xs">{user.email}</div>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
-                          user.role === 'admin' ? 'bg-red-100 text-red-800' :
-                          user.role === 'tutor' ? 'bg-purple-100 text-purple-800' :
-                          'bg-blue-100 text-blue-800'
+                        <span className={`inline-flex px-2.5 py-1 text-xs font-bold rounded-full ${
+                          user.role === 'admin' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
+                          user.role === 'tutor' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' :
+                          'bg-blue-500/20 text-blue-400 border border-blue-500/30'
                         }`}>
-                          {user.role}
+                          {user.role.toUpperCase()}
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
-                          user.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                        <span className={`inline-flex px-2.5 py-1 text-xs font-bold rounded-full ${
+                          user.isActive ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'
                         }`}>
-                          {user.isActive ? 'Active' : 'Inactive'}
+                          {user.isActive ? 'ACTIVE' : 'INACTIVE'}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-500">
+                      <td className="px-6 py-4 text-slate-400">
                         {new Date(user.createdAt).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4">
-                        <div className="flex space-x-2">
+                        <div className="flex space-x-3">
                           <button
                             onClick={() => handleUserAction(user._id, user.isActive ? 'deactivate' : 'activate')}
-                            className={`text-xs px-2 py-1 rounded ${
+                            className={`font-semibold hover:underline ${
                               user.isActive 
-                                ? 'text-red-600 hover:text-red-800' 
-                                : 'text-green-600 hover:text-green-800'
+                                ? 'text-red-400 hover:text-red-300' 
+                                : 'text-green-400 hover:text-green-300'
                             }`}
                           >
                             {user.isActive ? 'Deactivate' : 'Activate'}
                           </button>
                           <button
                             onClick={() => handleUserAction(user._id, 'delete')}
-                            className="text-xs px-2 py-1 rounded text-red-600 hover:text-red-800"
+                            className="font-semibold text-slate-500 hover:text-red-400 hover:underline"
                           >
                             Delete
                           </button>
@@ -382,4 +399,4 @@ const AdminPanel = () => {
   );
 };
 
-export default AdminPanel; 
+export default AdminPanel;

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Menu, X, User, LogOut, Settings, Home, Info, Phone, BookOpen, Shield, Globe, Moon, Sun } from 'lucide-react';
+import { Menu, X, User, LogOut, Settings, Home, Info, Phone, BookOpen, Shield, Globe, Moon, Sun, Monitor } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../contexts/ThemeContext';
@@ -24,15 +24,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Auto-scrolling images for header
-  
-    const headerImages = [
-    '/images/director.jpg',
-    'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=2022&q=80',
-    'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=2071&q=80',
-    'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=2070&q=80'
-  
-  ];
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,172 +53,76 @@ const Header = () => {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled ? 'bg-white/95 dark:bg-brand-navy/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
     }`}>
-      {/* Auto-scrolling image carousel - Only show on Home page */}
-      {location.pathname === '/' && (
-        <div className="relative h-[300px] overflow-hidden">
-          <div className="flex image-carousel" style={{ width: `${headerImages.length * 100}%`, height: '100%' }}>
-            {headerImages.map((image, index) => (
-              <div
-                key={index}
-                className="w-full h-full"
-                style={{
-                  backgroundImage: `url(${image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  height:'100%',
-                  width: `${100 / headerImages.length}%`
-                }}
-              />
-            ))}
-          </div>
-          <div className="absolute inset-0 bg-black/40" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <h1 className="text-3xl md:text-4xl font-medium text-white text-shadow-lg">
-              QUADRA HOME TUITIONS
-            </h1>
-          </div>
-        </div>
-      )}
+
 
       {/* Navigation */}
       <nav className={`px-4 py-3 ${isScrolled ? 'bg-white/95 dark:bg-brand-navy/95' : 'bg-white/80 dark:bg-brand-navy/80 backdrop-blur-sm'}`}>
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <img src="/images/logo.jpg" alt="Quadra Home Tuitions Logo" className="h-10 w-10 object-contain" />
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={`flex items-center space-x-1 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 ${
-                    isActive(item.path) ? 'text-primary-600 bg-primary-50' : 'text-gray-700'
-                  }`}
-                >
-                  <Icon className="h-4 w-4" />
-                  <span>{item.name}</span>
-                </Link>
-              );
-            })}
-
-            {/* Theme Toggle Desktop */}
+        <div className="w-full max-w-7xl mx-auto flex items-center justify-between relative min-h-[4rem]">
+          {/* Left Section: Menu Button and Tech Solutions */}
+          <div className="flex items-center space-x-4 z-50">
+            {/* Menu button - Total Left Corner */}
             <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300"
-              title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-2.5 rounded-xl bg-slate-900 text-orange-400 hover:text-white hover:bg-slate-800 hover:shadow-orange-500/20 shadow-lg transition-all flex items-center justify-center border border-slate-800 ring-1 ring-white/5"
             >
-              {isDarkMode ? <Sun className="h-5 w-5 text-brand-gold" /> : <Moon className="h-5 w-5" />}
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
-
-            {/* Language Selector Desktop */}
-            <div className="relative">
-              <button 
-                onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                className="flex items-center space-x-1 p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-700"
-                title={t('header.language')}
-              >
-                <Globe className="h-5 w-5" />
-                <span className="hidden lg:inline">
-                  {languages.find(l => l.code === (i18n.language || 'en').split('-')[0])?.name || 'English'}
-                </span>
-              </button>
-              
-              <AnimatePresence>
-                {isLangMenuOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-100"
-                  >
-                    {languages.map((lang) => {
-                      const isActive = (i18n.language || 'en').split('-')[0] === lang.code;
-                      return (
-                        <button
-                          key={lang.code}
-                          onClick={() => {
-                            i18n.changeLanguage(lang.code);
-                            setIsLangMenuOpen(false);
-                          }}
-                          className={`w-full text-left px-4 py-2 hover:bg-primary-50 transition-colors ${isActive ? 'text-primary-600 font-medium bg-primary-50/50' : 'text-gray-700'}`}
-                        >
-                          {lang.name}
-                        </button>
-                      );
-                    })}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+            <div className="hidden sm:flex items-center space-x-2 text-blue-500">
+              <Monitor className="h-5 w-5" />
+              <span className="font-bold text-lg tracking-wide">
+                Tech Solutions
+              </span>
             </div>
-
-            {isAuthenticated ? (
-              <div className="flex items-center space-x-4">
-                {isAdmin && (
-                  <Link
-                    to="/admin"
-                    className="flex items-center space-x-1 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-red-50 hover:text-red-600 text-gray-700"
-                  >
-                    <Shield className="h-4 w-4" />
-                    <span>{t('header.admin')}</span>
-                  </Link>
-                )}
-                <Link
-                  to="/dashboard"
-                  className="flex items-center space-x-1 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 text-gray-700"
-                >
-                  <User className="h-4 w-4" />
-                  <span>{t('header.dashboard')}</span>
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center space-x-1 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-red-50 hover:text-red-600 text-gray-700"
-                >
-                  <LogOut className="h-4 w-4" />
-                  <span>{t('header.logout')}</span>
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-4">
-                <Link
-                  to="/login"
-                  className="btn-outline"
-                >
-                  {t('header.login')}
-                </Link>
-                <Link
-                  to="/register"
-                  className="btn-primary"
-                >
-                  {t('header.register')}
-                </Link>
-              </div>
-            )}
           </div>
 
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          {/* Center Text with Logo (Desktop) */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 z-0 hidden sm:flex items-center space-x-3 whitespace-nowrap">
+            <Link to="/" className="shrink-0">
+              <img src="/images/logo.jpg" alt="Quadra Home Tuitions Logo" className="h-9 w-9 md:h-11 md:w-11 object-contain shadow-sm rounded-lg" />
+            </Link>
+            <Link to="/">
+              <h1 className="text-xl md:text-2xl font-extrabold tracking-tight drop-shadow-sm">
+                <span className="text-slate-900">Quadra </span>
+                <span className="text-orange-600">Home Tuitions</span>
+              </h1>
+            </Link>
+          </div>
+          
+          {/* Center Text with Logo (Mobile) */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 z-0 sm:hidden flex items-center space-x-2 whitespace-nowrap">
+            <Link to="/" className="shrink-0">
+              <img src="/images/logo.jpg" alt="Quadra Home Tuitions Logo" className="h-8 w-8 object-contain shadow-sm rounded-lg" />
+            </Link>
+            <Link to="/">
+              <h1 className="text-base font-extrabold tracking-tight">
+                <span className="text-slate-900">Quadra </span>
+                <span className="text-orange-600">Tuitions</span>
+              </h1>
+            </Link>
+          </div>
+
+          {/* Right Section: Free Registration */}
+          <div className="hidden md:flex items-center z-50">
+            <Link 
+              to="/register" 
+              className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-xl shadow-[0_4px_14px_0_rgba(249,115,22,0.39)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.23)] hover:from-orange-600 hover:to-orange-700 transition-all text-xs uppercase tracking-wide whitespace-nowrap transform hover:-translate-y-0.5"
+            >
+              Free Registration for Tutors/Parents
+            </Link>
+          </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Pop Navigation */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden mt-4 bg-white rounded-lg shadow-lg overflow-hidden"
+              initial={{ opacity: 0, x: -20, y: -10, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+              exit={{ opacity: 0, x: -20, y: -10, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="absolute left-4 top-20 mt-2 w-72 bg-slate-900 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] overflow-hidden border border-slate-800 ring-1 ring-white/10 z-50"
             >
-              <div className="px-4 py-2 space-y-2">
+              <div className="px-3 py-3 space-y-1.5">
                 {navItems.map((item) => {
                   const Icon = item.icon;
                   return (
@@ -234,41 +130,47 @@ const Header = () => {
                       key={item.name}
                       to={item.path}
                       onClick={() => setIsMenuOpen(false)}
-                      className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 ${
-                        isActive(item.path) ? 'bg-primary-50 text-primary-600' : 'text-gray-700 hover:bg-gray-50'
+                      className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+                        isActive(item.path) 
+                          ? 'bg-orange-500/10 text-orange-400 font-semibold' 
+                          : 'text-slate-300 hover:bg-slate-800 hover:text-white'
                       }`}
                     >
-                      <Icon className="h-4 w-4" />
+                      <Icon className={`h-5 w-5 ${isActive(item.path) ? 'text-orange-500' : 'text-slate-400'}`} />
                       <span>{item.name}</span>
                     </Link>
                   );
                 })}
 
-                {/* Theme Toggle Mobile */}
-                <div className="pt-2 border-t border-gray-100 dark:border-gray-700">
+                {/* Theme Toggle */}
+                <div className="pt-2 mt-2 border-t border-slate-800">
                   <button
                     onClick={toggleTheme}
-                    className="flex items-center space-x-2 px-3 py-2 w-full text-left rounded-lg transition-all duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+                    className="flex items-center space-x-3 px-4 py-3 w-full text-left rounded-xl transition-all duration-200 text-slate-300 hover:bg-slate-800 hover:text-white"
                   >
-                    {isDarkMode ? <Sun className="h-4 w-4 text-brand-gold" /> : <Moon className="h-4 w-4" />}
+                    {isDarkMode ? <Sun className="h-5 w-5 text-orange-400" /> : <Moon className="h-5 w-5 text-slate-400" />}
                     <span>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
                   </button>
                 </div>
 
-                {/* Language Selector Mobile */}
-                <div className="pt-2 pb-2 border-t border-b border-gray-100 dark:border-gray-700">
-                  <div className="px-3 py-2 text-sm text-gray-500 font-medium flex items-center space-x-2">
+                {/* Language Selector */}
+                <div className="pt-2 pb-2 border-t border-b border-slate-800">
+                  <div className="px-4 py-2 text-xs uppercase tracking-wider text-slate-500 font-semibold flex items-center space-x-2">
                     <Globe className="h-4 w-4" />
                     <span>{t('header.language')}</span>
                   </div>
-                  <div className="flex flex-wrap gap-2 px-3 pb-2">
+                  <div className="flex flex-wrap gap-2 px-4 pb-2">
                     {languages.map((lang) => {
                       const isActive = (i18n.language || 'en').split('-')[0] === lang.code;
                       return (
                         <button
                           key={lang.code}
                           onClick={() => i18n.changeLanguage(lang.code)}
-                          className={`px-3 py-1 text-sm rounded-full transition-colors ${isActive ? 'bg-primary-100 text-primary-700 font-medium' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                          className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors ${
+                            isActive 
+                              ? 'bg-orange-500 text-white' 
+                              : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                          }`}
                         >
                           {lang.name}
                         </button>
@@ -278,46 +180,46 @@ const Header = () => {
                 </div>
 
                 {isAuthenticated ? (
-                  <div className="space-y-2 pt-2 border-t">
+                  <div className="space-y-1.5 pt-2 border-t border-slate-800">
                     {isAdmin && (
                       <Link
                         to="/admin"
                         onClick={() => setIsMenuOpen(false)}
-                        className="flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 text-gray-700 hover:bg-red-50 hover:text-red-600"
+                        className="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-300 hover:bg-red-500/10 hover:text-red-400"
                       >
-                        <Shield className="h-4 w-4" />
+                        <Shield className="h-5 w-5 text-red-400" />
                         <span>{t('header.adminPanel')}</span>
                       </Link>
                     )}
                     <Link
                       to="/dashboard"
                       onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 text-gray-700 hover:bg-primary-50 hover:text-primary-600"
+                      className="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-300 hover:bg-slate-800 hover:text-white"
                     >
-                      <User className="h-4 w-4" />
+                      <User className="h-5 w-5 text-slate-400" />
                       <span>{t('header.dashboard')}</span>
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 text-gray-700 hover:bg-red-50 hover:text-red-600 w-full text-left"
+                      className="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-300 hover:bg-red-500/10 hover:text-red-400 w-full text-left"
                     >
-                      <LogOut className="h-4 w-4" />
+                      <LogOut className="h-5 w-5 text-red-400" />
                       <span>{t('header.logout')}</span>
                     </button>
                   </div>
                 ) : (
-                  <div className="space-y-2 pt-2 border-t">
+                  <div className="space-y-2 pt-4 px-2 pb-2">
                     <Link
                       to="/login"
                       onClick={() => setIsMenuOpen(false)}
-                      className="btn-outline w-full text-center"
+                      className="w-full py-2.5 px-4 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white text-center block font-semibold transition-colors"
                     >
                       {t('header.login')}
                     </Link>
                     <Link
                       to="/register"
                       onClick={() => setIsMenuOpen(false)}
-                      className="btn-primary w-full text-center"
+                      className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-md text-center block font-bold transition-all"
                     >
                       {t('header.register')}
                     </Link>

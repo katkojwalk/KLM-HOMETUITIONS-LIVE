@@ -36,23 +36,23 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-16 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+    <div className="min-h-screen pt-32 pb-16 bg-orange-100 flex items-center justify-center">
       <div className="max-w-md w-full mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="card p-8"
+          className="bg-slate-900 p-8 rounded-2xl shadow-[0_0_40px_-10px_rgba(0,0,0,0.3)] border border-slate-800 ring-1 ring-white/5"
         >
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex items-center justify-center mb-4">
-              <BookOpen className="h-12 w-12 text-primary-600" />
+              <BookOpen className="h-12 w-12 text-orange-500" />
             </div>
-            <h1 className="text-3xl font-medium text-gray-800 mb-2">
+            <h1 className="text-3xl font-bold text-white mb-2">
               Welcome Back
             </h1>
-            <p className="text-gray-600">
+            <p className="text-slate-400">
               Sign in to your QUADRA HOME TUITIONS account
             </p>
           </div>
@@ -61,11 +61,11 @@ const Login = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-semibold text-slate-300 mb-2">
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-500" />
                 <input
                   {...register('email', {
                     required: 'Email is required',
@@ -76,22 +76,22 @@ const Login = () => {
                   })}
                   type="email"
                   id="email"
-                  className="input-field pl-10"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                   placeholder="Enter your email"
                 />
               </div>
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
               )}
             </div>
 
             {/* Password Field */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-semibold text-slate-300 mb-2">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-500" />
                 <input
                   {...register('password', {
                     required: 'Password is required',
@@ -102,19 +102,19 @@ const Login = () => {
                   })}
                   type={showPassword ? 'text' : 'password'}
                   id="password"
-                  className="input-field pl-10 pr-10"
+                  className="w-full pl-10 pr-10 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                   placeholder="Enter your password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-500 hover:text-slate-300"
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
               )}
             </div>
 
@@ -122,7 +122,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="btn-primary w-full py-3 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold rounded-xl shadow-lg transition-all flex items-center justify-center transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-lg"
             >
               {isLoading ? (
                 <div className="flex items-center justify-center">
@@ -136,18 +136,18 @@ const Login = () => {
           </form>
 
           {/* Divider */}
-          <div className="my-6">
+          <div className="my-8">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300" />
+                <div className="w-full border-t border-slate-800" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or</span>
+                <span className="px-4 bg-slate-900 text-slate-500">Or</span>
               </div>
             </div>
           </div>
 
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-8">
             <GoogleLogin
               onSuccess={async (credentialResponse) => {
                 const result = await loginWithGoogle(credentialResponse.credential);
@@ -163,11 +163,11 @@ const Login = () => {
 
           {/* Register Link */}
           <div className="text-center">
-            <p className="text-gray-600">
+            <p className="text-slate-400">
               Don't have an account?{' '}
               <Link
                 to="/register"
-                className="text-primary-600 hover:text-primary-700 font-medium transition-colors"
+                className="text-orange-500 hover:text-orange-400 font-bold transition-colors"
               >
                 Sign up here
               </Link>
@@ -182,13 +182,13 @@ const Login = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-8 text-center"
         >
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-slate-500">
             By signing in, you agree to our{' '}
-            <a href="#" className="text-primary-600 hover:text-primary-700">
+            <a href="#" className="text-orange-500 hover:text-orange-400 font-medium">
               Terms of Service
             </a>{' '}
             and{' '}
-            <a href="#" className="text-primary-600 hover:text-primary-700">
+            <a href="#" className="text-orange-500 hover:text-orange-400 font-medium">
               Privacy Policy
             </a>
           </p>

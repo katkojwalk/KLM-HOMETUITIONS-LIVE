@@ -21,11 +21,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
     return <Navigate to="/login" replace />;
   }
 
-  // Check if user has paid the registration fee (Admins bypass this)
-  const isPaymentPage = window.location.pathname === '/payment';
-  if (!user.hasPaidRegistrationFee && !isAdmin && !isPaymentPage) {
-    return <Navigate to="/payment" replace />;
-  }
+
 
   if (adminOnly && !isAdmin) {
     return (

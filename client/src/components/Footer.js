@@ -35,13 +35,13 @@ const Footer = () => {
   const contactInfo = [
     {
       icon: Phone,
-      text: '+91 73860 78298',
-      link: 'tel:+917386078298'
+      text: '+91 83094 27266',
+      link: 'tel:+918309427266'
     },
     {
       icon: Mail,
-      text: 'katkojwalk.7@gmail.com',
-      link: 'mailto:katkojwalk.7@gmail.com'
+      text: 'katkojwalk.5@gmail.com',
+      link: 'mailto:katkojwalk.5@gmail.com'
     },
     {
       icon: Globe,

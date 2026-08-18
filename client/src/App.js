@@ -11,7 +11,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import AdminPanel from './pages/AdminPanel';
-import Payment from './pages/Payment';
+
 import ProtectedRoute from './components/ProtectedRoute';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './index.css';
@@ -38,14 +38,7 @@ function App() {
                   </ProtectedRoute>
                 } 
               />
-              <Route 
-                path="/payment" 
-                element={
-                  <ProtectedRoute>
-                    <Payment />
-                  </ProtectedRoute>
-                } 
-              />
+
               <Route 
                 path="/admin" 
                 element={
