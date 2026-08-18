@@ -35,12 +35,15 @@ const Home = () => {
                 <img 
                   src="/images/web_design_hero.jpg" 
                   alt="Website Designer" 
-                  className="w-full h-40 md:h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-slate-900/60 group-hover:bg-slate-900/70 transition-colors flex flex-col items-center justify-center text-center p-4">
-                  <h3 className="text-xl md:text-2xl font-bold text-white mb-3 tracking-wide">Looking for a Website Designer?</h3>
-                  <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2.5 rounded-full font-black text-lg md:text-xl shadow-lg border border-orange-400 transform group-hover:scale-105 transition-transform">
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-2 tracking-wide">Looking for a Website Designer?</h3>
+                  <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-full font-black text-lg md:text-xl shadow-lg border border-orange-400 mb-3 transform group-hover:scale-105 transition-transform">
                     200/- per month with hosting
+                  </div>
+                  <div className="mt-1 flex items-center justify-center bg-white text-orange-600 font-bold px-4 py-1.5 rounded-full shadow-md text-sm hover:bg-orange-50 transition-colors">
+                    Click Here <ChevronRight className="w-4 h-4 ml-1" />
                   </div>
                 </div>
               </Link>
