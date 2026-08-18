@@ -3,10 +3,16 @@ import { motion } from 'framer-motion';
 import { CheckCircle, ChevronRight, Users, BookOpen, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ContactWidget from '../components/ContactWidget';
+import SEO from '../components/SEO';
 
 const Home = () => {
   return (
     <div className="min-h-screen bg-orange-100 flex items-center pt-20">
+      <SEO 
+        title="Best Home Tuitions in Hyderabad & Online Classes"
+        description="Excellent 100% result-oriented home and online tuitions with guaranteed success rate and affordable prices. Book verified tutors today."
+        keywords="home tuitions hyderabad, private tutor hyderabad, online tuitions, math home tutor, science tutor"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           

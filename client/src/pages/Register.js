@@ -17,6 +17,7 @@ import {
   Monitor
 } from 'lucide-react';
 import { GoogleLogin } from '@react-oauth/google';
+import SEO from '../components/SEO';
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -93,6 +94,11 @@ const Register = () => {
 
   return (
     <div className="min-h-screen pt-32 pb-16 bg-orange-100">
+      <SEO 
+        title="Register as Student or Tutor | Quadra Home Tuitions"
+        description="Join Quadra Home Tuitions as a student seeking quality 1-on-1 tutoring or as a verified tutor providing home & online tuitions."
+        keywords="register home tutor, join quadra home tuitions, tuition registration"
+      />
       <div className="max-w-4xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

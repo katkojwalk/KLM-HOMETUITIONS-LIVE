@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, Clock, Send, MessageSquare, User, BookOpen, Globe } from 'lucide-react';
 import toast from 'react-hot-toast';
+import SEO from '../components/SEO';
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,12 +32,12 @@ const Contact = () => {
     {
       icon: Phone,
       title: 'Phone',
-      details: '+91 83094 27266',
-      link: 'tel:+918309427266'
+      details: '+91 8008479708',
+      link: 'tel:+918008479708'
     },
     {
       icon: Mail,
-      title: 'Email Us',
+      title: 'Email',
       details: 'katkojwalk.5@gmail.com',
       link: 'mailto:katkojwalk.5@gmail.com'
     },
@@ -62,6 +63,11 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen pt-20 bg-orange-100">
+      <SEO 
+        title="Contact Us & Book a Tutor | Quadra Home Tuitions"
+        description="Get in touch with Quadra Home Tuitions. Call +91 8008479708 or send an inquiry to book verified home tutors or online classes in Hyderabad."
+        keywords="contact home tutor, book home tuition, quadra home tuitions contact, hyderabad tuition inquiry"
+      />
       {/* Tech Solutions Hero Section */}
       <section id="tech-solutions" className="bg-slate-900 text-white py-16 border-b border-slate-800 shadow-md">
         <div className="max-w-6xl mx-auto px-4 text-center">

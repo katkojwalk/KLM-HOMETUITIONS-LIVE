@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import SEO from '../components/SEO';
 import { 
   BookOpen, 
   Users, 
@@ -22,6 +23,11 @@ import {
 const About = () => {
   return (
     <div className="min-h-screen pt-20 bg-orange-100">
+      <SEO 
+        title="About Us | Quadra Home Tuitions"
+        description="Learn about Quadra Home Tuitions, our mission to empower students with personalized 1-on-1 education and expert tutors."
+        keywords="about quadra home tuitions, trusted home tutors, education services"
+      />
       {/* Hero Section */}
       <section className="w-full bg-slate-900 border-b border-slate-800">
         <img 

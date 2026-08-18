@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { Eye, EyeOff, Mail, Lock, BookOpen } from 'lucide-react';
 import { GoogleLogin } from '@react-oauth/google';
+import SEO from '../components/SEO';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,6 +38,10 @@ const Login = () => {
 
   return (
     <div className="min-h-screen pt-32 pb-16 bg-orange-100 flex items-center justify-center">
+      <SEO 
+        title="Student & Tutor Login | Quadra Home Tuitions"
+        description="Login to your Quadra Home Tuitions account to access classes, schedules, and learning materials."
+      />
       <div className="max-w-md w-full mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

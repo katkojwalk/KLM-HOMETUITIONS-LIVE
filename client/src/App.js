@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import Header from './components/Header';
@@ -18,9 +19,10 @@ import './index.css';
 
 function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <Router>
+    <HelmetProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <Router>
           <div className="min-h-screen bg-slate-50 dark:bg-brand-navy text-gray-900 dark:text-gray-100 transition-colors duration-300 flex flex-col">
             <Header />
             <main className="flex-grow">
@@ -78,6 +80,7 @@ function App() {
       </Router>
       </AuthProvider>
     </ThemeProvider>
+    </HelmetProvider>
   );
 }
 
