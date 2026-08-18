@@ -63,6 +63,20 @@ const Home = () => {
                 </div>
               </div>
             </div>
+
+            {/* Student Teacher Interaction Images */}
+            <div className="mt-12 flex gap-4 px-2">
+              <img 
+                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80" 
+                alt="Student Teacher Interaction" 
+                className="w-1/2 h-56 object-cover rounded-2xl shadow-lg border-2 border-white/60"
+              />
+              <img 
+                src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=600&q=80" 
+                alt="Personalized Home Tuition" 
+                className="w-1/2 h-56 object-cover rounded-2xl shadow-lg border-2 border-white/60 translate-y-6"
+              />
+            </div>
           </motion.div>
 
           {/* Right Half */}
