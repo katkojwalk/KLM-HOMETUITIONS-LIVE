@@ -41,6 +41,23 @@ const Home = () => {
                 className="w-1/2 h-64 object-cover rounded-2xl shadow-lg border-2 border-white/60 translate-y-6"
               />
             </div>
+
+            {/* Website Design Promo Banner */}
+            <div className="mt-16 px-2">
+              <Link to="/contact" className="block relative group overflow-hidden rounded-2xl shadow-xl border-2 border-orange-200">
+                <img 
+                  src="/images/web_design_hero.jpg" 
+                  alt="Website Designer" 
+                  className="w-full h-40 md:h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-slate-900/60 group-hover:bg-slate-900/70 transition-colors flex flex-col items-center justify-center text-center p-4">
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-3 tracking-wide">Looking for a Website Designer?</h3>
+                  <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2.5 rounded-full font-black text-lg md:text-xl shadow-lg border border-orange-400 transform group-hover:scale-105 transition-transform">
+                    200/- per month with hosting
+                  </div>
+                </div>
+              </Link>
+            </div>
           </motion.div>
 
           {/* Right Half */}
