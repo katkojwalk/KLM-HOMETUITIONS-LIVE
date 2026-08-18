@@ -29,52 +29,16 @@ const Home = () => {
               </div>
             </div>
 
-            <div className="space-y-5 mt-8">
-              {/* Stat Block 1 */}
-              <div className="flex items-start gap-5 p-5 rounded-2xl bg-white/60 shadow-sm border border-white/80 backdrop-blur-sm transition-all hover:shadow-md hover:bg-white group">
-                <div className="bg-black text-white p-3.5 rounded-xl shrink-0 group-hover:scale-110 transition-transform">
-                  <Users className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-xl md:text-2xl font-bold text-black mb-1">20,000+ Home Tutors</h3>
-                  <p className="text-slate-700 font-medium">Personalized Online & Home Tutoring for Every Student.</p>
-                </div>
-              </div>
-
-              {/* Stat Block 2 */}
-              <div className="flex items-start gap-5 p-5 rounded-2xl bg-white/60 shadow-sm border border-white/80 backdrop-blur-sm transition-all hover:shadow-md hover:bg-white group">
-                <div className="bg-black text-white p-3.5 rounded-xl shrink-0 group-hover:scale-110 transition-transform">
-                  <BookOpen className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-xl md:text-2xl font-bold text-black mb-1">30+ Subjects Offered</h3>
-                  <p className="text-slate-700 font-medium">CBSE, ICSE, IB & State Board Tuitions for School & College.</p>
-                </div>
-              </div>
-
-              {/* Stat Block 3 */}
-              <div className="flex items-start gap-5 p-5 rounded-2xl bg-white/60 shadow-sm border border-white/80 backdrop-blur-sm transition-all hover:shadow-md hover:bg-white group">
-                <div className="bg-black text-white p-3.5 rounded-xl shrink-0 group-hover:scale-110 transition-transform">
-                  <Award className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-xl md:text-2xl font-bold text-black mb-1">18+ Years’ Experience</h3>
-                  <p className="text-slate-700 font-medium">Trusted by Over 200,000 Students</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Student Teacher Interaction Images */}
-            <div className="mt-12 flex gap-4 px-2">
+            <div className="mt-8 flex gap-4 px-2">
               <img 
                 src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80" 
                 alt="Student Teacher Interaction" 
-                className="w-1/2 h-56 object-cover rounded-2xl shadow-lg border-2 border-white/60"
+                className="w-1/2 h-64 object-cover rounded-2xl shadow-lg border-2 border-white/60"
               />
               <img 
                 src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=600&q=80" 
                 alt="Personalized Home Tuition" 
-                className="w-1/2 h-56 object-cover rounded-2xl shadow-lg border-2 border-white/60 translate-y-6"
+                className="w-1/2 h-64 object-cover rounded-2xl shadow-lg border-2 border-white/60 translate-y-6"
               />
             </div>
           </motion.div>
