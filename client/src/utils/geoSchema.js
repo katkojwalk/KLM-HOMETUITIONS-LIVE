@@ -2,8 +2,8 @@ export const getLocalBusinessSchema = () => ({
   "@context": "https://schema.org",
   "@type": ["EducationalOrganization", "LocalBusiness"],
   "name": "Quadra Home Tuitions",
-  "image": "https://yourdomain.com/logo192.png",
-  "url": "https://yourdomain.com",
+  "image": "https://www.quadrahometuitions.in/logo192.png",
+  "url": "https://www.quadrahometuitions.in",
   "telephone": "+91-8008479708",
   "priceRange": "₹₹",
   "address": {

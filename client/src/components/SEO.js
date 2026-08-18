@@ -12,8 +12,8 @@ const SEO = ({ title, description, keywords, image, url, type, schema }) => {
   const siteKeywords = keywords 
     || 'home tuitions, private tutors, home tutor, online tutoring, Quadra Home Tuitions, personal teacher, math tutor, science tutor, private tuition';
 
-  const siteUrl = url || 'https://yourdomain.com/';
-  const siteImage = image || 'https://yourdomain.com/logo192.png';
+  const siteUrl = url || 'https://www.quadrahometuitions.in/';
+  const siteImage = image || 'https://www.quadrahometuitions.in/logo192.png';
   const pageType = type || 'website';
 
   const schemasToRender = Array.isArray(schema) ? schema : (schema ? [schema] : []);
