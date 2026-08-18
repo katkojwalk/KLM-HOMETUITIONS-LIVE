@@ -75,13 +75,13 @@ const Home = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
                 {[
                   "Class I to V Tuitions",
-                  "NIOS Tuitions",
+                  "EAMCET",
                   "Class VI to VIII Tuitions",
-                  "Vedic Maths Tuitions",
+                  "IITJEE ADV,MAINS",
                   "Class IX to X Tuitions",
-                  "A-Level Tuitions",
+                  "GRE/GMAT/SAT",
                   "Class XI to XII Tuitions",
-                  "Abacus & mental arithmetic tuitions"
+                  "ENGG /COMPUTER SUBJECTS"
                 ].map((item, idx) => (
                   <Link to="/register" key={idx} className="flex items-center p-3 bg-slate-800/80 rounded-lg hover:bg-slate-800 hover:shadow-md transition-all cursor-pointer border border-transparent hover:border-orange-500/50 group">
                     <ChevronRight className="w-4 h-4 mr-2 shrink-0 text-orange-500 group-hover:translate-x-1 transition-transform" />
