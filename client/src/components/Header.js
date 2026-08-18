@@ -80,11 +80,14 @@ const Header = () => {
             <Link to="/" className="shrink-0">
               <img src="/images/logo.jpg" alt="Quadra Home Tuitions Logo" className="h-9 w-9 md:h-11 md:w-11 object-contain shadow-sm rounded-lg" />
             </Link>
-            <Link to="/">
-              <h1 className="text-xl md:text-2xl font-extrabold tracking-tight drop-shadow-sm">
+            <Link to="/" className="flex flex-col justify-center">
+              <h1 className="text-xl md:text-2xl font-extrabold tracking-tight drop-shadow-sm leading-none">
                 <span className="text-slate-900">Quadra </span>
                 <span className="text-orange-600">Home Tuitions</span>
               </h1>
+              <span className="text-xs md:text-sm text-blue-500 font-bold tracking-wide mt-0.5">
+                & Tech Solutions
+              </span>
             </Link>
           </div>
           
@@ -93,11 +96,14 @@ const Header = () => {
             <Link to="/" className="shrink-0">
               <img src="/images/logo.jpg" alt="Quadra Home Tuitions Logo" className="h-8 w-8 object-contain shadow-sm rounded-lg" />
             </Link>
-            <Link to="/">
-              <h1 className="text-base font-extrabold tracking-tight">
+            <Link to="/" className="flex flex-col justify-center">
+              <h1 className="text-sm sm:text-base font-extrabold tracking-tight leading-none">
                 <span className="text-slate-900">Quadra </span>
-                <span className="text-orange-600">Tuitions</span>
+                <span className="text-orange-600">Home Tuitions</span>
               </h1>
+              <span className="text-[10px] text-blue-500 font-bold tracking-wide mt-0.5">
+                & Tech Solutions
+              </span>
             </Link>
           </div>
 
