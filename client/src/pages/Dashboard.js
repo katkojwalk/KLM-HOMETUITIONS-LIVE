@@ -2,34 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { 
-  User, 
-  BookOpen, 
-  GraduationCap, 
-  Settings, 
-  Edit, 
-  Save, 
-  X,
-  Phone,
-  Mail,
-  MapPin,
-  Calendar,
-  Award,
-  Clock
+  User, BookOpen, GraduationCap, Edit, Save, X, Phone, Mail, MapPin, 
+  Calendar, Award, Clock, TrendingUp, DollarSign
 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { 
+  LineChart, Line, BarChart, Bar, ResponsiveContainer, 
+  Tooltip, CartesianGrid, XAxis, YAxis, PieChart, Pie, Cell 
+} from 'recharts';
 
 const Dashboard = () => {
   const { user, updateProfile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   useEffect(() => {
     if (user) {
@@ -61,404 +49,344 @@ const Dashboard = () => {
       const result = await updateProfile(profileData);
       if (result.success) {
         setIsEditing(false);
+        toast.success("Profile updated successfully!");
       }
     } catch (error) {
       console.error('Profile update error:', error);
+      toast.error("Failed to update profile");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const getRoleIcon = () => {
-    return user?.role === 'tutor' ? GraduationCap : BookOpen;
-  };
+  const getRoleIcon = () => user?.role === 'tutor' ? GraduationCap : BookOpen;
+  const getRoleColor = () => user?.role === 'tutor' ? 'text-orange-500' : 'text-blue-500';
 
-  const getRoleColor = () => {
-    return user?.role === 'tutor' ? 'text-purple-600' : 'text-blue-600';
-  };
+  // --- MOCK DATA FOR CHARTS ---
+  const studentPerformance = [
+    { month: 'Jan', score: 65 },
+    { month: 'Feb', score: 72 },
+    { month: 'Mar', score: 68 },
+    { month: 'Apr', score: 85 },
+    { month: 'May', score: 82 },
+    { month: 'Jun', score: 91 },
+  ];
 
-  const getRoleBgColor = () => {
-    return user?.role === 'tutor' ? 'bg-purple-100' : 'bg-blue-100';
+  const tutorEarnings = [
+    { week: 'W1', hours: 12, earnings: 6000 },
+    { week: 'W2', hours: 15, earnings: 7500 },
+    { week: 'W3', hours: 10, earnings: 5000 },
+    { week: 'W4', hours: 18, earnings: 9000 },
+  ];
+
+  const tutorStudents = [
+    { name: 'Active', value: 12 },
+    { name: 'Completed', value: 3 },
+  ];
+  const PIE_COLORS = ['#f97316', '#334155']; 
+
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-slate-800 border border-slate-700 p-3 rounded-lg shadow-xl text-slate-200">
+          <p className="font-semibold text-white mb-1">{label}</p>
+          {payload.map((entry, index) => (
+            <p key={index} style={{ color: entry.color }} className="text-sm">
+              {entry.name}: {entry.value}
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
   };
 
   if (!user) {
     return (
-      <div className="min-h-screen pt-32 flex items-center justify-center">
+      <div className="min-h-screen pt-32 bg-slate-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="spinner mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
+          <p className="text-slate-400 font-medium">Loading Dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="pt-32 pb-16">
-      <div className="max-w-6xl mx-auto px-4">
+    <div className="min-h-screen pt-32 pb-16 bg-slate-900">
+      <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-8"
+          className="mb-10 text-center lg:text-left flex flex-col lg:flex-row justify-between items-center gap-6"
         >
-          <h1 className="text-3xl md:text-4xl font-medium mb-2 gradient-text">
-            Welcome back, {user.name}!
-          </h1>
-          <p className="text-gray-600">
-            Manage your profile and view your account information
-          </p>
+          <div>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-2 tracking-tight">
+              Welcome back, <span className="text-orange-500">{user.name}</span>!
+            </h1>
+            <p className="text-slate-400 text-lg">
+              Manage your profile, track progress, and view analytics.
+            </p>
+          </div>
+          <button 
+            onClick={() => setIsEditing(!isEditing)}
+            className="px-6 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white rounded-xl shadow-md transition-all flex items-center font-medium"
+          >
+            {isEditing ? <X className="h-5 w-5 mr-2" /> : <Edit className="h-5 w-5 mr-2" />}
+            {isEditing ? 'Cancel Editing' : 'Edit Profile'}
+          </button>
         </motion.div>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Profile Card */}
+          {/* LEFT COLUMN: Profile Info */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="lg:col-span-1"
+            className="lg:col-span-1 space-y-8"
           >
-            <div className="card p-6">
-              <div className="text-center mb-6">
-                <div className="w-24 h-24 bg-gradient-to-br from-primary-600 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <User className="h-12 w-12 text-white" />
+            {/* Identity Card */}
+            <div className="bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-700 ring-1 ring-white/5 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-orange-500 to-orange-400"></div>
+              <div className="text-center mb-8">
+                <div className="w-28 h-28 bg-slate-900 rounded-full mx-auto mb-4 flex items-center justify-center border-4 border-slate-700 shadow-inner">
+                  <User className="h-14 w-14 text-slate-400" />
                 </div>
-                <h2 className="text-2xl font-medium text-gray-800 mb-2">
-                  {user.name}
-                </h2>
-                <div className="flex items-center justify-center space-x-2">
-                  {React.createElement(getRoleIcon(), { 
-                    className: `h-5 w-5 ${getRoleColor()}` 
-                  })}
-                  <span className={`font-medium capitalize ${getRoleColor()}`}>
+                <h2 className="text-2xl font-bold text-white mb-2">{user.name}</h2>
+                <div className="flex items-center justify-center space-x-2 bg-slate-900/50 py-1.5 px-4 rounded-full w-fit mx-auto border border-slate-700">
+                  {React.createElement(getRoleIcon(), { className: `h-4 w-4 ${getRoleColor()}` })}
+                  <span className={`text-sm font-bold uppercase tracking-wider ${getRoleColor()}`}>
                     {user.role}
                   </span>
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <Mail className="h-5 w-5 text-gray-400" />
-                  <span className="text-gray-700">{user.email}</span>
+              <div className="space-y-5 text-slate-300">
+                <div className="flex items-center space-x-4">
+                  <div className="p-2 bg-slate-900 rounded-lg"><Mail className="h-5 w-5 text-orange-400" /></div>
+                  <span className="truncate">{user.email}</span>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <Phone className="h-5 w-5 text-gray-400" />
-                  <span className="text-gray-700">{user.phone}</span>
+                <div className="flex items-center space-x-4">
+                  <div className="p-2 bg-slate-900 rounded-lg"><Phone className="h-5 w-5 text-orange-400" /></div>
+                  <span>{user.phone || 'Not provided'}</span>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <MapPin className="h-5 w-5 text-gray-400" />
-                  <span className="text-gray-700">
-                    {user.address?.city}, {user.address?.state}
+                <div className="flex items-center space-x-4">
+                  <div className="p-2 bg-slate-900 rounded-lg"><MapPin className="h-5 w-5 text-orange-400" /></div>
+                  <span>
+                    {user.address?.city ? `${user.address.city}, ${user.address.state}` : 'Address incomplete'}
                   </span>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <Calendar className="h-5 w-5 text-gray-400" />
-                  <span className="text-gray-700">
-                    Joined {new Date(user.createdAt).toLocaleDateString()}
-                  </span>
+                <div className="flex items-center space-x-4">
+                  <div className="p-2 bg-slate-900 rounded-lg"><Calendar className="h-5 w-5 text-orange-400" /></div>
+                  <span>Joined {new Date(user.createdAt).toLocaleDateString()}</span>
                 </div>
-              </div>
-
-              <div className="mt-6 pt-6 border-t">
-                <button
-                  onClick={() => setIsEditing(!isEditing)}
-                  className="btn-outline w-full"
-                >
-                  <Edit className="h-4 w-4 mr-2" />
-                  Edit Profile
-                </button>
               </div>
             </div>
           </motion.div>
 
-          {/* Main Content */}
+          {/* RIGHT COLUMN: Content */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-2"
+            className="lg:col-span-2 space-y-8"
           >
             {/* Profile Edit Form */}
             {isEditing && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="card p-6 mb-8"
-              >
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-medium text-gray-800">
-                    Edit Profile
-                  </h3>
-                  <button
-                    onClick={() => setIsEditing(false)}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <X className="h-5 w-5" />
-                  </button>
-                </div>
-
+              <div className="bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-700 ring-1 ring-white/5">
+                <h3 className="text-xl font-bold text-white mb-6 border-b border-slate-700 pb-4">
+                  Update Profile Information
+                </h3>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                        Full Name
-                      </label>
+                      <label className="block text-sm font-semibold text-slate-400 mb-2">Full Name</label>
                       <input
-                        {...register('name', {
-                          required: 'Name is required',
-                          minLength: {
-                            value: 2,
-                            message: 'Name must be at least 2 characters',
-                          },
-                        })}
+                        {...register('name', { required: 'Name is required' })}
                         type="text"
-                        id="name"
-                        className="input-field"
-                        placeholder="Enter your full name"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-orange-500 outline-none"
                       />
-                      {errors.name && (
-                        <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
-                      )}
+                      {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>}
                     </div>
-
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                        Phone Number
-                      </label>
+                      <label className="block text-sm font-semibold text-slate-400 mb-2">Phone Number</label>
                       <input
-                        {...register('phone', {
-                          required: 'Phone number is required',
-                          pattern: {
-                            value: /^[0-9]{10}$/,
-                            message: 'Please enter a valid 10-digit phone number',
-                          },
-                        })}
+                        {...register('phone', { required: 'Phone is required' })}
                         type="tel"
-                        id="phone"
-                        className="input-field"
-                        placeholder="Enter your phone number"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-orange-500 outline-none"
                       />
-                      {errors.phone && (
-                        <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
-                      )}
+                      {errors.phone && <p className="mt-1 text-sm text-red-500">{errors.phone.message}</p>}
                     </div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="street" className="block text-sm font-medium text-gray-700 mb-2">
-                        Street Address
-                      </label>
+                      <label className="block text-sm font-semibold text-slate-400 mb-2">Street Address</label>
                       <input
-                        {...register('street', { required: 'Street address is required' })}
+                        {...register('street', { required: 'Street is required' })}
                         type="text"
-                        id="street"
-                        className="input-field"
-                        placeholder="Enter your street address"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-orange-500 outline-none"
                       />
-                      {errors.street && (
-                        <p className="mt-1 text-sm text-red-600">{errors.street.message}</p>
-                      )}
                     </div>
-
                     <div>
-                      <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">
-                        City
-                      </label>
+                      <label className="block text-sm font-semibold text-slate-400 mb-2">City</label>
                       <input
                         {...register('city', { required: 'City is required' })}
                         type="text"
-                        id="city"
-                        className="input-field"
-                        placeholder="Enter your city"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-orange-500 outline-none"
                       />
-                      {errors.city && (
-                        <p className="mt-1 text-sm text-red-600">{errors.city.message}</p>
-                      )}
                     </div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-2">
-                        State
-                      </label>
+                      <label className="block text-sm font-semibold text-slate-400 mb-2">State</label>
                       <input
                         {...register('state', { required: 'State is required' })}
                         type="text"
-                        id="state"
-                        className="input-field"
-                        placeholder="Enter your state"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-orange-500 outline-none"
                       />
-                      {errors.state && (
-                        <p className="mt-1 text-sm text-red-600">{errors.state.message}</p>
-                      )}
                     </div>
-
                     <div>
-                      <label htmlFor="pincode" className="block text-sm font-medium text-gray-700 mb-2">
-                        Pincode
-                      </label>
+                      <label className="block text-sm font-semibold text-slate-400 mb-2">Pincode</label>
                       <input
-                        {...register('pincode', {
-                          required: 'Pincode is required',
-                          pattern: {
-                            value: /^[0-9]{6}$/,
-                            message: 'Please enter a valid 6-digit pincode',
-                          },
-                        })}
+                        {...register('pincode', { required: 'Pincode is required' })}
                         type="text"
-                        id="pincode"
-                        className="input-field"
-                        placeholder="Enter your pincode"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-orange-500 outline-none"
                       />
-                      {errors.pincode && (
-                        <p className="mt-1 text-sm text-red-600">{errors.pincode.message}</p>
-                      )}
                     </div>
                   </div>
 
-                  <div className="flex space-x-4">
+                  <div className="pt-4 flex justify-end">
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className="btn-primary flex items-center disabled:opacity-50"
+                      className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl shadow-lg transition-all flex items-center disabled:opacity-50"
                     >
-                      {isLoading ? (
-                        <>
-                          <div className="spinner mr-2"></div>
-                          Saving...
-                        </>
-                      ) : (
-                        <>
-                          <Save className="h-4 w-4 mr-2" />
-                          Save Changes
-                        </>
-                      )}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setIsEditing(false)}
-                      className="btn-outline"
-                    >
-                      Cancel
+                      {isLoading ? 'Saving...' : <><Save className="w-5 h-5 mr-2" /> Save Changes</>}
                     </button>
                   </div>
                 </form>
-              </motion.div>
+              </div>
             )}
 
-            {/* Role-specific Information */}
-            <div className="grid md:grid-cols-2 gap-6">
-              {user.role === 'student' && (
-                <>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    className="card p-6"
-                  >
-                    <div className="flex items-center space-x-3 mb-4">
-                      <BookOpen className="h-6 w-6 text-blue-600" />
-                      <h3 className="text-xl font-medium text-gray-800">Academic Info</h3>
-                    </div>
-                    <div className="space-y-3">
-                      <div>
-                        <span className="text-sm text-gray-500">Grade/Class:</span>
-                        <p className="font-medium">{user.grade}</p>
+            {/* Analytics & Role Info - Hidden during editing for clean UI */}
+            {!isEditing && (
+              <>
+                {user.role === 'student' && (
+                  <div className="space-y-8">
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 flex items-center shadow-lg hover:border-orange-500/50 transition-colors cursor-default">
+                        <div className="p-4 bg-slate-900 rounded-xl mr-4 border border-slate-700"><BookOpen className="w-8 h-8 text-blue-500" /></div>
+                        <div>
+                          <p className="text-slate-400 text-sm font-semibold uppercase tracking-wider">Current Grade</p>
+                          <p className="text-2xl font-bold text-white">{user.grade || 'Not Assigned'}</p>
+                        </div>
                       </div>
-                      <div>
-                        <span className="text-sm text-gray-500">Subjects:</span>
-                        <p className="font-medium">{user.subjects?.join(', ')}</p>
+                      <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 flex items-center shadow-lg hover:border-orange-500/50 transition-colors cursor-default">
+                        <div className="p-4 bg-slate-900 rounded-xl mr-4 border border-slate-700"><Award className="w-8 h-8 text-green-500" /></div>
+                        <div>
+                          <p className="text-slate-400 text-sm font-semibold uppercase tracking-wider">Status</p>
+                          <p className="text-2xl font-bold text-green-500">Active</p>
+                        </div>
                       </div>
                     </div>
-                  </motion.div>
 
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    className="card p-6"
-                  >
-                    <div className="flex items-center space-x-3 mb-4">
-                      <Award className="h-6 w-6 text-green-600" />
-                      <h3 className="text-xl font-medium text-gray-800">Progress</h3>
-                    </div>
-                    <div className="space-y-3">
-                      <div>
-                        <span className="text-sm text-gray-500">Status:</span>
-                        <p className="font-medium text-green-600">Active</p>
-                      </div>
-                      <div>
-                        <span className="text-sm text-gray-500">Last Session:</span>
-                        <p className="font-medium">2 days ago</p>
+                    <div className="bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-700">
+                      <h3 className="text-xl font-bold text-white mb-6 flex items-center">
+                        <TrendingUp className="w-6 h-6 mr-3 text-orange-500" />
+                        Performance Analytics
+                      </h3>
+                      <div className="h-80 w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <LineChart data={studentPerformance} margin={{ top: 5, right: 30, left: -20, bottom: 5 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} />
+                            <XAxis dataKey="month" stroke="#94a3b8" tick={{ fill: '#94a3b8' }} axisLine={false} tickLine={false} />
+                            <YAxis stroke="#94a3b8" tick={{ fill: '#94a3b8' }} axisLine={false} tickLine={false} />
+                            <Tooltip content={<CustomTooltip />} />
+                            <Line type="monotone" dataKey="score" name="Test Score" stroke="#f97316" strokeWidth={4} dot={{ r: 6, fill: '#f97316', strokeWidth: 2, stroke: '#1e293b' }} activeDot={{ r: 8 }} />
+                          </LineChart>
+                        </ResponsiveContainer>
                       </div>
                     </div>
-                  </motion.div>
-                </>
-              )}
+                  </div>
+                )}
 
-              {user.role === 'tutor' && (
-                <>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    className="card p-6"
-                  >
-                    <div className="flex items-center space-x-3 mb-4">
-                      <GraduationCap className="h-6 w-6 text-purple-600" />
-                      <h3 className="text-xl font-medium text-gray-800">Teaching Info</h3>
-                    </div>
-                    <div className="space-y-3">
-                      <div>
-                        <span className="text-sm text-gray-500">Qualification:</span>
-                        <p className="font-medium">{user.qualification}</p>
+                {user.role === 'tutor' && (
+                  <div className="space-y-8">
+                    <div className="grid md:grid-cols-3 gap-6">
+                      <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-lg flex flex-col justify-center items-center text-center hover:border-orange-500/50 transition-colors">
+                        <Clock className="w-8 h-8 text-orange-500 mb-2" />
+                        <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Hours Taught</p>
+                        <p className="text-2xl font-black text-white">120h</p>
                       </div>
-                      <div>
-                        <span className="text-sm text-gray-500">Experience:</span>
-                        <p className="font-medium">{user.experience} years</p>
+                      <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-lg flex flex-col justify-center items-center text-center hover:border-orange-500/50 transition-colors">
+                        <User className="w-8 h-8 text-blue-500 mb-2" />
+                        <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Total Students</p>
+                        <p className="text-2xl font-black text-white">15</p>
                       </div>
-                      <div>
-                        <span className="text-sm text-gray-500">Subjects:</span>
-                        <p className="font-medium">{user.subjectsTaught?.join(', ')}</p>
-                      </div>
-                      <div>
-                        <span className="text-sm text-gray-500">Hourly Rate:</span>
-                        <p className="font-medium">₹{user.hourlyRate}</p>
+                      <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-lg flex flex-col justify-center items-center text-center hover:border-orange-500/50 transition-colors">
+                        <DollarSign className="w-8 h-8 text-green-500 mb-2" />
+                        <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Hourly Rate</p>
+                        <p className="text-2xl font-black text-white">₹{user.hourlyRate || 500}</p>
                       </div>
                     </div>
-                  </motion.div>
 
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    className="card p-6"
-                  >
-                    <div className="flex items-center space-x-3 mb-4">
-                      <Clock className="h-6 w-6 text-orange-600" />
-                      <h3 className="text-xl font-medium text-gray-800">Teaching Stats</h3>
+                    <div className="grid lg:grid-cols-2 gap-8">
+                      <div className="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700">
+                        <h3 className="text-lg font-bold text-white mb-6">Earnings Overview</h3>
+                        <div className="h-64">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <BarChart data={tutorEarnings} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+                              <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} />
+                              <XAxis dataKey="week" stroke="#94a3b8" tick={{ fill: '#94a3b8' }} axisLine={false} tickLine={false} />
+                              <YAxis stroke="#94a3b8" tick={{ fill: '#94a3b8' }} axisLine={false} tickLine={false} />
+                              <Tooltip content={<CustomTooltip />} cursor={{ fill: '#334155', opacity: 0.4 }} />
+                              <Bar dataKey="earnings" name="Earnings (₹)" fill="#f97316" radius={[4, 4, 0, 0]} />
+                            </BarChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </div>
+
+                      <div className="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700 flex flex-col">
+                        <h3 className="text-lg font-bold text-white mb-2">Student Roster</h3>
+                        <div className="flex-grow flex items-center justify-center">
+                          <div className="h-64 w-full">
+                            <ResponsiveContainer width="100%" height="100%">
+                              <PieChart>
+                                <Pie
+                                  data={tutorStudents}
+                                  innerRadius={60}
+                                  outerRadius={80}
+                                  paddingAngle={5}
+                                  dataKey="value"
+                                  stroke="none"
+                                >
+                                  {tutorStudents.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
+                                  ))}
+                                </Pie>
+                                <Tooltip content={<CustomTooltip />} />
+                              </PieChart>
+                            </ResponsiveContainer>
+                          </div>
+                        </div>
+                        <div className="flex justify-center gap-6 pb-2">
+                          {tutorStudents.map((entry, index) => (
+                            <div key={index} className="flex items-center">
+                              <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: PIE_COLORS[index] }}></div>
+                              <span className="text-sm text-slate-300">{entry.name} ({entry.value})</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                    <div className="space-y-3">
-                      <div>
-                        <span className="text-sm text-gray-500">Total Students:</span>
-                        <p className="font-medium">15</p>
-                      </div>
-                      <div>
-                        <span className="text-sm text-gray-500">Hours Taught:</span>
-                        <p className="font-medium">120 hours</p>
-                      </div>
-                      <div>
-                        <span className="text-sm text-gray-500">Rating:</span>
-                        <p className="font-medium">4.8/5.0</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                </>
-              )}
-            </div>
+                  </div>
+                )}
+              </>
+            )}
           </motion.div>
         </div>
       </div>
@@ -466,4 +394,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard; 
+export default Dashboard;
