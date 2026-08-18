@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { 
-  Users, UserPlus, UserMinus, Shield, Search, Activity, TrendingUp
+  Users, UserPlus, UserMinus, Shield, Search, Activity, TrendingUp, Kanban, LayoutDashboard, ChevronRight
 } from 'lucide-react';
 import { 
   PieChart, Pie, Cell, LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
@@ -10,6 +10,13 @@ import {
 import toast from 'react-hot-toast';
 
 const COLORS = ['#f97316', '#3b82f6', '#8b5cf6', '#10b981'];
+const PIPELINE_STAGES = ['lead', 'contacted', 'in-progress', 'converted'];
+const STAGE_LABELS = {
+  'lead': 'New Leads',
+  'contacted': 'Contacted',
+  'in-progress': 'In Progress',
+  'converted': 'Converted'
+};
 
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
@@ -19,17 +26,21 @@ const AdminPanel = () => {
   const [roleFilter, setRoleFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'pipeline'
 
   useEffect(() => {
     fetchUsers();
-    fetchStats();
-  }, [currentPage, searchTerm, roleFilter]);
+    if (activeTab === 'dashboard') {
+      fetchStats();
+    }
+  }, [currentPage, searchTerm, roleFilter, activeTab]);
 
   const fetchUsers = async () => {
     try {
+      setLoading(true);
       const params = new URLSearchParams({
-        page: currentPage,
-        limit: 10,
+        page: activeTab === 'pipeline' ? 1 : currentPage,
+        limit: activeTab === 'pipeline' ? 200 : 10, // Fetch more users for pipeline view
         ...(searchTerm && { search: searchTerm }),
         ...(roleFilter && { role: roleFilter })
       });
@@ -76,7 +87,7 @@ const AdminPanel = () => {
         toast.success('User deleted successfully');
       } else {
         await axios.put(`/api/admin/users/${userId}`, {
-          isActive: action === 'activate' ? true : false
+          isActive: action === 'activate'
         });
         toast.success(`User ${action}ed successfully`);
       }
@@ -84,6 +95,17 @@ const AdminPanel = () => {
     } catch (error) {
       console.error('User action error:', error);
       toast.error('Failed to perform action');
+    }
+  };
+
+  const updatePipelineStage = async (userId, newStage) => {
+    try {
+      await axios.put(`/api/admin/users/${userId}`, { pipelineStage: newStage });
+      toast.success('Pipeline stage updated');
+      fetchUsers(); // Refresh to move the card
+    } catch (error) {
+      console.error('Error updating stage:', error);
+      toast.error('Failed to update pipeline stage');
     }
   };
 
@@ -103,7 +125,7 @@ const AdminPanel = () => {
     setSelectedUsers([]);
   };
 
-  // Mock data for graphs showing Tech Solutions vs Home Tuitions
+  // Mock data for graphs
   const pieData = [
     { name: 'Tech Solutions', value: Math.floor((stats.totalUsers || 200) * 0.4) },
     { name: 'Home Tuitions', value: Math.floor((stats.totalUsers || 200) * 0.6) },
@@ -124,276 +146,376 @@ const AdminPanel = () => {
     { month: 'Jun', tech: 180, tuitions: 300 },
   ];
 
+  const getPipelineUsers = (stage) => {
+    return users.filter(user => (user.pipelineStage || 'lead') === stage);
+  };
+
   return (
     <div className="min-h-screen pt-32 pb-16 bg-slate-900 text-white">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Header */}
+        {/* Header & Tabs */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-10 flex items-center space-x-4"
+          className="mb-10 flex flex-col md:flex-row md:items-center justify-between space-y-6 md:space-y-0"
         >
-          <div className="w-16 h-16 bg-orange-500/20 rounded-full flex items-center justify-center border border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.3)]">
-            <Shield className="h-8 w-8 text-orange-500" />
+          <div className="flex items-center space-x-4">
+            <div className="w-16 h-16 bg-orange-500/20 rounded-full flex items-center justify-center border border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.3)]">
+              <Shield className="h-8 w-8 text-orange-500" />
+            </div>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold">
+                Admin <span className="text-orange-500">Workspace</span>
+              </h1>
+              <p className="text-slate-400 mt-1 text-lg">
+                Manage your business growth and user lifecycle
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold">
-              Admin <span className="text-orange-500">Dashboard</span>
-            </h1>
-            <p className="text-slate-400 mt-1 text-lg">
-              Monitor statistics, users, and platform growth
-            </p>
+          
+          <div className="flex bg-slate-800 p-1 rounded-xl border border-slate-700 w-fit shadow-xl">
+            <button 
+              onClick={() => setActiveTab('dashboard')}
+              className={`flex items-center px-6 py-2.5 rounded-lg transition-all font-semibold ${activeTab === 'dashboard' ? 'bg-orange-500 text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-700/50'}`}
+            >
+              <LayoutDashboard className="w-5 h-5 mr-2" /> Overview
+            </button>
+            <button 
+              onClick={() => setActiveTab('pipeline')}
+              className={`flex items-center px-6 py-2.5 rounded-lg transition-all font-semibold ${activeTab === 'pipeline' ? 'bg-orange-500 text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-700/50'}`}
+            >
+              <Kanban className="w-5 h-5 mr-2" /> CRM Pipeline
+            </button>
           </div>
         </motion.div>
 
-        {/* Charts Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="grid lg:grid-cols-2 gap-8 mb-12"
-        >
-          {/* Pie Chart */}
-          <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
-            <h3 className="text-xl font-bold mb-4 text-white flex items-center">
-              <Activity className="mr-2 h-5 w-5 text-orange-500" /> User Distribution
-            </h3>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={pieData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={90}
-                    paddingAngle={5}
-                    dataKey="value"
-                    label
-                  >
-                    {pieData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px', color: '#fff' }} />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Bar Chart */}
-          <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
-            <h3 className="text-xl font-bold mb-4 text-white flex items-center">
-              <Users className="mr-2 h-5 w-5 text-orange-500" /> Demographics
-            </h3>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={barData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                  <XAxis dataKey="name" stroke="#94a3b8" />
-                  <YAxis stroke="#94a3b8" />
-                  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px' }} />
-                  <Legend />
-                  <Bar dataKey="Tech" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="Tuitions" fill="#f97316" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Line Chart (Full Width) */}
-          <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl lg:col-span-2">
-            <h3 className="text-xl font-bold mb-4 text-white flex items-center">
-              <TrendingUp className="mr-2 h-5 w-5 text-orange-500" /> Platform Growth
-            </h3>
-            <div className="h-72">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={lineData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                  <XAxis dataKey="month" stroke="#94a3b8" />
-                  <YAxis stroke="#94a3b8" />
-                  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px' }} />
-                  <Legend />
-                  <Line type="monotone" dataKey="tech" stroke="#3b82f6" strokeWidth={3} activeDot={{ r: 8 }} />
-                  <Line type="monotone" dataKey="tuitions" stroke="#f97316" strokeWidth={3} activeDot={{ r: 8 }} />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Controls */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl mb-8"
-        >
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
-            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
-                <input
-                  type="text"
-                  placeholder="Search users..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full sm:w-64 pl-10 pr-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
-                />
+        {activeTab === 'dashboard' && (
+          <>
+            {/* Charts Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="grid lg:grid-cols-2 gap-8 mb-12"
+            >
+              {/* Pie Chart */}
+              <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+                <h3 className="text-xl font-bold mb-4 text-white flex items-center">
+                  <Activity className="mr-2 h-5 w-5 text-orange-500" /> User Distribution
+                </h3>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={pieData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={90}
+                        paddingAngle={5}
+                        dataKey="value"
+                        label
+                      >
+                        {pieData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px', color: '#fff' }} />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
               </div>
-              <select
-                value={roleFilter}
-                onChange={(e) => setRoleFilter(e.target.value)}
-                className="w-full sm:w-48 px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
-              >
-                <option value="">All Roles</option>
-                <option value="student">Students</option>
-                <option value="tutor">Tutors</option>
-                <option value="admin">Admins</option>
-              </select>
-            </div>
 
-            <div className="flex space-x-2">
-              {selectedUsers.length > 0 && (
-                <>
-                  <button
-                    onClick={() => handleBulkAction('activate')}
-                    className="flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors font-medium"
-                  >
-                    <UserPlus className="h-4 w-4 mr-2" />
-                    Activate ({selectedUsers.length})
-                  </button>
-                  <button
-                    onClick={() => handleBulkAction('deactivate')}
-                    className="flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium"
-                  >
-                    <UserMinus className="h-4 w-4 mr-2" />
-                    Deactivate ({selectedUsers.length})
-                  </button>
-                  <button
-                    onClick={clearSelection}
-                    className="flex items-center px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors font-medium"
-                  >
-                    Clear
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        </motion.div>
+              {/* Bar Chart */}
+              <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+                <h3 className="text-xl font-bold mb-4 text-white flex items-center">
+                  <Users className="mr-2 h-5 w-5 text-orange-500" /> Demographics
+                </h3>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={barData}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                      <XAxis dataKey="name" stroke="#94a3b8" />
+                      <YAxis stroke="#94a3b8" />
+                      <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px' }} />
+                      <Legend />
+                      <Bar dataKey="Tech" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="Tuitions" fill="#f97316" radius={[4, 4, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
 
-        {/* Users Table */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="bg-slate-800 rounded-2xl border border-slate-700 shadow-xl overflow-hidden"
-        >
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-slate-900/50 text-slate-400 uppercase text-xs">
-                <tr>
-                  <th className="px-6 py-4 font-semibold">
+              {/* Line Chart (Full Width) */}
+              <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl lg:col-span-2">
+                <h3 className="text-xl font-bold mb-4 text-white flex items-center">
+                  <TrendingUp className="mr-2 h-5 w-5 text-orange-500" /> Platform Growth
+                </h3>
+                <div className="h-72">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={lineData}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                      <XAxis dataKey="month" stroke="#94a3b8" />
+                      <YAxis stroke="#94a3b8" />
+                      <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px' }} />
+                      <Legend />
+                      <Line type="monotone" dataKey="tech" stroke="#3b82f6" strokeWidth={3} activeDot={{ r: 8 }} />
+                      <Line type="monotone" dataKey="tuitions" stroke="#f97316" strokeWidth={3} activeDot={{ r: 8 }} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Controls */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl mb-8"
+            >
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
                     <input
-                      type="checkbox"
-                      onChange={selectAllUsers}
-                      checked={selectedUsers.length === users.length && users.length > 0}
-                      className="rounded border-slate-600 bg-slate-800 text-orange-500 focus:ring-orange-500 focus:ring-offset-slate-900"
+                      type="text"
+                      placeholder="Search users..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full sm:w-64 pl-10 pr-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
                     />
-                  </th>
-                  <th className="px-6 py-4 font-semibold">User</th>
-                  <th className="px-6 py-4 font-semibold">Role</th>
-                  <th className="px-6 py-4 font-semibold">Status</th>
-                  <th className="px-6 py-4 font-semibold">Joined</th>
-                  <th className="px-6 py-4 font-semibold">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-700/50">
-                {loading ? (
-                  <tr>
-                    <td colSpan="6" className="px-6 py-8 text-center text-slate-400">
-                      <div className="spinner mx-auto mb-2 border-orange-500"></div>
-                      Loading users...
-                    </td>
-                  </tr>
-                ) : users.length === 0 ? (
-                  <tr>
-                    <td colSpan="6" className="px-6 py-8 text-center text-slate-400">
-                      No users found
-                    </td>
-                  </tr>
-                ) : (
-                  users.map((user) => (
-                    <tr key={user._id} className="hover:bg-slate-700/30 transition-colors">
-                      <td className="px-6 py-4">
+                  </div>
+                  <select
+                    value={roleFilter}
+                    onChange={(e) => setRoleFilter(e.target.value)}
+                    className="w-full sm:w-48 px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+                  >
+                    <option value="">All Roles</option>
+                    <option value="student">Students</option>
+                    <option value="tutor">Tutors</option>
+                    <option value="admin">Admins</option>
+                  </select>
+                </div>
+
+                <div className="flex space-x-2">
+                  {selectedUsers.length > 0 && (
+                    <>
+                      <button
+                        onClick={() => handleBulkAction('activate')}
+                        className="flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors font-medium"
+                      >
+                        <UserPlus className="h-4 w-4 mr-2" />
+                        Activate ({selectedUsers.length})
+                      </button>
+                      <button
+                        onClick={() => handleBulkAction('deactivate')}
+                        className="flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium"
+                      >
+                        <UserMinus className="h-4 w-4 mr-2" />
+                        Deactivate ({selectedUsers.length})
+                      </button>
+                      <button
+                        onClick={clearSelection}
+                        className="flex items-center px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors font-medium"
+                      >
+                        Clear
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Users Table */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="bg-slate-800 rounded-2xl border border-slate-700 shadow-xl overflow-hidden"
+            >
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead className="bg-slate-900/50 text-slate-400 uppercase text-xs">
+                    <tr>
+                      <th className="px-6 py-4 font-semibold">
                         <input
                           type="checkbox"
-                          checked={selectedUsers.includes(user._id)}
-                          onChange={() => toggleUserSelection(user._id)}
+                          onChange={selectAllUsers}
+                          checked={selectedUsers.length === users.length && users.length > 0}
                           className="rounded border-slate-600 bg-slate-800 text-orange-500 focus:ring-orange-500 focus:ring-offset-slate-900"
                         />
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 flex items-center justify-center shadow-lg">
-                            <span className="text-white font-bold">
-                              {user.name.charAt(0).toUpperCase()}
+                      </th>
+                      <th className="px-6 py-4 font-semibold">User</th>
+                      <th className="px-6 py-4 font-semibold">Role</th>
+                      <th className="px-6 py-4 font-semibold">Service</th>
+                      <th className="px-6 py-4 font-semibold">Status</th>
+                      <th className="px-6 py-4 font-semibold">Joined</th>
+                      <th className="px-6 py-4 font-semibold">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-700/50">
+                    {loading ? (
+                      <tr>
+                        <td colSpan="7" className="px-6 py-8 text-center text-slate-400">
+                          <div className="spinner mx-auto mb-2 border-orange-500"></div>
+                          Loading users...
+                        </td>
+                      </tr>
+                    ) : users.length === 0 ? (
+                      <tr>
+                        <td colSpan="7" className="px-6 py-8 text-center text-slate-400">
+                          No users found
+                        </td>
+                      </tr>
+                    ) : (
+                      users.map((user) => (
+                        <tr key={user._id} className="hover:bg-slate-700/30 transition-colors">
+                          <td className="px-6 py-4">
+                            <input
+                              type="checkbox"
+                              checked={selectedUsers.includes(user._id)}
+                              onChange={() => toggleUserSelection(user._id)}
+                              className="rounded border-slate-600 bg-slate-800 text-orange-500 focus:ring-orange-500 focus:ring-offset-slate-900"
+                            />
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="flex items-center space-x-3">
+                              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shrink-0">
+                                <span className="text-white font-bold">
+                                  {user.name.charAt(0).toUpperCase()}
+                                </span>
+                              </div>
+                              <div>
+                                <div className="font-semibold text-white">{user.name}</div>
+                                <div className="text-slate-400 text-xs">{user.email}</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className={`inline-flex px-2.5 py-1 text-xs font-bold rounded-full ${
+                              user.role === 'admin' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
+                              user.role === 'tutor' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' :
+                              'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+                            }`}>
+                              {user.role.toUpperCase()}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className={`inline-flex px-2.5 py-1 text-xs font-bold rounded-full ${
+                              user.serviceType === 'tech' ? 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30' :
+                              'bg-teal-500/20 text-teal-400 border border-teal-500/30'
+                            }`}>
+                              {user.serviceType ? user.serviceType.toUpperCase() : 'TUITION'}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className={`inline-flex px-2.5 py-1 text-xs font-bold rounded-full ${
+                              user.isActive ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'
+                            }`}>
+                              {user.isActive ? 'ACTIVE' : 'INACTIVE'}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 text-slate-400">
+                            {new Date(user.createdAt).toLocaleDateString()}
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="flex space-x-3">
+                              <button
+                                onClick={() => handleUserAction(user._id, user.isActive ? 'deactivate' : 'activate')}
+                                className={`font-semibold hover:underline ${
+                                  user.isActive 
+                                    ? 'text-red-400 hover:text-red-300' 
+                                    : 'text-green-400 hover:text-green-300'
+                                }`}
+                              >
+                                {user.isActive ? 'Deactivate' : 'Activate'}
+                              </button>
+                              <button
+                                onClick={() => handleUserAction(user._id, 'delete')}
+                                className="font-semibold text-slate-500 hover:text-red-400 hover:underline"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </motion.div>
+          </>
+        )}
+
+        {/* CRM PIPELINE VIEW */}
+        {activeTab === 'pipeline' && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            className="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6 overflow-x-auto pb-8"
+          >
+            {PIPELINE_STAGES.map((stage, stageIndex) => {
+              const stageUsers = getPipelineUsers(stage);
+              return (
+                <div key={stage} className="flex-1 min-w-[300px] bg-slate-800/50 rounded-2xl border border-slate-700/50 flex flex-col h-[700px]">
+                  {/* Column Header */}
+                  <div className="p-4 border-b border-slate-700/50 bg-slate-800/80 rounded-t-2xl flex items-center justify-between">
+                    <h3 className="font-bold text-lg text-white">{STAGE_LABELS[stage]}</h3>
+                    <span className="bg-slate-700 text-slate-300 text-xs font-bold px-2 py-1 rounded-full">
+                      {stageUsers.length}
+                    </span>
+                  </div>
+                  
+                  {/* Column Body / Cards */}
+                  <div className="p-4 flex-1 overflow-y-auto space-y-4 custom-scrollbar">
+                    {loading ? (
+                      <div className="text-slate-500 text-center py-8">Loading...</div>
+                    ) : stageUsers.length === 0 ? (
+                      <div className="text-slate-500 text-center py-8 text-sm italic border-2 border-dashed border-slate-700 rounded-xl">Empty</div>
+                    ) : (
+                      stageUsers.map(user => (
+                        <div 
+                          key={user._id} 
+                          className="bg-slate-700/40 hover:bg-slate-700/60 transition-colors p-4 rounded-xl border border-slate-600 shadow-sm relative group"
+                        >
+                          <div className="flex justify-between items-start mb-2">
+                            <h4 className="font-bold text-white text-md leading-tight">{user.name}</h4>
+                            <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-sm ${
+                              user.serviceType === 'tech' ? 'bg-indigo-500/20 text-indigo-300' : 'bg-teal-500/20 text-teal-300'
+                            }`}>
+                              {user.serviceType || 'tuition'}
                             </span>
                           </div>
-                          <div>
-                            <div className="font-semibold text-white">{user.name}</div>
-                            <div className="text-slate-400 text-xs">{user.email}</div>
-                          </div>
+                          <div className="text-slate-400 text-xs mb-4 truncate">{user.email}</div>
+                          
+                          {/* Next Stage Button */}
+                          {stageIndex < PIPELINE_STAGES.length - 1 && (
+                            <button
+                              onClick={() => updatePipelineStage(user._id, PIPELINE_STAGES[stageIndex + 1])}
+                              className="w-full py-2 bg-slate-800 hover:bg-orange-500 hover:text-white text-slate-300 rounded-lg text-xs font-bold transition-all flex items-center justify-center group-hover:border-orange-500 border border-transparent"
+                            >
+                              Move to {STAGE_LABELS[PIPELINE_STAGES[stageIndex + 1]]} <ChevronRight className="w-3 h-3 ml-1" />
+                            </button>
+                          )}
+                          {stageIndex === PIPELINE_STAGES.length - 1 && (
+                            <div className="w-full py-2 bg-green-500/10 text-green-400 rounded-lg text-xs font-bold flex items-center justify-center border border-green-500/20">
+                              Successfully Closed
+                            </div>
+                          )}
                         </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className={`inline-flex px-2.5 py-1 text-xs font-bold rounded-full ${
-                          user.role === 'admin' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
-                          user.role === 'tutor' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' :
-                          'bg-blue-500/20 text-blue-400 border border-blue-500/30'
-                        }`}>
-                          {user.role.toUpperCase()}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className={`inline-flex px-2.5 py-1 text-xs font-bold rounded-full ${
-                          user.isActive ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'
-                        }`}>
-                          {user.isActive ? 'ACTIVE' : 'INACTIVE'}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-slate-400">
-                        {new Date(user.createdAt).toLocaleDateString()}
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex space-x-3">
-                          <button
-                            onClick={() => handleUserAction(user._id, user.isActive ? 'deactivate' : 'activate')}
-                            className={`font-semibold hover:underline ${
-                              user.isActive 
-                                ? 'text-red-400 hover:text-red-300' 
-                                : 'text-green-400 hover:text-green-300'
-                            }`}
-                          >
-                            {user.isActive ? 'Deactivate' : 'Activate'}
-                          </button>
-                          <button
-                            onClick={() => handleUserAction(user._id, 'delete')}
-                            className="font-semibold text-slate-500 hover:text-red-400 hover:underline"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </motion.div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </motion.div>
+        )}
       </div>
     </div>
   );

@@ -13,7 +13,8 @@ import {
   BookOpen, 
   GraduationCap,
   MapPin,
-  CheckCircle
+  CheckCircle,
+  Monitor
 } from 'lucide-react';
 import { GoogleLogin } from '@react-oauth/google';
 
@@ -21,6 +22,7 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [selectedRole, setSelectedRole] = useState('student');
+  const [selectedServiceType, setSelectedServiceType] = useState('tuition');
   const [isLoading, setIsLoading] = useState(false);
   const { register: registerUser, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
@@ -40,6 +42,7 @@ const Register = () => {
       const userData = {
         ...data,
         role: selectedRole,
+        serviceType: selectedServiceType,
         address: {
           street: data.street,
           city: data.city,
@@ -108,6 +111,55 @@ const Register = () => {
             <p className="text-slate-400">
               Create your account and start your educational journey
             </p>
+          </div>
+
+          {/* Service Type Selection */}
+          <div className="mb-8">
+            <label className="block text-sm font-semibold text-slate-300 mb-4">
+              I am interested in:
+            </label>
+            <div className="grid md:grid-cols-2 gap-4">
+              <button
+                type="button"
+                onClick={() => setSelectedServiceType('tuition')}
+                className={`p-4 rounded-xl border-2 transition-all duration-200 text-left ${
+                  selectedServiceType === 'tuition'
+                    ? 'border-orange-500 bg-orange-500/10'
+                    : 'border-slate-700 bg-slate-800/80 hover:border-orange-500/50 hover:bg-slate-800'
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <BookOpen className={`h-6 w-6 ${selectedServiceType === 'tuition' ? 'text-orange-500' : 'text-slate-500'}`} />
+                  <div>
+                    <h3 className={`font-semibold ${selectedServiceType === 'tuition' ? 'text-white' : 'text-slate-300'}`}>Home Tuitions</h3>
+                    <p className="text-xs text-slate-500 mt-0.5">Academic tutoring and courses</p>
+                  </div>
+                  {selectedServiceType === 'tuition' && (
+                    <CheckCircle className="h-5 w-5 text-orange-500 ml-auto" />
+                  )}
+                </div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedServiceType('tech')}
+                className={`p-4 rounded-xl border-2 transition-all duration-200 text-left ${
+                  selectedServiceType === 'tech'
+                    ? 'border-orange-500 bg-orange-500/10'
+                    : 'border-slate-700 bg-slate-800/80 hover:border-orange-500/50 hover:bg-slate-800'
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <Monitor className={`h-6 w-6 ${selectedServiceType === 'tech' ? 'text-orange-500' : 'text-slate-500'}`} />
+                  <div>
+                    <h3 className={`font-semibold ${selectedServiceType === 'tech' ? 'text-white' : 'text-slate-300'}`}>Tech Solutions</h3>
+                    <p className="text-xs text-slate-500 mt-0.5">Web design and development</p>
+                  </div>
+                  {selectedServiceType === 'tech' && (
+                    <CheckCircle className="h-5 w-5 text-orange-500 ml-auto" />
+                  )}
+                </div>
+              </button>
+            </div>
           </div>
 
           {/* Role Selection */}

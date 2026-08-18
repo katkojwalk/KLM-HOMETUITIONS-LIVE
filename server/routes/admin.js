@@ -87,7 +87,7 @@ router.put('/users/:id', adminAuth, [
     }
 
     // Update allowed fields
-    const allowedUpdates = ['name', 'email', 'phone', 'role', 'isActive', 'isVerified', 'address'];
+    const allowedUpdates = ['name', 'email', 'phone', 'role', 'isActive', 'isVerified', 'address', 'serviceType', 'pipelineStage'];
     allowedUpdates.forEach(field => {
       if (req.body[field] !== undefined) {
         user[field] = req.body[field];

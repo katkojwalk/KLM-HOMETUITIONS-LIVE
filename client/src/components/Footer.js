@@ -65,18 +65,15 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white">
       {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="max-w-5xl mx-auto px-4 py-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Company Info */}
           <div className="lg:col-span-1">
-            <div className="flex items-center space-x-2 mb-6">
+            <div className="flex items-center space-x-2 mb-3">
               <BookOpen className="h-8 w-8 text-primary-400" />
               <span className="text-xl font-medium font-serif uppercase tracking-wider">Quadra Home Tuitions</span>
             </div>
-            <p className="text-gray-300 mb-6 leading-relaxed">
-              Empowering students with quality education and personalized learning experiences. 
-              We are committed to academic excellence and student success.
-            </p>
+
             <div className="flex space-x-4">
               {socialLinks.map((social, index) => {
                 const Icon = social.icon;
@@ -96,7 +93,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-serif font-normal uppercase tracking-wider mb-6">Quick Links</h3>
+            <h3 className="text-base font-serif font-normal uppercase tracking-wider mb-3">Quick Links</h3>
             <ul className="space-y-3">
               {quickLinks.map((link, index) => (
                 <li key={index}>
@@ -111,21 +108,33 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Tech Services */}
           <div>
-            <h3 className="text-lg font-serif font-normal uppercase tracking-wider mb-6">Our Services</h3>
+            <h3 className="text-base font-serif font-normal uppercase tracking-wider mb-3">Tech Services</h3>
             <ul className="space-y-3">
-              {services.map((service, index) => (
-                <li key={index} className="text-gray-300">
-                  {service}
+              {[
+                { name: 'Web Development', path: '/contact#tech-solutions' },
+                { name: 'App Development', path: '/contact#tech-solutions' },
+                { name: 'UI/UX Design', path: '/contact#tech-solutions' },
+                { name: 'SEO Optimization', path: '/contact#tech-solutions' }
+              ].map((service, index) => (
+                <li key={index}>
+                  <a
+                    href={service.path}
+                    className="text-gray-300 hover:text-primary-400 transition-colors duration-200"
+                  >
+                    {service.name}
+                  </a>
                 </li>
               ))}
             </ul>
           </div>
 
+
+
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-serif font-normal uppercase tracking-wider mb-6">Contact Info</h3>
+            <h3 className="text-base font-serif font-normal uppercase tracking-wider mb-3">Contact Info</h3>
             <div className="space-y-4">
               {contactInfo.map((contact, index) => {
                 const Icon = contact.icon;
@@ -147,7 +156,7 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="border-t border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-400 text-sm mb-4 md:mb-0">
               © {currentYear} QUADRA HOME TUITIONS. All rights reserved.

@@ -70,6 +70,16 @@ const userSchema = new mongoose.Schema({
     required: function() { return this.role === 'tutor'; }
   },
   // Common fields
+  serviceType: {
+    type: String,
+    enum: ['tuition', 'tech'],
+    default: 'tuition'
+  },
+  pipelineStage: {
+    type: String,
+    enum: ['lead', 'contacted', 'in-progress', 'converted'],
+    default: 'lead'
+  },
   profileImage: {
     type: String,
     default: ''

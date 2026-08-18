@@ -67,12 +67,12 @@ const Header = () => {
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
-            <div className="hidden sm:flex items-center space-x-2 text-blue-500">
+            <a href="/contact#tech-solutions" className="hidden sm:flex items-center space-x-2 text-blue-500 hover:text-blue-400 transition-colors">
               <Monitor className="h-5 w-5" />
               <span className="font-bold text-lg tracking-wide">
                 Tech Solutions
               </span>
-            </div>
+            </a>
           </div>
 
           {/* Center Text with Logo (Desktop) */}

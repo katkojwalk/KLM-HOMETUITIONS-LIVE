@@ -62,8 +62,8 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen pt-20 bg-orange-100">
-      {/* Hero Section */}
-      <section className="bg-slate-900 text-white py-16 border-b border-slate-800 shadow-md">
+      {/* Tech Solutions Hero Section */}
+      <section id="tech-solutions" className="bg-slate-900 text-white py-16 border-b border-slate-800 shadow-md">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
@@ -71,16 +71,26 @@ const Contact = () => {
             transition={{ duration: 0.8 }}
             className="text-4xl md:text-5xl font-extrabold mb-4"
           >
-            Get in <span className="text-orange-500">Touch</span>
+            Tech <span className="text-orange-500">Solutions</span>
           </motion.h1>
-          <motion.p 
+          <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg text-slate-400 max-w-2xl mx-auto"
+            className="text-lg text-slate-400 max-w-4xl mx-auto space-y-6"
           >
-            Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
-          </motion.p>
+            <p>
+              We build modern, responsive, and high-performance websites and applications. 
+              Our technology stack includes industry-leading tools, frameworks, and databases:
+            </p>
+            <div className="flex flex-wrap justify-center gap-3 pt-4">
+              {['React', 'Next.js', 'Node.js', 'Express', 'MongoDB', 'PostgreSQL', 'Tailwind CSS', 'AWS', 'Docker'].map((tech) => (
+                <span key={tech} className="px-4 py-2 bg-slate-800 text-orange-400 rounded-full text-sm font-semibold border border-slate-700 shadow-sm hover:bg-slate-700 transition-colors cursor-default">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 
