@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
-const SEO = ({ title, description, keywords, image, url, type }) => {
+const SEO = ({ title, description, keywords, image, url, type, schema }) => {
   const siteTitle = title 
     ? `${title} | Quadra Home Tuitions` 
     : 'QUADRA HOME TUITIONS | Premier Private & Online Tutors';
@@ -15,6 +15,8 @@ const SEO = ({ title, description, keywords, image, url, type }) => {
   const siteUrl = url || 'https://yourdomain.com/';
   const siteImage = image || 'https://yourdomain.com/logo192.png';
   const pageType = type || 'website';
+
+  const schemasToRender = Array.isArray(schema) ? schema : (schema ? [schema] : []);
 
   return (
     <Helmet>
@@ -38,6 +40,13 @@ const SEO = ({ title, description, keywords, image, url, type }) => {
 
       {/* Canonical Link */}
       <link rel="canonical" href={siteUrl} />
+
+      {/* JSON-LD Schema.org Data for AEO & GEO */}
+      {schemasToRender.map((s, idx) => (
+        <script key={idx} type="application/ld+json">
+          {JSON.stringify(s)}
+        </script>
+      ))}
     </Helmet>
   );
 };

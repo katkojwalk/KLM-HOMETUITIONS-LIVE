@@ -1,19 +1,31 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, ChevronRight, Users, BookOpen, Award } from 'lucide-react';
+import { CheckCircle, ChevronRight, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ContactWidget from '../components/ContactWidget';
 import SEO from '../components/SEO';
+import FAQ, { FAQ_DATA } from '../components/FAQ';
+import { getLocalBusinessSchema, getFaqSchema } from '../utils/geoSchema';
 
 const Home = () => {
+  const localSchema = getLocalBusinessSchema();
+  const faqSchema = getFaqSchema(FAQ_DATA);
+
+  const hyderabadAreas = [
+    "Gachibowli", "Jubilee Hills", "Hitech City", "Madhapur", 
+    "Kukatpally", "Banjara Hills", "Secunderabad", "Ameerpet", 
+    "Dilsukhnagar", "Kondapur"
+  ];
+
   return (
-    <div className="min-h-screen bg-orange-100 flex items-center pt-20">
+    <div className="min-h-screen bg-orange-100 flex flex-col pt-20">
       <SEO 
         title="Best Home Tuitions in Hyderabad & Online Classes"
-        description="Excellent 100% result-oriented home and online tuitions with guaranteed success rate and affordable prices. Book verified tutors today."
-        keywords="home tuitions hyderabad, private tutor hyderabad, online tuitions, math home tutor, science tutor"
+        description="Excellent 100% result-oriented home and online tuitions with guaranteed success rate and affordable prices across Hyderabad. Book verified tutors today."
+        keywords="home tuitions hyderabad, private tutor hyderabad, online tuitions, math home tutor, science tutor, quadra home tuitions"
+        schema={[localSchema, faqSchema]}
       />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
           {/* Left Half - Content */}
@@ -112,6 +124,28 @@ const Home = () => {
           </motion.div>
         </div>
       </div>
+
+      {/* Local Coverage Section for GEO & Local Search */}
+      <section className="py-12 bg-white/70 border-t border-orange-200 mt-12">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <div className="flex items-center justify-center gap-2 mb-3 text-orange-600 font-bold">
+            <MapPin className="w-5 h-5" />
+            <span>Hyderabad & Telangana Service Coverage</span>
+          </div>
+          <h3 className="text-2xl font-bold text-slate-900 mb-6">Home Tuition Coverage Areas</h3>
+          <div className="flex flex-wrap items-center justify-center gap-2 max-w-4xl mx-auto">
+            {hyderabadAreas.map((area, idx) => (
+              <span key={idx} className="px-4 py-1.5 bg-slate-900 text-orange-400 font-semibold text-sm rounded-full shadow-sm">
+                Tuition in {area}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AEO FAQ Section */}
+      <FAQ />
+
       <ContactWidget />
     </div>
   );

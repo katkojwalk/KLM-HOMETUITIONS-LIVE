@@ -4,8 +4,10 @@ import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, Clock, Send, MessageSquare, User, BookOpen, Globe } from 'lucide-react';
 import toast from 'react-hot-toast';
 import SEO from '../components/SEO';
+import { getLocalBusinessSchema } from '../utils/geoSchema';
 
 const Contact = () => {
+  const localSchema = getLocalBusinessSchema();
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const {
@@ -67,6 +69,7 @@ const Contact = () => {
         title="Contact Us & Book a Tutor | Quadra Home Tuitions"
         description="Get in touch with Quadra Home Tuitions. Call +91 8008479708 or send an inquiry to book verified home tutors or online classes in Hyderabad."
         keywords="contact home tutor, book home tuition, quadra home tuitions contact, hyderabad tuition inquiry"
+        schema={localSchema}
       />
       {/* Tech Solutions Hero Section */}
       <section id="tech-solutions" className="bg-slate-900 text-white py-16 border-b border-slate-800 shadow-md">
