@@ -65,6 +65,24 @@ app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
 
 
+const path = require('path');
+
+// Static SEO & Sitemap endpoints
+app.get('/sitemap.xml', (req, res) => {
+  res.header('Content-Type', 'application/xml');
+  res.sendFile(path.join(__dirname, '../client/public/sitemap.xml'));
+});
+
+app.get('/robots.txt', (req, res) => {
+  res.header('Content-Type', 'text/plain');
+  res.sendFile(path.join(__dirname, '../client/public/robots.txt'));
+});
+
+app.get('/google08a9ff9267e6b1be.html', (req, res) => {
+  res.header('Content-Type', 'text/html');
+  res.sendFile(path.join(__dirname, '../client/public/google08a9ff9267e6b1be.html'));
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Quadra Home Tuitions API is running' });
