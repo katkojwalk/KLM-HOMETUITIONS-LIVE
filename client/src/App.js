@@ -13,6 +13,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import AdminPanel from './pages/AdminPanel';
 
+import GoogleAnalytics from './components/GoogleAnalytics';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './index.css';
@@ -23,7 +24,8 @@ function App() {
       <ThemeProvider>
         <AuthProvider>
           <Router>
-          <div className="min-h-screen bg-slate-50 dark:bg-brand-navy text-gray-900 dark:text-gray-100 transition-colors duration-300 flex flex-col">
+            <GoogleAnalytics />
+            <div className="min-h-screen bg-slate-50 dark:bg-brand-navy text-gray-900 dark:text-gray-100 transition-colors duration-300 flex flex-col">
             <Header />
             <main className="flex-grow">
               <Routes>
