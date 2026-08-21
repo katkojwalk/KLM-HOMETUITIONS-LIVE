@@ -55,7 +55,7 @@
     - name: Install frontend dependencies
       become_user: ec2-user
       ansible.builtin.command:
-        cmd: npm install
+        cmd: npm install --legacy-peer-deps
         chdir: /home/ec2-user/quadra-hometuitions/client
 
     - name: Build React frontend
