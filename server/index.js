@@ -1,9 +1,6 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
+const path = require('path');
 require('dotenv').config();
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
@@ -52,12 +49,17 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI || process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('Connected to MongoDB'))
-.catch(err => console.error('MongoDB connection error:', err));
+const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI;
+if (mongoUri) {
+  mongoose.connect(mongoUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error:', err));
+} else {
+  console.error('CRITICAL: MONGO_URI / MONGODB_URI environment variable is missing from .env');
+}
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -85,7 +87,11 @@ app.get('/google08a9ff9267e6b1be.html', (req, res) => {
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Quadra Home Tuitions API is running' });
+  res.json({
+    status: 'OK',
+    message: 'Quadra Home Tuitions API is running',
+    mongoConnected: mongoose.connection.readyState === 1
+  });
 });
 
 // Add root route for connection message
