@@ -25,10 +25,15 @@ jobs:
           printf '%s\n' "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/quadra.pem
           chmod 600 ~/.ssh/quadra.pem
 
-      - name: Add EC2 to known hosts
-        run: |
-          ssh-keyscan -H "${{ secrets.EC2_HOST }}" >> ~/.ssh/known_hosts
-
+     - name: Add EC2 to known hosts
+  run: |
+    for i in {1..10}; do
+      if ssh-keyscan -H "${{ secrets.EC2_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null; then
+        break
+      fi
+      echo "Waiting for SSH..."
+      sleep 5
+    done
       - name: Create Ansible inventory
         run: |
           cat > ansible/inventory.ini <<EOF
