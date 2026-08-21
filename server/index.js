@@ -23,6 +23,7 @@ app.use(cors({
   origin: function(origin, callback) {
     const defaultOrigins = [
       'http://localhost:3000',
+      'http://16.113.108.168',
       'https://quadrahometuitions.in',
       'https://www.quadrahometuitions.in'
     ];
@@ -32,8 +33,8 @@ app.use(cors({
       allowedOrigins = [...allowedOrigins, ...envOrigins];
     }
     
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Allow requests with no origin (like mobile apps or curl requests) or allowed origins or Netlify subdomains
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.netlify.app')) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
