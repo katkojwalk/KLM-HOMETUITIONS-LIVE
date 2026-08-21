@@ -8,12 +8,54 @@
 
   tasks:
 
-    - name: Update Amazon Linux packages
-      dnf:
-        name: "*"
-        state: latest
-        update_cache: true
+    # 1. Persistent Swap File Setup (Idempotent for t3.micro memory limit)
+    - name: Check if swapfile exists
+      stat:
+        path: /swapfile
+      register: swapfile_stat
 
+    - name: Create 2GiB swapfile if missing (fallocate)
+      command: fallocate -l 2G /swapfile
+      when: not swapfile_stat.stat.exists
+      failed_when: false
+
+    - name: Create 2GiB swapfile if missing (dd fallback)
+      command: dd if=/dev/zero of=/swapfile bs=1M count=2048
+      when: not swapfile_stat.stat.exists
+
+    - name: Set 0600 permissions on swapfile
+      file:
+        path: /swapfile
+        mode: '0600'
+        owner: root
+        group: root
+
+    - name: Check swapfile file type
+      command: file /swapfile
+      register: swapfile_type
+      changed_when: false
+
+    - name: Format swapfile with mkswap
+      command: mkswap /swapfile
+      when: "'swap file' not in swapfile_type.stdout"
+
+    - name: Check active swap status
+      command: swapon --show
+      register: swapon_output
+      changed_when: false
+
+    - name: Enable swapfile
+      command: swapon /swapfile
+      when: "'/swapfile' not in swapon_output.stdout"
+
+    - name: Ensure swapfile entry in /etc/fstab
+      lineinfile:
+        path: /etc/fstab
+        line: '/swapfile swap swap defaults 0 0'
+        regexp: '^/swapfile\s+'
+        state: present
+
+    # 2. Package & Runtime Installation
     - name: Install Git
       dnf:
         name: git
@@ -24,24 +66,39 @@
         name: nginx
         state: present
 
-    - name: Install Node.js and npm
+    - name: Check if Node.js is installed
+      command: node -v
+      register: node_check
+      failed_when: false
+      changed_when: false
+
+    - name: Install Node.js 18 repository and package
       shell: |
         curl -fsSL https://rpm.nodesource.com/setup_18.x | bash -
         dnf install -y nodejs
       args:
         executable: /bin/bash
+      when: node_check.rc != 0
+
+    - name: Check if PM2 is installed
+      command: pm2 -v
+      register: pm2_check
+      failed_when: false
+      changed_when: false
 
     - name: Install PM2 globally
       npm:
         name: pm2
         global: true
+      when: pm2_check.rc != 0
 
-    - name: Enable Nginx
+    - name: Enable Nginx service
       systemd:
         name: nginx
         enabled: true
         state: started
 
+    # 3. Code Checkout & Frontend Build
     - name: Create application directory
       file:
         path: "{{ app_dir }}"
@@ -72,7 +129,17 @@
       environment:
         NODE_OPTIONS: "--max-old-space-size=768"
 
-    - name: Deploy React frontend
+    - name: Verify build directory exists
+      stat:
+        path: "{{ app_dir }}/client/build"
+      register: build_dir_stat
+
+    - name: Fail if build directory is missing
+      fail:
+        msg: "React build directory was not created!"
+      when: not build_dir_stat.stat.exists or not build_dir_stat.stat.isdir
+
+    - name: Deploy React frontend build to Nginx directory
       copy:
         src: "{{ app_dir }}/client/build/"
         dest: /usr/share/nginx/html/
@@ -80,23 +147,52 @@
         owner: nginx
         group: nginx
         mode: "0755"
+      notify: Reload Nginx
 
+    # 4. Nginx Location Configuration (API proxy & SPA fallback)
+    - name: Configure Nginx default location settings for Quadra
+      copy:
+        dest: /etc/nginx/default.d/quadra.conf
+        content: |
+          location /api/ {
+              proxy_pass http://127.0.0.1:5000;
+              proxy_http_version 1.1;
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header Connection 'upgrade';
+              proxy_set_header Host $host;
+              proxy_cache_bypass $http_upgrade;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+          }
+
+          location / {
+              root /usr/share/nginx/html;
+              try_files $uri $uri/ /index.html;
+          }
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Reload Nginx
+
+    # 5. Backend Build & Process Management
     - name: Install backend dependencies
       become_user: ec2-user
       command: npm install --legacy-peer-deps
       args:
-        chdir: "{{ app_dir }}/server"
+        chdir: "{{ app_dir }}"
 
     - name: Start or restart backend with PM2
       become_user: ec2-user
       shell: |
-        cd "{{ app_dir }}/server"
-        pm2 start server.js --name quadra-backend || pm2 restart quadra-backend
+        cd "{{ app_dir }}"
+        pm2 describe quadra-backend > /dev/null 2>&1 && pm2 restart quadra-backend || pm2 start server/index.js --name quadra-backend
         pm2 save
       args:
         executable: /bin/bash
 
-    - name: Restart Nginx
+  handlers:
+    - name: Reload Nginx
       systemd:
         name: nginx
-        state: restarted
+        state: reloaded

@@ -37,13 +37,15 @@ jobs:
 
       - name: Test Ansible connection
         run: |
-          ansible web -i ansible/inventory.ini -m ping
+          ansible web -i ansible/inventory.ini -m ping --config ansible/ansible.cfg
 
       - name: Install Ansible collection
         run: |
           ansible-galaxy collection install community.general
 
       - name: Run Ansible playbook
+        env:
+          ANSIBLE_CONFIG: ansible/ansible.cfg
         run: |
           ansible-playbook \
             -i ansible/inventory.ini \
