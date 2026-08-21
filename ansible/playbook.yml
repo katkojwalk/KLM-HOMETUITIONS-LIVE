@@ -1,0 +1,107 @@
+---
+- name: Configure Quadra Home Tuitions AWS Server
+  hosts: web
+  become: true
+
+  tasks:
+
+    - name: Update Amazon Linux packages
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+
+    - name: Install Git
+      ansible.builtin.dnf:
+        name: git
+        state: present
+
+    - name: Install Nginx
+      ansible.builtin.dnf:
+        name: nginx
+        state: present
+
+    - name: Install Node.js and npm
+      ansible.builtin.dnf:
+        name: nodejs
+        state: present
+
+    - name: Install PM2 globally
+      community.general.npm:
+        name: pm2
+        global: true
+
+    - name: Enable Nginx
+      ansible.builtin.systemd:
+        name: nginx
+        enabled: true
+        state: started
+
+    - name: Create application directory
+      ansible.builtin.file:
+        path: /home/ec2-user/quadra-hometuitions
+        state: directory
+        owner: ec2-user
+        group: ec2-user
+        mode: "0755"
+
+    - name: Clone Quadra Home Tuitions repository
+      become_user: ec2-user
+      ansible.builtin.git:
+        repo: "https://github.com/katkojwalk/quadra-hometuitions.git"
+        dest: /home/ec2-user/quadra-hometuitions
+        version: main
+        force: true
+
+    - name: Install frontend dependencies
+      become_user: ec2-user
+      ansible.builtin.command:
+        cmd: npm install
+        chdir: /home/ec2-user/quadra-hometuitions/client
+
+    - name: Build React frontend
+      become_user: ec2-user
+      ansible.builtin.command:
+        cmd: npm run build
+        chdir: /home/ec2-user/quadra-hometuitions/client
+
+    - name: Clear Nginx web directory
+      ansible.builtin.file:
+        path: /usr/share/nginx/html
+        state: directory
+
+    - name: Copy React build to Nginx
+      ansible.builtin.shell: |
+        rm -rf /usr/share/nginx/html/*
+        cp -r /home/ec2-user/quadra-hometuitions/client/build/* /usr/share/nginx/html/
+      notify: Restart Nginx
+
+    - name: Install backend dependencies
+      become_user: ec2-user
+      ansible.builtin.command:
+        cmd: npm install
+        chdir: /home/ec2-user/quadra-hometuitions/server
+
+    - name: Stop existing PM2 application
+      become_user: ec2-user
+      ansible.builtin.command:
+        cmd: pm2 delete quadra-backend
+      failed_when: false
+      changed_when: false
+
+    - name: Start backend with PM2
+      become_user: ec2-user
+      ansible.builtin.command:
+        cmd: pm2 start server.js --name quadra-backend
+        chdir: /home/ec2-user/quadra-hometuitions/server
+
+    - name: Save PM2 configuration
+      become_user: ec2-user
+      ansible.builtin.command:
+        cmd: pm2 save
+
+  handlers:
+
+    - name: Restart Nginx
+      ansible.builtin.systemd:
+        name: nginx
+        state: restarted
