@@ -26,18 +26,13 @@ const getFallbackApiUrl = () => {
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL || getFallbackApiUrl();
 
-const rawClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-const hasValidGoogleClientId = rawClientId && rawClientId !== 'your-google-client-id.apps.googleusercontent.com';
+const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID || 'your-google-client-id.apps.googleusercontent.com';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {hasValidGoogleClientId ? (
-      <GoogleOAuthProvider clientId={rawClientId}>
-        <App />
-      </GoogleOAuthProvider>
-    ) : (
+    <GoogleOAuthProvider clientId={googleClientId}>
       <App />
-    )}
+    </GoogleOAuthProvider>
   </React.StrictMode>
 ); 
