@@ -36,8 +36,10 @@ jobs:
           EOF
 
       - name: Test Ansible connection
+        env:
+          ANSIBLE_CONFIG: ansible/ansible.cfg
         run: |
-          ansible web -i ansible/inventory.ini -m ping --config ansible/ansible.cfg
+          ansible web -i ansible/inventory.ini -m ping
 
       - name: Install Ansible collection
         run: |
