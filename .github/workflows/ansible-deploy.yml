@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -25,15 +24,10 @@ jobs:
           printf '%s\n' "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/quadra.pem
           chmod 600 ~/.ssh/quadra.pem
 
-     - name: Add EC2 to known hosts
-  run: |
-    for i in {1..10}; do
-      if ssh-keyscan -H "${{ secrets.EC2_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null; then
-        break
-      fi
-      echo "Waiting for SSH..."
-      sleep 5
-    done
+      - name: Add EC2 to known hosts
+        run: |
+          ssh-keyscan -H "${{ secrets.EC2_HOST }}" >> ~/.ssh/known_hosts
+
       - name: Create Ansible inventory
         run: |
           cat > ansible/inventory.ini <<EOF
@@ -45,7 +39,7 @@ jobs:
         run: |
           ansible web -i ansible/inventory.ini -m ping
 
-      - name: Install required Ansible collection
+      - name: Install Ansible collection
         run: |
           ansible-galaxy collection install community.general
 
