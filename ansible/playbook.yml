@@ -185,11 +185,13 @@
     - name: Start or restart backend with PM2
       become_user: ec2-user
       shell: |
-        cd "{{ app_dir }}"
-        pm2 describe quadra-backend > /dev/null 2>&1 && pm2 restart quadra-backend || pm2 start server/index.js --name quadra-backend
+        pm2 start server/index.js --name quadra-backend || pm2 restart quadra-backend
         pm2 save
       args:
+        chdir: "{{ app_dir }}"
         executable: /bin/bash
+      async: 30
+      poll: 2
 
   handlers:
     - name: Reload Nginx
