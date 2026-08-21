@@ -67,8 +67,6 @@ app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
 
 
-const path = require('path');
-
 // Static SEO & Sitemap endpoints
 app.get('/sitemap.xml', (req, res) => {
   res.header('Content-Type', 'application/xml');
