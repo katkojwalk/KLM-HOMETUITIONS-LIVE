@@ -13,6 +13,9 @@ const Login = () => {
   const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
+  const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  const hasValidGoogleClientId = googleClientId && googleClientId !== 'your-google-client-id.apps.googleusercontent.com';
+
   const {
     register,
     handleSubmit,
@@ -140,31 +143,35 @@ const Login = () => {
             </button>
           </form>
 
-          {/* Divider */}
-          <div className="my-8">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-800" />
+          {/* Divider & Google Login */}
+          {hasValidGoogleClientId && (
+            <>
+              <div className="my-8">
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-slate-800" />
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-4 bg-slate-900 text-slate-500">Or</span>
+                  </div>
+                </div>
               </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-slate-900 text-slate-500">Or</span>
-              </div>
-            </div>
-          </div>
 
-          <div className="flex justify-center mb-8">
-            <GoogleLogin
-              onSuccess={async (credentialResponse) => {
-                const result = await loginWithGoogle(credentialResponse.credential);
-                if (result.success) {
-                  navigate('/dashboard');
-                }
-              }}
-              onError={() => {
-                console.error('Google Login Failed');
-              }}
-            />
-          </div>
+              <div className="flex justify-center mb-8">
+                <GoogleLogin
+                  onSuccess={async (credentialResponse) => {
+                    const result = await loginWithGoogle(credentialResponse.credential);
+                    if (result.success) {
+                      navigate('/dashboard');
+                    }
+                  }}
+                  onError={() => {
+                    console.error('Google Login Failed');
+                  }}
+                />
+              </div>
+            </>
+          )}
 
           {/* Register Link */}
           <div className="text-center">
