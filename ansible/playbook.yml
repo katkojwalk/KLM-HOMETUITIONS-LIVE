@@ -1,44 +1,50 @@
 ---
 - name: Configure Quadra Home Tuitions AWS Server
-  hosts: web
+  hosts: all
   become: true
+
+  vars:
+    app_dir: /home/ec2-user/quadra-hometuitions
 
   tasks:
 
     - name: Update Amazon Linux packages
-      ansible.builtin.dnf:
+      dnf:
         name: "*"
         state: latest
+        update_cache: true
 
     - name: Install Git
-      ansible.builtin.dnf:
+      dnf:
         name: git
         state: present
 
     - name: Install Nginx
-      ansible.builtin.dnf:
+      dnf:
         name: nginx
         state: present
 
     - name: Install Node.js and npm
-      ansible.builtin.dnf:
-        name: nodejs
-        state: present
+      shell: |
+        curl -fsSL https://rpm.nodesource.com/setup_18.x | bash -
+        dnf install -y nodejs
+      args:
+        executable: /bin/bash
 
     - name: Install PM2 globally
-      community.general.npm:
+      npm:
         name: pm2
         global: true
 
     - name: Enable Nginx
-      ansible.builtin.systemd:
+      systemd:
         name: nginx
         enabled: true
         state: started
 
     - name: Create application directory
-      ansible.builtin.file:
-        path: /home/ec2-user/quadra-hometuitions
+      file:
+        path: "{{ app_dir }}"
         state: directory
         owner: ec2-user
         group: ec2-user
@@ -46,62 +52,51 @@
 
     - name: Clone Quadra Home Tuitions repository
       become_user: ec2-user
-      ansible.builtin.git:
+      git:
         repo: "https://github.com/katkojwalk/quadra-hometuitions.git"
-        dest: /home/ec2-user/quadra-hometuitions
+        dest: "{{ app_dir }}"
         version: main
         force: true
 
     - name: Install frontend dependencies
       become_user: ec2-user
-      ansible.builtin.command:
-        cmd: npm install --legacy-peer-deps
-        chdir: /home/ec2-user/quadra-hometuitions/client
+      command: npm install --legacy-peer-deps
+      args:
+        chdir: "{{ app_dir }}/client"
 
     - name: Build React frontend
       become_user: ec2-user
-      ansible.builtin.command:
-        cmd: npm run build
-        chdir: /home/ec2-user/quadra-hometuitions/client
+      shell: NODE_OPTIONS="--max-old-space-size=768" npm run build
+      args:
+        chdir: "{{ app_dir }}/client"
+      environment:
+        NODE_OPTIONS: "--max-old-space-size=768"
 
-    - name: Clear Nginx web directory
-      ansible.builtin.file:
-        path: /usr/share/nginx/html
-        state: directory
-
-    - name: Copy React build to Nginx
-      ansible.builtin.shell: |
-        rm -rf /usr/share/nginx/html/*
-        cp -r /home/ec2-user/quadra-hometuitions/client/build/* /usr/share/nginx/html/
-      notify: Restart Nginx
+    - name: Deploy React frontend
+      copy:
+        src: "{{ app_dir }}/client/build/"
+        dest: /usr/share/nginx/html/
+        remote_src: true
+        owner: nginx
+        group: nginx
+        mode: "0755"
 
     - name: Install backend dependencies
       become_user: ec2-user
-      ansible.builtin.command:
-        cmd: npm install
-        chdir: /home/ec2-user/quadra-hometuitions/server
+      command: npm install --legacy-peer-deps
+      args:
+        chdir: "{{ app_dir }}/server"
 
-    - name: Stop existing PM2 application
+    - name: Start or restart backend with PM2
       become_user: ec2-user
-      ansible.builtin.command:
-        cmd: pm2 delete quadra-backend
-      failed_when: false
-      changed_when: false
-
-    - name: Start backend with PM2
-      become_user: ec2-user
-      ansible.builtin.command:
-        cmd: pm2 start server.js --name quadra-backend
-        chdir: /home/ec2-user/quadra-hometuitions/server
-
-    - name: Save PM2 configuration
-      become_user: ec2-user
-      ansible.builtin.command:
-        cmd: pm2 save
-
-  handlers:
+      shell: |
+        cd "{{ app_dir }}/server"
+        pm2 start server.js --name quadra-backend || pm2 restart quadra-backend
+        pm2 save
+      args:
+        executable: /bin/bash
 
     - name: Restart Nginx
-      ansible.builtin.systemd:
+      systemd:
         name: nginx
         state: restarted
