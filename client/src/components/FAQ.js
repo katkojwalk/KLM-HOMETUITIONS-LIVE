@@ -25,7 +25,7 @@ export const FAQ_DATA = [
   },
   {
     question: "How can parents or students contact Quadra Home Tuitions?",
-    answer: "You can reach Quadra Home Tuitions directly by calling +91 8008479708 or emailing katkojwalk.5@gmail.com. You can also register online through our student & tutor portal."
+    answer: "You can reach Quadra Home Tuitions directly by calling +91 83094 27266 or emailing katkojwalk.5@gmail.com. You can also register online through our student & tutor portal."
   }
 ];
 

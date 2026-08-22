@@ -34,8 +34,8 @@ const Contact = () => {
     {
       icon: Phone,
       title: 'Phone',
-      details: '+91 8008479708',
-      link: 'tel:+918008479708'
+      details: '+91 83094 27266',
+      link: 'tel:+918309427266'
     },
     {
       icon: Mail,
@@ -67,7 +67,7 @@ const Contact = () => {
     <div className="min-h-screen pt-20 bg-orange-100">
       <SEO 
         title="Contact Us & Book a Tutor | Quadra Home Tuitions"
-        description="Get in touch with Quadra Home Tuitions. Call +91 8008479708 or send an inquiry to book verified home tutors or online classes in Hyderabad."
+        description="Get in touch with Quadra Home Tuitions. Call +91 83094 27266 or send an inquiry to book verified home tutors or online classes in Hyderabad."
         keywords="contact home tutor, book home tuition, quadra home tuitions contact, hyderabad tuition inquiry"
         schema={localSchema}
       />

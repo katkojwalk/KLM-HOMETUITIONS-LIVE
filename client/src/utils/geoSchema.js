@@ -4,7 +4,7 @@ export const getLocalBusinessSchema = () => ({
   "name": "Quadra Home Tuitions",
   "image": "https://www.quadrahometuitions.in/logo192.png",
   "url": "https://www.quadrahometuitions.in",
-  "telephone": "+91-8008479708",
+  "telephone": "+91-8309427266",
   "priceRange": "₹₹",
   "address": {
     "@type": "PostalAddress",
