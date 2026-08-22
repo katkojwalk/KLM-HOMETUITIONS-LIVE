@@ -1,6 +1,6 @@
 {
   "header": {
-    "brand": "Quadra Home Tuitions",
+    "brand": "KLM Home Tuitions",
     "home": "Home",
     "about": "About",
     "contact": "Contact",
@@ -13,12 +13,12 @@
     "adminPanel": "Admin Panel"
   },
   "home": {
-    "heroTitle": "Welcome to QUADRA HOME TUITIONS",
+    "heroTitle": "Welcome to KLM HOME TUITIONS",
     "heroSubtitle": "Empowering students with quality education and personalized learning experiences",
     "getStartedBtn": "Get Started Today",
     "learnMoreBtn": "Learn More",
-    "aboutTitle": "About QUADRA HOME TUITIONS",
-    "aboutDesc": "QUADRA HOME TUITIONS is a premier educational institution dedicated to providing high-quality home tutoring services. We believe in the power of personalized education and strive to create an environment where every student can thrive and achieve their academic goals.",
+    "aboutTitle": "About KLM HOME TUITIONS",
+    "aboutDesc": "KLM HOME TUITIONS is a premier educational institution dedicated to providing high-quality home tutoring services. We believe in the power of personalized education and strive to create an environment where every student can thrive and achieve their academic goals.",
     "missionTitle": "Our Mission",
     "missionDesc": "To provide exceptional educational support through qualified tutors, innovative teaching methods, and personalized learning plans that help students excel academically and build confidence in their abilities.",
     "missionPoint1": "Personalized learning plans",
@@ -26,9 +26,9 @@
     "missionPoint3": "Student-centered approach",
     "missionPoint4": "Proven track record of success",
     "directorTitle": "Director's Message",
-    "directorDesc": "\"Education is the foundation of success, and at QUADRA HOME TUITIONS, we are committed to providing the highest quality education to every student. Our team of dedicated tutors works tirelessly to ensure that each student receives personalized attention and achieves their full potential.\"",
+    "directorDesc": "\"Education is the foundation of success, and at KLM HOME TUITIONS, we are committed to providing the highest quality education to every student. Our team of dedicated tutors works tirelessly to ensure that each student receives personalized attention and achieves their full potential.\"",
     "directorRole": "Director & Founder",
-    "whyTitle": "Why Choose QUADRA HOME TUITIONS?",
+    "whyTitle": "Why Choose KLM HOME TUITIONS?",
     "whySubtitle": "We provide comprehensive educational support with a focus on individual growth and success",
     "feat1Title": "Expert Tutors",
     "feat1Desc": "Qualified and experienced tutors for all subjects",

@@ -1,6 +1,6 @@
 {
   "header": {
-    "brand": "Quadra Nachhilfe",
+    "brand": "KLM Nachhilfe",
     "home": "Startseite",
     "about": "Über uns",
     "contact": "Kontakt",
@@ -13,12 +13,12 @@
     "adminPanel": "Admin-Panel"
   },
   "home": {
-    "heroTitle": "Willkommen bei QUADRA HOME TUITIONS",
+    "heroTitle": "Willkommen bei KLM HOME TUITIONS",
     "heroSubtitle": "Schüler mit hochwertiger Bildung und personalisierten Lernerfahrungen stärken",
     "getStartedBtn": "Heute beginnen",
     "learnMoreBtn": "Mehr erfahren",
-    "aboutTitle": "Über QUADRA HOME TUITIONS",
-    "aboutDesc": "QUADRA HOME TUITIONS ist eine führende Bildungseinrichtung, die sich der Bereitstellung hochwertiger Nachhilfedienste widmet.",
+    "aboutTitle": "Über KLM HOME TUITIONS",
+    "aboutDesc": "KLM HOME TUITIONS ist eine führende Bildungseinrichtung, die sich der Bereitstellung hochwertiger Nachhilfedienste widmet.",
     "missionTitle": "Unsere Mission",
     "missionDesc": "Außergewöhnliche pädagogische Unterstützung durch qualifizierte Tutoren und innovative Lehrmethoden.",
     "missionPoint1": "Personalisierte Lernpläne",
@@ -28,7 +28,7 @@
     "directorTitle": "Botschaft des Direktors",
     "directorDesc": "Bildung ist das Fundament des Erfolgs, wir verpflichten uns, jedem Schüler die hochwertigste Bildung zu bieten.",
     "directorRole": "Direktor & Gründer",
-    "whyTitle": "Warum QUADRA HOME TUITIONS wählen?",
+    "whyTitle": "Warum KLM HOME TUITIONS wählen?",
     "whySubtitle": "Wir bieten umfassende pädagogische Unterstützung mit Fokus auf individuelles Wachstum",
     "feat1Title": "Experten-Tutoren",
     "feat1Desc": "Qualifizierte und erfahrene Tutoren für alle Fächer",

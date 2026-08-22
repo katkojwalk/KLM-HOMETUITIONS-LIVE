@@ -78,11 +78,11 @@ const Header = () => {
           {/* Center Text with Logo (Desktop) */}
           <div className="absolute left-1/2 transform -translate-x-1/2 z-0 hidden sm:flex items-center space-x-3 whitespace-nowrap">
             <Link to="/" className="shrink-0">
-              <img src="/images/logo.jpg" alt="Quadra Home Tuitions Logo" className="h-9 w-9 md:h-11 md:w-11 object-contain shadow-sm rounded-lg" />
+              <img src="/images/logo.jpg" alt="KLM Home Tuitions Logo" className="h-9 w-9 md:h-11 md:w-11 object-contain shadow-sm rounded-lg" />
             </Link>
             <Link to="/" className="flex flex-col justify-center">
               <h1 className="text-xl md:text-2xl font-extrabold tracking-tight drop-shadow-sm leading-none">
-                <span className="text-slate-900">Quadra </span>
+                <span className="text-slate-900">KLM </span>
                 <span className="text-orange-600">Home Tuitions</span>
               </h1>
               <span className="text-xs md:text-sm text-blue-500 font-bold tracking-wide mt-0.5">
@@ -94,11 +94,11 @@ const Header = () => {
           {/* Center Text with Logo (Mobile) */}
           <div className="absolute left-1/2 transform -translate-x-1/2 z-0 sm:hidden flex items-center space-x-2 whitespace-nowrap">
             <Link to="/" className="shrink-0">
-              <img src="/images/logo.jpg" alt="Quadra Home Tuitions Logo" className="h-8 w-8 object-contain shadow-sm rounded-lg" />
+              <img src="/images/logo.jpg" alt="KLM Home Tuitions Logo" className="h-8 w-8 object-contain shadow-sm rounded-lg" />
             </Link>
             <Link to="/" className="flex flex-col justify-center">
               <h1 className="text-sm sm:text-base font-extrabold tracking-tight leading-none">
-                <span className="text-slate-900">Quadra </span>
+                <span className="text-slate-900">KLM </span>
                 <span className="text-orange-600">Home Tuitions</span>
               </h1>
               <span className="text-[10px] text-blue-500 font-bold tracking-wide mt-0.5">

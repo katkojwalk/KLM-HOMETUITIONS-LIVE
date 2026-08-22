@@ -1,6 +1,6 @@
 {
   "header": {
-    "brand": "Quadra Cours",
+    "brand": "KLM Cours",
     "home": "Accueil",
     "about": "À propos",
     "contact": "Contact",
@@ -13,12 +13,12 @@
     "adminPanel": "Panneau d'administration"
   },
   "home": {
-    "heroTitle": "Bienvenue chez QUADRA HOME TUITIONS",
+    "heroTitle": "Bienvenue chez KLM HOME TUITIONS",
     "heroSubtitle": "Donner aux étudiants une éducation de qualité et des expériences d'apprentissage personnalisées",
     "getStartedBtn": "Commencer aujourd'hui",
     "learnMoreBtn": "En savoir plus",
-    "aboutTitle": "À propos de QUADRA HOME TUITIONS",
-    "aboutDesc": "QUADRA HOME TUITIONS est une institution éducative de premier plan dédiée à fournir des services de tutorat à domicile de haute qualité.",
+    "aboutTitle": "À propos de KLM HOME TUITIONS",
+    "aboutDesc": "KLM HOME TUITIONS est une institution éducative de premier plan dédiée à fournir des services de tutorat à domicile de haute qualité.",
     "missionTitle": "Notre Mission",
     "missionDesc": "Fournir un soutien éducatif exceptionnel grâce à des tuteurs qualifiés et des méthodes d'enseignement innovantes.",
     "missionPoint1": "Plans d'apprentissage personnalisés",
@@ -28,7 +28,7 @@
     "directorTitle": "Message du directeur",
     "directorDesc": "L'éducation est le fondement du succès, nous nous engageons à fournir une éducation de la plus haute qualité.",
     "directorRole": "Directeur et fondateur",
-    "whyTitle": "Pourquoi choisir QUADRA HOME TUITIONS?",
+    "whyTitle": "Pourquoi choisir KLM HOME TUITIONS?",
     "whySubtitle": "Nous offrons un soutien éducatif complet en mettant l'accent sur la croissance et le succès individuels",
     "feat1Title": "Tuteurs experts",
     "feat1Desc": "Tuteurs qualifiés et expérimentés pour toutes les matières",

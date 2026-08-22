@@ -27,9 +27,9 @@ const About = () => {
   return (
     <div className="min-h-screen pt-20 bg-orange-100">
       <SEO 
-        title="About Us | Quadra Home Tuitions"
-        description="Learn about Quadra Home Tuitions, our mission to empower students with personalized 1-on-1 education and expert tutors."
-        keywords="about quadra home tuitions, trusted home tutors, education services"
+        title="About Us | KLM Home Tuitions"
+        description="Learn about KLM Home Tuitions, our mission to empower students with personalized 1-on-1 education and expert tutors."
+        keywords="about klm home tuitions, trusted home tutors, education services"
         schema={localSchema}
       />
       {/* Hero Section */}
@@ -77,7 +77,7 @@ const About = () => {
                 </div>
                 <div className="flex items-start space-x-3">
                   <Mail className="h-6 w-6 text-orange-500 shrink-0 mt-0.5" />
-                  <span className="text-slate-300"><strong className="text-white">Contact:</strong> tech@quadrahometuitions.in</span>
+                  <span className="text-slate-300"><strong className="text-white">Contact:</strong> klm7778777@gmail.com</span>
                 </div>
               </div>
             </motion.div>
@@ -132,7 +132,7 @@ const About = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-              Why Choose <span className="text-orange-500">QUADRA HOME TUITIONS?</span>
+              Why Choose <span className="text-orange-500">KLM HOME TUITIONS?</span>
             </h2>
             <p className="text-lg text-slate-400 max-w-3xl mx-auto">
               We provide comprehensive educational support with a focus on individual growth and success

@@ -25,7 +25,9 @@ app.use(cors({
       'http://localhost:3000',
       'http://16.113.108.168',
       'https://quadrahometuitions.in',
-      'https://www.quadrahometuitions.in'
+      'https://www.quadrahometuitions.in',
+      'https://klmhometuitions.in',
+      'https://www.klmhometuitions.in'
     ];
     let allowedOrigins = [...defaultOrigins];
     if (process.env.CLIENT_URL) {
@@ -33,8 +35,8 @@ app.use(cors({
       allowedOrigins = [...allowedOrigins, ...envOrigins];
     }
     
-    // Allow requests with no origin (like mobile apps or curl requests) or allowed origins or Netlify subdomains
-    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.netlify.app')) {
+    // Allow requests with no origin (like mobile apps or curl requests) or allowed origins or Netlify / Vercel subdomains
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.netlify.app') || origin.endsWith('.vercel.app')) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -93,7 +95,7 @@ app.get('/google08a9ff9267e6b1be.html', (req, res) => {
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'OK',
-    message: 'Quadra Home Tuitions API is running',
+    message: 'KLM Home Tuitions API is running',
     mongoConnected: mongoose.connection.readyState === 1
   });
 });
@@ -109,6 +111,10 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-}); 
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+module.exports = app;

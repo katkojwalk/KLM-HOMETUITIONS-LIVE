@@ -4,8 +4,8 @@ import { ChevronDown, HelpCircle } from 'lucide-react';
 
 export const FAQ_DATA = [
   {
-    question: "What is Quadra Home Tuitions and how does it work?",
-    answer: "Quadra Home Tuitions is a premier tuition management platform connecting students in Hyderabad and online learners with background-checked, expert 1-on-1 home tutors and online teachers tailored for school classes (I to XII), competitive entrance exams (IIT-JEE, EAMCET, NEET, GRE/GMAT/SAT), and computer science subjects."
+    question: "What is KLM Home Tuitions and how does it work?",
+    answer: "KLM Home Tuitions is a premier tuition management platform connecting students in Hyderabad and online learners with background-checked, expert 1-on-1 home tutors and online teachers tailored for school classes (I to XII), competitive entrance exams (IIT-JEE, EAMCET, NEET, GRE/GMAT/SAT), and computer science subjects."
   },
   {
     question: "Which areas in Hyderabad do your home tutors cover?",
@@ -24,8 +24,8 @@ export const FAQ_DATA = [
     answer: "Yes! We offer a free initial demo class for parents and students to assess teaching compatibility and subject understanding before confirming tuition schedules."
   },
   {
-    question: "How can parents or students contact Quadra Home Tuitions?",
-    answer: "You can reach Quadra Home Tuitions directly by calling +91 83094 27266 or emailing katkojwalk.5@gmail.com. You can also register online through our student & tutor portal."
+    question: "How can parents or students contact KLM Home Tuitions?",
+    answer: "You can reach KLM Home Tuitions directly by calling +91 73860 78298 or emailing klm7778777@gmail.com. You can also register online through our student & tutor portal."
   }
 ];
 

@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 
 const ContactWidget = () => {
   // Replace these with your actual contact numbers
-  const phoneNumber = '+918309427266'; 
-  const whatsappNumber = '918309427266'; 
+  const phoneNumber = '+917386078298'; 
+  const whatsappNumber = '917386078298'; 
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col space-y-4">
@@ -36,7 +36,7 @@ const ContactWidget = () => {
 
       {/* WhatsApp Button */}
       <motion.a
-        href={`https://wa.me/${whatsappNumber}?text=Hi%20QUADRA%20HOME%20TUITIONS,%20I%20would%20like%20to%20know%20more.`}
+        href={`https://wa.me/${whatsappNumber}?text=Hi%20KLM%20HOME%20TUITIONS,%20I%20would%20like%20to%20know%20more.`}
         target="_blank"
         rel="noopener noreferrer"
         animate={{ 

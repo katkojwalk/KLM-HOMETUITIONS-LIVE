@@ -98,9 +98,9 @@ const Register = () => {
   return (
     <div className="min-h-screen pt-32 pb-16 bg-orange-100">
       <SEO 
-        title="Register as Student or Tutor | Quadra Home Tuitions"
-        description="Join Quadra Home Tuitions as a student seeking quality 1-on-1 tutoring or as a verified tutor providing home & online tuitions."
-        keywords="register home tutor, join quadra home tuitions, tuition registration"
+        title="Register as Student or Tutor | KLM Home Tuitions"
+        description="Join KLM Home Tuitions as a student seeking quality 1-on-1 tutoring or as a verified tutor providing home & online tuitions."
+        keywords="register home tutor, join klm home tuitions, tuition registration"
       />
       <div className="max-w-4xl mx-auto px-4">
         <motion.div
@@ -115,7 +115,7 @@ const Register = () => {
               <BookOpen className="h-12 w-12 text-orange-500" />
             </div>
             <h1 className="text-3xl font-bold text-white mb-2">
-              Join QUADRA HOME TUITIONS
+              Join KLM HOME TUITIONS
             </h1>
             <p className="text-slate-400">
               Create your account and start your educational journey

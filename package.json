@@ -1,5 +1,5 @@
 {
-  "name": "quadra-home-tuitions",
+  "name": "klm-home-tuitions",
   "version": "1.0.0",
   "description": "Modern tuition management system with student, tutor, and admin panels",
   "main": "server/index.js",
@@ -8,8 +8,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server/index.js",
     "client": "cd client && npm start",
-    "build": "cd client && npm run build",
-    "install-client": "cd client && npm install",
+    "build": "cd client && npm install --legacy-peer-deps && npx react-scripts build",
+    "install-client": "cd client && npm install --production=false",
     "install-server": "npm install",
     "install-all": "npm run install-server && npm run install-client"
   },
@@ -34,7 +34,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.0",
     "multer": "^1.4.5-lts.1",
-    "razorpay": "^2.9.8"
+    "razorpay": "^2.9.8",
+    "react-scripts": "5.0.1"
   },
   "devDependencies": {
     "concurrently": "^8.2.0",

@@ -3,17 +3,17 @@ import { Helmet } from 'react-helmet-async';
 
 const SEO = ({ title, description, keywords, image, url, type, schema }) => {
   const siteTitle = title 
-    ? `${title} | Quadra Home Tuitions` 
-    : 'QUADRA HOME TUITIONS | Top Home Tuitions in Hyderabad';
+    ? `${title} | KLM Home Tuitions` 
+    : 'KLM HOME TUITIONS | Top Home Tuitions in Hyderabad';
   
   const siteDescription = description 
-    || 'Quadra Home Tuitions connects students with certified, expert home tutors and online teachers for personalized 1-on-1 learning.';
+    || 'KLM Home Tuitions connects students with certified, expert home tutors and online teachers for personalized 1-on-1 learning.';
 
   const siteKeywords = keywords 
-    || 'top home tuitions in hyderabad, home tuitions hyderabad, private tutors, home tutor, online tutoring, Quadra Home Tuitions, personal teacher, math tutor, science tutor, private tuition';
+    || 'top home tuitions in hyderabad, home tuitions hyderabad, private tutors, home tutor, online tutoring, KLM Home Tuitions, personal teacher, math tutor, science tutor, private tuition';
 
-  const siteUrl = url || 'https://www.quadrahometuitions.in/';
-  const siteImage = image || 'https://www.quadrahometuitions.in/logo192.png';
+  const siteUrl = url || 'https://www.klmhometuitions.in/';
+  const siteImage = image || 'https://www.klmhometuitions.in/logo192.png';
   const pageType = type || 'website';
 
   const schemasToRender = Array.isArray(schema) ? schema : (schema ? [schema] : []);

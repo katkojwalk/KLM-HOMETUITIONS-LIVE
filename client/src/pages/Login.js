@@ -42,8 +42,8 @@ const Login = () => {
   return (
     <div className="min-h-screen pt-32 pb-16 bg-orange-100 flex items-center justify-center">
       <SEO 
-        title="Student & Tutor Login | Quadra Home Tuitions"
-        description="Login to your Quadra Home Tuitions account to access classes, schedules, and learning materials."
+        title="Student & Tutor Login | KLM Home Tuitions"
+        description="Login to your KLM Home Tuitions account to access classes, schedules, and learning materials."
       />
       <div className="max-w-md w-full mx-auto px-4">
         <motion.div
@@ -61,7 +61,7 @@ const Login = () => {
               Welcome Back
             </h1>
             <p className="text-slate-400">
-              Sign in to your QUADRA HOME TUITIONS account
+              Sign in to your KLM HOME TUITIONS account
             </p>
           </div>
 

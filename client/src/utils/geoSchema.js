@@ -1,10 +1,10 @@
 export const getLocalBusinessSchema = () => ({
   "@context": "https://schema.org",
   "@type": ["EducationalOrganization", "LocalBusiness"],
-  "name": "Quadra Home Tuitions",
-  "image": "https://www.quadrahometuitions.in/logo192.png",
-  "url": "https://www.quadrahometuitions.in",
-  "telephone": "+91-8309427266",
+  "name": "KLM Home Tuitions",
+  "image": "https://www.klmhometuitions.in/logo192.png",
+  "url": "https://www.klmhometuitions.in",
+  "telephone": "+91-7386078298",
   "priceRange": "₹₹",
   "address": {
     "@type": "PostalAddress",
@@ -45,7 +45,7 @@ export const getLocalBusinessSchema = () => ({
     "closes": "20:00"
   },
   "sameAs": [
-    "https://www.quadrahometuitions.in"
+    "https://www.klmhometuitions.in"
   ]
 });
 

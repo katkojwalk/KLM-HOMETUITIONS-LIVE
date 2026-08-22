@@ -34,20 +34,20 @@ const Contact = () => {
     {
       icon: Phone,
       title: 'Phone',
-      details: '+91 83094 27266',
-      link: 'tel:+918309427266'
+      details: '+91 73860 78298',
+      link: 'tel:+917386078298'
     },
     {
       icon: Mail,
       title: 'Email',
-      details: 'katkojwalk.5@gmail.com',
-      link: 'mailto:katkojwalk.5@gmail.com'
+      details: 'klm7778777@gmail.com',
+      link: 'mailto:klm7778777@gmail.com'
     },
     {
       icon: Globe,
       title: 'Website',
-      details: 'www.quadrahometuitions.in',
-      link: 'https://www.quadrahometuitions.in'
+      details: 'www.klmhometuitions.in',
+      link: 'https://www.klmhometuitions.in'
     },
     {
       icon: MapPin,
@@ -66,9 +66,9 @@ const Contact = () => {
   return (
     <div className="min-h-screen pt-20 bg-orange-100">
       <SEO 
-        title="Contact Us & Book a Tutor | Quadra Home Tuitions"
-        description="Get in touch with Quadra Home Tuitions. Call +91 83094 27266 or send an inquiry to book verified home tutors or online classes in Hyderabad."
-        keywords="contact home tutor, book home tuition, quadra home tuitions contact, hyderabad tuition inquiry"
+        title="Contact Us & Book a Tutor | KLM Home Tuitions"
+        description="Get in touch with KLM Home Tuitions. Call +91 73860 78298 or send an inquiry to book verified home tutors or online classes in Hyderabad."
+        keywords="contact home tutor, book home tuition, klm home tuitions contact, hyderabad tuition inquiry"
         schema={localSchema}
       />
       {/* Tech Solutions Hero Section */}

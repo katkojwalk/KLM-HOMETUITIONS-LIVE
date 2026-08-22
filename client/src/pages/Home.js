@@ -22,7 +22,7 @@ const Home = () => {
       <SEO 
         title="Top Home Tuitions in Hyderabad & Online Classes"
         description="Excellent 100% result-oriented home and online tuitions with guaranteed success rate and affordable prices across Hyderabad. Book verified tutors today."
-        keywords="top home tuitions in hyderabad, home tuitions hyderabad, private tutor hyderabad, best home tuitions in hyderabad, online tuitions, math home tutor, science tutor, quadra home tuitions"
+        keywords="top home tuitions in hyderabad, home tuitions hyderabad, private tutor hyderabad, best home tuitions in hyderabad, online tuitions, math home tutor, science tutor, klm home tuitions"
         schema={[localSchema, faqSchema]}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto">

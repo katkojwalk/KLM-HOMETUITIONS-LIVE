@@ -13,7 +13,10 @@ const getFallbackApiUrl = () => {
     if (
       window.location.hostname === '16.113.108.168' ||
       window.location.hostname === 'quadrahometuitions.in' ||
-      window.location.hostname === 'www.quadrahometuitions.in'
+      window.location.hostname === 'www.quadrahometuitions.in' ||
+      window.location.hostname === 'klmhometuitions.in' ||
+      window.location.hostname === 'www.klmhometuitions.in' ||
+      window.location.hostname.endsWith('.vercel.app')
     ) {
       return '';
     }
@@ -21,7 +24,7 @@ const getFallbackApiUrl = () => {
       return 'http://localhost:5000';
     }
   }
-  return 'https://quadrahometuitions.in';
+  return 'https://klmhometuitions.in';
 };
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL || getFallbackApiUrl();

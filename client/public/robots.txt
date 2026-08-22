@@ -8,4 +8,4 @@ Disallow: /dashboard
 Disallow: /admin
 Disallow: /api/
 
-Sitemap: https://www.quadrahometuitions.in/sitemap.xml
+Sitemap: https://www.klmhometuitions.in/sitemap.xml

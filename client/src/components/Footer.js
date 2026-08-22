@@ -35,18 +35,18 @@ const Footer = () => {
   const contactInfo = [
     {
       icon: Phone,
-      text: '+91 83094 27266',
-      link: 'tel:+918309427266'
+      text: '+91 73860 78298',
+      link: 'tel:+917386078298'
     },
     {
       icon: Mail,
-      text: 'katkojwalk.5@gmail.com',
-      link: 'mailto:katkojwalk.5@gmail.com'
+      text: 'klm7778777@gmail.com',
+      link: 'mailto:klm7778777@gmail.com'
     },
     {
       icon: Globe,
-      text: 'www.quadrahometuitions.in',
-      link: 'https://www.quadrahometuitions.in'
+      text: 'www.klmhometuitions.in',
+      link: 'https://www.klmhometuitions.in'
     },
     {
       icon: MapPin,
@@ -71,7 +71,7 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-2 mb-3">
               <BookOpen className="h-8 w-8 text-primary-400" />
-              <span className="text-xl font-medium font-serif uppercase tracking-wider">Quadra Home Tuitions</span>
+              <span className="text-xl font-medium font-serif uppercase tracking-wider">KLM Home Tuitions</span>
             </div>
 
             <div className="flex space-x-4">
@@ -159,7 +159,7 @@ const Footer = () => {
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-400 text-sm mb-4 md:mb-0">
-              © {currentYear} QUADRA HOME TUITIONS. All rights reserved.
+              © {currentYear} KLM HOME TUITIONS. All rights reserved.
             </div>
             <p className="text-gray-400 text-sm flex items-center justify-center md:justify-end gap-1">
               Made with <Heart className="h-4 w-4 text-red-500 fill-current" /> 
