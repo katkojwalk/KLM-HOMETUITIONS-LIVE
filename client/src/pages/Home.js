@@ -20,9 +20,9 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-orange-100 flex flex-col pt-20">
       <SEO 
-        title="Best Home Tuitions in Hyderabad & Online Classes"
+        title="Top Home Tuitions in Hyderabad & Online Classes"
         description="Excellent 100% result-oriented home and online tuitions with guaranteed success rate and affordable prices across Hyderabad. Book verified tutors today."
-        keywords="home tuitions hyderabad, private tutor hyderabad, online tuitions, math home tutor, science tutor, quadra home tuitions"
+        keywords="top home tuitions in hyderabad, home tuitions hyderabad, private tutor hyderabad, best home tuitions in hyderabad, online tuitions, math home tutor, science tutor, quadra home tuitions"
         schema={[localSchema, faqSchema]}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto">
@@ -37,7 +37,7 @@ const Home = () => {
           >
             <div>
               <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-slate-900 mb-4 whitespace-nowrap overflow-hidden text-ellipsis">
-                Best Home Tuitions in Hyderabad
+                Top Home Tuitions in Hyderabad
               </h1>
               <div className="text-lg text-orange-600 font-bold font-serif tracking-wide flex items-start gap-2">
                 <CheckCircle className="w-6 h-6 text-blue-600 shrink-0 mt-0.5" />
