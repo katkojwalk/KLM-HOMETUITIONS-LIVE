@@ -26,8 +26,8 @@ app.use(cors({
       'http://16.113.108.168',
       'https://quadrahometuitions.in',
       'https://www.quadrahometuitions.in',
-      'https://klmhometuitions.in',
-      'https://www.klmhometuitions.in'
+      'https://klmhometuitions.website',
+      'https://www.klmhometuitions.website'
     ];
     let allowedOrigins = [...defaultOrigins];
     if (process.env.CLIENT_URL) {
