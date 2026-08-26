@@ -46,8 +46,8 @@ const Contact = () => {
     {
       icon: Globe,
       title: 'Website',
-      details: 'www.klmhometuitions.in',
-      link: 'https://www.klmhometuitions.in'
+      details: 'klmhometuitions.website',
+      link: 'https://klmhometuitions.website'
     },
     {
       icon: MapPin,

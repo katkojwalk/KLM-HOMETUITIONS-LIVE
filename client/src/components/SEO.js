@@ -12,8 +12,8 @@ const SEO = ({ title, description, keywords, image, url, type, schema }) => {
   const siteKeywords = keywords 
     || 'top home tuitions in hyderabad, home tuitions hyderabad, private tutors, home tutor, online tutoring, KLM Home Tuitions, personal teacher, math tutor, science tutor, private tuition';
 
-  const siteUrl = url || 'https://www.klmhometuitions.in/';
-  const siteImage = image || 'https://www.klmhometuitions.in/logo192.png';
+  const siteUrl = url || 'https://klmhometuitions.website/';
+  const siteImage = image || 'https://klmhometuitions.website/logo192.png';
   const pageType = type || 'website';
 
   const schemasToRender = Array.isArray(schema) ? schema : (schema ? [schema] : []);

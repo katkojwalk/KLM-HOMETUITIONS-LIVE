@@ -12,8 +12,8 @@ const getFallbackApiUrl = () => {
   if (typeof window !== 'undefined') {
     if (
       window.location.hostname === '16.113.108.168' ||
-      window.location.hostname === 'klmhometuitions.in' ||
-      window.location.hostname === 'www.klmhometuitions.in' ||
+      window.location.hostname === 'klmhometuitions.website' ||
+      window.location.hostname === 'klmhometuitions.website' ||
       window.location.hostname === 'klmhometuitions.website' ||
       window.location.hostname === 'www.klmhometuitions.website' ||
       window.location.hostname.endsWith('.vercel.app') ||

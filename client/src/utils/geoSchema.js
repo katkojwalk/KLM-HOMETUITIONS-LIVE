@@ -2,8 +2,8 @@ export const getLocalBusinessSchema = () => ({
   "@context": "https://schema.org",
   "@type": ["EducationalOrganization", "LocalBusiness"],
   "name": "KLM Home Tuitions",
-  "image": "https://www.klmhometuitions.in/logo192.png",
-  "url": "https://www.klmhometuitions.in",
+  "image": "https://klmhometuitions.website/logo192.png",
+  "url": "https://klmhometuitions.website",
   "telephone": "+91-7386078298",
   "priceRange": "₹₹",
   "address": {
@@ -45,7 +45,7 @@ export const getLocalBusinessSchema = () => ({
     "closes": "20:00"
   },
   "sameAs": [
-    "https://www.klmhometuitions.in"
+    "https://klmhometuitions.website"
   ]
 });
 

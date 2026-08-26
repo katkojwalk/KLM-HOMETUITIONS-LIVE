@@ -45,8 +45,8 @@ const Footer = () => {
     },
     {
       icon: Globe,
-      text: 'www.klmhometuitions.in',
-      link: 'https://www.klmhometuitions.in'
+      text: 'klmhometuitions.website',
+      link: 'https://klmhometuitions.website'
     },
     {
       icon: MapPin,
