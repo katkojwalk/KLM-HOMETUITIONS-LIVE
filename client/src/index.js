@@ -10,17 +10,6 @@ import './i18n';
 // Set global base URL for axios to support relative URLs on HTTPS domain & EC2 hosting
 const getFallbackApiUrl = () => {
   if (typeof window !== 'undefined') {
-    if (
-      window.location.hostname === '16.113.108.168' ||
-      window.location.hostname === 'klmhometuitions.website' ||
-      window.location.hostname === 'klmhometuitions.website' ||
-      window.location.hostname === 'klmhometuitions.website' ||
-      window.location.hostname === 'www.klmhometuitions.website' ||
-      window.location.hostname.endsWith('.vercel.app') ||
-      window.location.hostname.endsWith('.netlify.app')
-    ) {
-      return '';
-    }
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
       return 'http://localhost:5000';
     }
