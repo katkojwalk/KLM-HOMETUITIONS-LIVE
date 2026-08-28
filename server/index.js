@@ -35,8 +35,8 @@ app.use(cors({
       allowedOrigins = [...allowedOrigins, ...envOrigins];
     }
     
-    // Allow requests with no origin (like mobile apps or curl requests) or allowed origins or Netlify / Vercel subdomains
-    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.netlify.app') || origin.endsWith('.vercel.app')) {
+    // Allow requests with no origin (like mobile apps or curl requests) or allowed origins or Netlify / Vercel / Render subdomains
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.netlify.app') || origin.endsWith('.vercel.app') || origin.endsWith('.onrender.com')) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
