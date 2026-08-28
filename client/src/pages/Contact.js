@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, Clock, Send, MessageSquare, User, BookOpen, Globe } from 'lucide-react';
 import toast from 'react-hot-toast';
 import SEO from '../components/SEO';
+import MapSection from '../components/MapSection';
 import { getLocalBusinessSchema } from '../utils/geoSchema';
 
 const Contact = () => {
@@ -271,6 +272,9 @@ const Contact = () => {
           </div>
         </div>
       </section>
+
+      {/* Map Section */}
+      <MapSection />
     </div>
   );
 };

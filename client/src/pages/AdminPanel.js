@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { 
-  Users, UserPlus, UserMinus, Shield, Search, Activity, TrendingUp, Kanban, LayoutDashboard, ChevronRight
+  Users, UserPlus, UserMinus, Shield, Search, Activity, TrendingUp, Kanban, LayoutDashboard, ChevronRight, Star, MessageSquare
 } from 'lucide-react';
 import { 
   PieChart, Pie, Cell, LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
@@ -26,14 +26,54 @@ const AdminPanel = () => {
   const [roleFilter, setRoleFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'pipeline'
+  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'pipeline' | 'reviews'
+  const [adminReviews, setAdminReviews] = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
 
   useEffect(() => {
     fetchUsers();
     if (activeTab === 'dashboard') {
       fetchStats();
     }
+    if (activeTab === 'reviews') {
+      fetchAdminReviews();
+    }
   }, [currentPage, searchTerm, roleFilter, activeTab]);
+
+  const fetchAdminReviews = async () => {
+    try {
+      setReviewsLoading(true);
+      const res = await axios.get('/api/reviews/admin');
+      setAdminReviews(res.data || []);
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+      toast.error('Failed to fetch reviews');
+    } finally {
+      setReviewsLoading(false);
+    }
+  };
+
+  const handleApproveReview = async (reviewId) => {
+    try {
+      await axios.put(`/api/reviews/${reviewId}/approve`);
+      toast.success('Review status updated');
+      fetchAdminReviews();
+    } catch (error) {
+      console.error('Error approving review:', error);
+      toast.error('Failed to update review');
+    }
+  };
+
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      await axios.delete(`/api/reviews/${reviewId}`);
+      toast.success('Review deleted');
+      fetchAdminReviews();
+    } catch (error) {
+      console.error('Error deleting review:', error);
+      toast.error('Failed to delete review');
+    }
+  };
 
   const fetchUsers = async () => {
     try {
@@ -186,6 +226,12 @@ const AdminPanel = () => {
               className={`flex items-center px-6 py-2.5 rounded-lg transition-all font-semibold ${activeTab === 'pipeline' ? 'bg-orange-500 text-slate-900 shadow-md' : 'text-slate-600 hover:text-slate-900 hover:bg-orange-50/50'}`}
             >
               <Kanban className="w-5 h-5 mr-2" /> CRM Pipeline
+            </button>
+            <button 
+              onClick={() => setActiveTab('reviews')}
+              className={`flex items-center px-6 py-2.5 rounded-lg transition-all font-semibold ${activeTab === 'reviews' ? 'bg-orange-500 text-slate-900 shadow-md' : 'text-slate-600 hover:text-slate-900 hover:bg-orange-50/50'}`}
+            >
+              <MessageSquare className="w-5 h-5 mr-2" /> Reviews
             </button>
           </div>
         </motion.div>
@@ -514,6 +560,98 @@ const AdminPanel = () => {
                 </div>
               );
             })}
+          </motion.div>
+        )}
+
+        {/* REVIEWS MODERATION VIEW */}
+        {activeTab === 'reviews' && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="bg-white p-6 rounded-2xl border border-orange-200 shadow-xl">
+              <h3 className="text-xl font-bold mb-6 text-slate-900 flex items-center">
+                <MessageSquare className="mr-2 h-5 w-5 text-orange-500" /> Review Moderation
+              </h3>
+
+              {reviewsLoading ? (
+                <div className="text-center py-8 text-slate-600">
+                  <div className="spinner mx-auto mb-2 border-orange-500"></div>
+                  Loading reviews...
+                </div>
+              ) : adminReviews.length === 0 ? (
+                <div className="text-center py-8 text-slate-500">No reviews yet.</div>
+              ) : (
+                <div className="space-y-4">
+                  {adminReviews.map((review) => (
+                    <div
+                      key={review._id}
+                      className={`p-5 rounded-xl border transition-all ${
+                        review.isApproved
+                          ? 'bg-green-50/50 border-green-200'
+                          : 'bg-orange-50/50 border-orange-200'
+                      }`}
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shrink-0">
+                              <span className="text-white font-bold text-sm">
+                                {review.name?.charAt(0)?.toUpperCase() || 'U'}
+                              </span>
+                            </div>
+                            <div>
+                              <h4 className="font-bold text-slate-900">{review.name}</h4>
+                              <p className="text-slate-500 text-xs">
+                                {review.user?.email || 'N/A'} • {new Date(review.createdAt).toLocaleDateString()}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1 mb-2">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`w-4 h-4 ${
+                                  i < review.rating ? 'text-orange-500 fill-orange-500' : 'text-slate-300'
+                                }`}
+                              />
+                            ))}
+                          </div>
+                          <p className="text-slate-700 text-sm">{review.comment}</p>
+                        </div>
+
+                        <div className="flex items-center gap-2 shrink-0">
+                          <span className={`text-xs font-bold px-3 py-1 rounded-full ${
+                            review.isApproved
+                              ? 'bg-green-500/20 text-green-700 border border-green-500/30'
+                              : 'bg-yellow-500/20 text-yellow-700 border border-yellow-500/30'
+                          }`}>
+                            {review.isApproved ? 'APPROVED' : 'PENDING'}
+                          </span>
+                          <button
+                            onClick={() => handleApproveReview(review._id)}
+                            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                              review.isApproved
+                                ? 'bg-yellow-100 hover:bg-yellow-200 text-yellow-700'
+                                : 'bg-green-100 hover:bg-green-200 text-green-700'
+                            }`}
+                          >
+                            {review.isApproved ? 'Unapprove' : 'Approve'}
+                          </button>
+                          <button
+                            onClick={() => handleDeleteReview(review._id)}
+                            className="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg text-sm font-semibold transition-colors"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </motion.div>
         )}
       </div>

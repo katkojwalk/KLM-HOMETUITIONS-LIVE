@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import ContactWidget from '../components/ContactWidget';
 import SEO from '../components/SEO';
 import FAQ, { FAQ_DATA } from '../components/FAQ';
+import ReviewsSection from '../components/ReviewsSection';
+import MapSection from '../components/MapSection';
 import { getLocalBusinessSchema, getFaqSchema } from '../utils/geoSchema';
 
 const Home = () => {
@@ -143,8 +145,14 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Reviews Section */}
+      <ReviewsSection />
+
       {/* AEO FAQ Section */}
       <FAQ />
+
+      {/* Map Section */}
+      <MapSection />
 
       <ContactWidget />
     </div>
