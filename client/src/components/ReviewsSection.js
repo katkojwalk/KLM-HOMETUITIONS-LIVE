@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star, Send, MessageSquare, User } from 'lucide-react';
+import { Star, Send, MessageSquare, RefreshCw } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useAuth } from '../contexts/AuthContext';
 
 const ReviewsSection = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [reviews, setReviews] = useState([]);
   const [stats, setStats] = useState({ averageRating: 0, totalReviews: 0 });
   const [loading, setLoading] = useState(true);
+  const [apiError, setApiError] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [rating, setRating] = useState(0);
@@ -22,11 +23,15 @@ const ReviewsSection = () => {
   }, []);
 
   const fetchReviews = async () => {
+    setApiError(false);
+    setLoading(true);
     try {
-      const res = await axios.get('/api/reviews');
+      // 15s timeout to handle Render free-tier cold starts (~30s)
+      const res = await axios.get('/api/reviews', { timeout: 15000 });
       setReviews(res.data || []);
     } catch (err) {
       console.error('Error fetching reviews:', err);
+      setApiError(true);
     } finally {
       setLoading(false);
     }
@@ -136,7 +141,22 @@ const ReviewsSection = () => {
 
         {/* Reviews Grid */}
         {loading ? (
-          <div className="text-center py-8 text-slate-500">Loading reviews...</div>
+          <div className="text-center py-12 text-slate-500">
+            <div className="flex items-center justify-center gap-2">
+              <div className="w-5 h-5 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
+              Loading reviews...
+            </div>
+          </div>
+        ) : apiError ? (
+          <div className="text-center py-10 text-slate-500">
+            <p className="mb-3">Couldn't load reviews right now.</p>
+            <button
+              onClick={fetchReviews}
+              className="inline-flex items-center gap-2 px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-colors"
+            >
+              <RefreshCw className="w-4 h-4" /> Retry
+            </button>
+          </div>
         ) : reviews.length === 0 ? (
           <div className="text-center py-8 text-slate-500">
             No reviews yet. Be the first to share your experience!
