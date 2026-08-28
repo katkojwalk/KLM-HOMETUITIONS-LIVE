@@ -6,6 +6,7 @@ import { Menu, X, User, LogOut, Settings, Home, Info, Phone, BookOpen, Shield, G
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../contexts/ThemeContext';
+import logoImg from '../assets/logo.jpg';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -78,7 +79,7 @@ const Header = () => {
           {/* Center Text with Logo (Desktop) */}
           <div className="absolute left-1/2 transform -translate-x-1/2 z-0 hidden sm:flex items-center space-x-3 whitespace-nowrap">
             <Link to="/" className="shrink-0">
-              <img src="/images/logo.jpg" alt="KLM Home Tuitions Logo" className="h-9 w-9 md:h-11 md:w-11 object-contain shadow-sm rounded-lg" />
+              <img src={logoImg} alt="KLM Home Tuitions Logo" className="h-9 w-9 md:h-11 md:w-11 object-contain shadow-sm rounded-lg" />
             </Link>
             <Link to="/" className="flex flex-col justify-center">
               <h1 className="text-xl md:text-2xl font-extrabold tracking-tight drop-shadow-sm leading-none">
@@ -94,7 +95,7 @@ const Header = () => {
           {/* Center Text with Logo (Mobile) */}
           <div className="absolute left-1/2 transform -translate-x-1/2 z-0 sm:hidden flex items-center space-x-2 whitespace-nowrap">
             <Link to="/" className="shrink-0">
-              <img src="/images/logo.jpg" alt="KLM Home Tuitions Logo" className="h-8 w-8 object-contain shadow-sm rounded-lg" />
+              <img src={logoImg} alt="KLM Home Tuitions Logo" className="h-8 w-8 object-contain shadow-sm rounded-lg" />
             </Link>
             <Link to="/" className="flex flex-col justify-center">
               <h1 className="text-sm sm:text-base font-extrabold tracking-tight leading-none">
