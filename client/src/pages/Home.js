@@ -28,6 +28,27 @@ const Home = () => {
         schema={[localSchema, faqSchema]}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto">
+        {/* Top Free Study Material Announcement Ribbon */}
+        <div className="mb-4">
+          <Link 
+            to="/study-material" 
+            className="flex items-center justify-between flex-wrap gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-2xl shadow-lg border border-blue-400/40 hover:shadow-blue-500/20 transition-all group"
+          >
+            <div className="flex items-center gap-2">
+              <span className="bg-orange-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
+                FREE STUDY MATERIAL
+              </span>
+              <span className="text-xs sm:text-sm font-bold text-slate-100">
+                📚 Partial Fractions 67-Page Master Handbook (JEE Main, Advanced & EAMCET Shortcuts)
+              </span>
+            </div>
+            <div className="inline-flex items-center gap-1 text-xs font-black text-orange-400 group-hover:text-orange-300">
+              <span>Download PDF</span>
+              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
           {/* Left Half - Content */}
@@ -137,7 +158,12 @@ const Home = () => {
                 ))}
               </div>
 
-              <div className="flex flex-col space-y-4">
+              <div className="flex flex-col space-y-3">
+                <Link to="/study-material" className="w-full py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:to-indigo-800 text-white font-black rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5 border border-blue-400/40 ring-2 ring-blue-500/20">
+                  <span className="text-sm uppercase tracking-wide">📚 Free Study Materials & Shortcuts</span>
+                  <span className="bg-orange-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full uppercase">PDF</span>
+                </Link>
+
                 <Link to="/register" className="w-full py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold rounded-xl shadow-lg transition-all flex items-center justify-center transform hover:-translate-y-0.5">
                   Connect with Tutors
                 </Link>
