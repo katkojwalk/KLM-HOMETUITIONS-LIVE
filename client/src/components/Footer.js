@@ -19,6 +19,7 @@ const Footer = () => {
   const quickLinks = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
+    { name: 'Free Study Material', path: '/study-material' },
     { name: 'Contact', path: '/contact' },
     { name: 'Register', path: '/register' },
     { name: 'Login', path: '/login' },

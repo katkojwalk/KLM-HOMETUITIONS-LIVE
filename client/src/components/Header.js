@@ -45,6 +45,7 @@ const Header = () => {
   const navItems = [
     { name: t('header.home'), path: '/', icon: Home },
     { name: t('header.about'), path: '/about', icon: Info },
+    { name: 'Study Material', path: '/study-material', icon: BookOpen },
     { name: t('header.contact'), path: '/contact', icon: Phone },
   ];
 

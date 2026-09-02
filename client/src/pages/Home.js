@@ -69,7 +69,31 @@ const Home = () => {
               </Link>
             </div>
 
-            <div className="mt-12 flex gap-4 px-2">
+            {/* Free Study Material Promo Banner */}
+            <div className="mt-6 px-2">
+              <Link to="/study-material" className="block relative group overflow-hidden rounded-2xl shadow-xl border-2 border-blue-300 bg-gradient-to-r from-blue-900 via-slate-900 to-indigo-950 p-6 text-white transform hover:-translate-y-1 transition-all">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="px-3 py-1 bg-orange-500 text-white rounded-full text-xs font-black uppercase tracking-wider">
+                    Free Download
+                  </span>
+                  <span className="text-xs font-bold text-blue-300">
+                    67 Pages • 160+ Solved Qs
+                  </span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-white mb-1">
+                  Partial Fractions Shortcut Handbook
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 mb-3">
+                  JEE Main, JEE Advanced & TS/AP EAMCET speed-solving methods & decision trees.
+                </p>
+                <div className="inline-flex items-center gap-1.5 text-xs font-bold text-orange-400 group-hover:text-orange-300">
+                  <span>Access Free Handbook</span>
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+            </div>
+
+            <div className="mt-8 flex gap-4 px-2">
               <img 
                 src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80" 
                 alt="Student Teacher Interaction" 
