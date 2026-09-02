@@ -109,13 +109,25 @@ const Header = () => {
             </Link>
           </div>
 
-          {/* Right Section: Free Registration */}
-          <div className="hidden md:flex items-center z-50">
+          {/* Right Section: Free Study Materials Tab & Free Registration */}
+          <div className="flex items-center space-x-2 sm:space-x-3 z-50">
+            <Link 
+              to="/study-material" 
+              className="flex items-center space-x-1.5 px-3 py-2 sm:px-4 sm:py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black rounded-xl shadow-[0_4px_14px_0_rgba(37,99,235,0.39)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.23)] transition-all text-xs uppercase tracking-wide whitespace-nowrap transform hover:-translate-y-0.5 border border-blue-400/40 ring-2 ring-blue-500/20"
+            >
+              <BookOpen className="h-4 w-4 text-orange-400 animate-pulse shrink-0" />
+              <span className="hidden xs:inline sm:inline font-bold">Free Study Material</span>
+              <span className="xs:hidden sm:hidden font-bold">Study Material</span>
+              <span className="hidden md:inline-block bg-orange-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase tracking-tighter ml-1 shadow-sm">
+                PDF
+              </span>
+            </Link>
+
             <Link 
               to="/register" 
-              className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-xl shadow-[0_4px_14px_0_rgba(249,115,22,0.39)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.23)] hover:from-orange-600 hover:to-orange-700 transition-all text-xs uppercase tracking-wide whitespace-nowrap transform hover:-translate-y-0.5"
+              className="hidden lg:flex px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-xl shadow-[0_4px_14px_0_rgba(249,115,22,0.39)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.23)] hover:from-orange-600 hover:to-orange-700 transition-all text-xs uppercase tracking-wide whitespace-nowrap transform hover:-translate-y-0.5"
             >
-              Free Registration for Tutors/Parents
+              Free Registration
             </Link>
           </div>
         </div>
