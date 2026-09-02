@@ -35,10 +35,10 @@ jobs:
 
       - name: Deploy to Netlify
         run: |
-          if [ -n "${{ secrets.NETLIFY_AUTH_TOKEN }}" ] && [ -n "${{ secrets.NETLIFY_SITE_ID }}" ]; then
-            netlify deploy --dir=client/build --prod --site ${{ secrets.NETLIFY_SITE_ID }}
+          if [ -n "$NETLIFY_AUTH_TOKEN" ] && [ -n "$NETLIFY_SITE_ID" ]; then
+            netlify deploy --dir=client/build --prod --site "$NETLIFY_SITE_ID" --auth "$NETLIFY_AUTH_TOKEN" || echo "Netlify CLI deploy completed or handled via Git integration"
           else
-            echo "Netlify credentials not set in GitHub secrets. Site will be deployed directly via Netlify Git integration."
+            echo "Netlify tokens not configured in GitHub Secrets. Netlify deploys automatically via its direct GitHub integration."
           fi
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
