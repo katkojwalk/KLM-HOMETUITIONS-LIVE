@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Download, Eye, BookOpen, CheckCircle, Award, Zap, FileText, ArrowRight, ShieldCheck, Star } from 'lucide-react';
+import { Download, Eye, BookOpen, CheckCircle, Award, ArrowRight, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 
